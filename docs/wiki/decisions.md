@@ -9,3 +9,4 @@
 - **D7** Autologin as `user`/`live` (live-config defaults).
 - **D9** Project website is `docs/index.html` (static, `.nojekyll`). Enable Pages with "Deploy from branch → /docs". Download button fetches the latest GitHub Release via the API client-side; handles split ISOs.
 - **D10** `docs/logo-mark.svg` is a compact, text-free mark (four panes, simplified glass/grapes/swoosh) for the site navbar and favicon; PNG exports at 16/32/48/64/180/256 and a multi-size `favicon.ico` next to it. The full `logo.svg` with the wordmark stays for the hero and the ISO.
+- **D11** `user-setup` is listed explicitly: live-config only Recommends it and we build with `--apt-recommends false`, so without it no live `user` exists (no autologin; selftest `su user` fails). Run 21 showed wine64/wine32=FAIL within seconds of boot.

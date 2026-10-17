@@ -5,9 +5,19 @@ say() { echo "$*" > "$out"; }
 if command -v apt >/dev/null 2>&1 || command -v apt-get >/dev/null 2>&1 \
    || [ -e /etc/apt/sources.list ]; then say "SELFTEST apt=PRESENT"; else say "SELFTEST apt=absent"; fi
 t=/usr/share/winedows/tests
-run() { su user -c "env WINEDEBUG=-all WINEDLLOVERRIDES=mscoree,mshtml= timeout 300 wine $1" 2>/dev/null; }
-run "$t/cli64.exe" | grep -q WINEDOWS_EXE_OK && say "SELFTEST wine64=ok" || say "SELFTEST wine64=FAIL"
-run "$t/cli32.exe" | grep -q WINEDOWS_EXE_OK && say "SELFTEST wine32=ok" || say "SELFTEST wine32=FAIL"
+# live-config creates the user; give it a moment, and say so if it never appears
+for _ in $(seq 1 30); do id user >/dev/null 2>&1 && break; sleep 2; done
+id user >/dev/null 2>&1 || say "SELFTEST diag: no 'user' account"
+run() { su user -c "env WINEDEBUG=-all WINEDLLOVERRIDES=mscoree,mshtml= timeout 300 wine $1" > /tmp/selftest.out 2>&1; }
+check() {
+  run "$t/$2.exe"
+  if grep -q WINEDOWS_EXE_OK /tmp/selftest.out; then say "SELFTEST $1=ok"; else
+    say "SELFTEST $1=FAIL"
+    tail -n 15 /tmp/selftest.out | sed "s/^/SELFTEST diag $1: /" > "$out"
+  fi
+}
+check wine64 cli64
+check wine32 cli32
 [ "$(xdg-mime query default application/x-ms-dos-executable)" = winedows-run.desktop ] \
   && say "SELFTEST mime=ok" || say "SELFTEST mime=FAIL"
 say "WINEDOWS_SELFTEST_DONE"

@@ -2,6 +2,9 @@
 linux-image-amd64
 live-boot
 live-config
+# live-config only Recommends user-setup, and we build with --apt-recommends false;
+# without it no live user is created (no autologin, selftest su fails)
+user-setup
 systemd-sysv
 dbus-user-session
 sudo
