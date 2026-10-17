@@ -8,4 +8,4 @@
 - **D8** Browser is Firefox ESR branded "Edgy" with an Edge user-agent override. Real Microsoft Edge is NOT bundled: it only comes from Microsoft's apt repo and redistributing the binary in a public ISO likely violates its license.
 - **D7** Autologin as `user`/`live` (live-config defaults).
 - **D9** Project website is `docs/index.html` (static, `.nojekyll`). Enable Pages with "Deploy from branch → /docs". Download button fetches the latest GitHub Release via the API client-side; handles split ISOs.
-- **D10** `docs/logo-mark.svg` is a compact, text-free mark (four panes, simplified glass/grapes/swoosh) for the site navbar and favicon; PNG exports at 16/32/48/64/180/256 next to it. The full `logo.svg` with the wordmark stays for the hero and the ISO.
+- **D10** `docs/logo-mark.svg` is a compact, text-free mark (four panes, simplified glass/grapes/swoosh) for the site navbar and favicon; PNG exports at 16/32/48/64/180/256 and a multi-size `favicon.ico` next to it. The full `logo.svg` with the wordmark stays for the hero and the ISO.
