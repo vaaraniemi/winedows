@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Internet Exploder
-Comment=Browse the web
+Name=Edgy
+Comment=Browse the web, now with 100% more edge
 Exec=firefox-esr %u
 Icon=firefox-esr
 Categories=Network;WebBrowser;

@@ -6,8 +6,8 @@ The punchline: it has *better* binary compatibility than Windows. Keep the joke 
 
 ## Golden rules
 1. **No apt.** `9990-remove-apt.hook.chroot` must remain the last hook and must fail the build if apt survives. `dpkg` stays on purpose (docs/wiki/apt-removal.md).
-2. **Only Cinnamon + Firefox + Wine** (plus the minimum to boot/run them). Do not add office suites, media players, software centers. The terminal exists only as "Command Prompt".
-3. **Parody only.** No Microsoft logos, fonts, wallpapers, sounds, or trademarked product artwork. Our names: Winedows, This PC, Recycle Bin, Internet Exploder.
+2. **Only Cinnamon + Firefox (branded "Edgy", spoofs Edge UA) + Wine** (plus the minimum to boot/run them). Do not add office suites, media players, software centers. The terminal exists only as "Command Prompt".
+3. **Parody only.** No Microsoft logos, fonts, wallpapers, sounds, or trademarked product artwork. Our names: Winedows, This PC, Recycle Bin, Edgy.
 4. `.exe` files on the Desktop are mode `0644`; `.desktop` launchers are `0755`. Executable `.exe` would make Nemo try to exec natively.
 5. Everything is built reproducibly in Docker (`--privileged`). Never rely on host packages.
 
