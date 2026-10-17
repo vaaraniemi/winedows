@@ -60,6 +60,7 @@ install_to() {
   [ "$disk" != "$bd" ] || die "$disk is the disk Winedows is running from"
   list_disks | cut -f1 | grep -qxF "$disk" || die "$disk cannot be used"
   trap cleanup EXIT
+  trap 'die "an install step failed (line $LINENO)"' ERR
   # tool output goes to the log; progress (fd 3) and errors (fd 4) to the caller
   exec >"$log" 2>&1
 
@@ -72,14 +73,15 @@ install_to() {
   done
   wipefs -aq "$disk"
   # GPT: BIOS boot (GRUB core for legacy BIOS), EFI system partition, root
-  sfdisk -q -W always -X gpt "$disk" <<'EOF'
-size=1MiB, type=21686148-6453-6F6E-7420-4E656564454649, name="bios"
+  # the kernel learns about the new partitions from partx below (sfdisk's own re-read can race udev)
+  sfdisk -q -W always -X gpt --no-reread --no-tell-kernel "$disk" <<'EOF' || die "partitioning $disk failed"
+size=1MiB, type=21686148-6449-6E6F-744E-656564454649, name="bios"
 size=512MiB, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="EFI"
 type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, name="Winedows"
 EOF
   local esp="" root="" _
   for _ in $(seq 1 20); do
-    partx -u "$disk" || true
+    partx -u "$disk" || partx -a "$disk" || true
     udevadm settle || true
     esp=$(lsblk -lnpo NAME "$disk" | sed -n 3p)
     root=$(lsblk -lnpo NAME "$disk" | sed -n 4p)
