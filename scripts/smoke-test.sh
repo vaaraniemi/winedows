@@ -5,8 +5,12 @@ set -eu
 iso=$(ls -t out/*.iso | head -1)
 log=out/serial.log
 tmp=$(mktemp -d)
-xorriso -osirrox on -indev "$iso" -extract /live/vmlinuz "$tmp/vmlinuz" \
-  -extract /live/initrd.img "$tmp/initrd.img" >/dev/null 2>&1
+# trixie's live-build ships versioned names (vmlinuz-<ver>); older ones use plain vmlinuz.
+kernel=$(xorriso -indev "$iso" -find /live -name 'vmlinuz*' 2>/dev/null | tr -d "'" | sort | tail -1)
+initrd=$(xorriso -indev "$iso" -find /live -name 'initrd.img*' 2>/dev/null | tr -d "'" | sort | tail -1)
+[ -n "$kernel" ] && [ -n "$initrd" ] || { echo "FAIL: no kernel/initrd under /live in $iso"; exit 1; }
+xorriso -osirrox on -indev "$iso" -extract "$kernel" "$tmp/vmlinuz" \
+  -extract "$initrd" "$tmp/initrd.img" >/dev/null 2>&1
 accel=""
 [ -w /dev/kvm ] && accel="-enable-kvm -cpu host"
 : > "$log"
