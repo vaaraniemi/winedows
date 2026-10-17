@@ -23,23 +23,21 @@ exe=$(ls /home/user/Desktop/*.exe 2>/dev/null | head -1)
 if [ -z "$exe" ]; then say "GUITEST exe-open=FAIL"; say "GUITEST diag: no .exe on /home/user/Desktop"
 else
   [ -x "$exe" ] && say "GUITEST diag: $exe is executable (should be 0644)"
-  # like a real user, give first-login Wine setup (winedows-prefix autostart) time to finish
-  for _ in $(seq 1 120); do
-    [ -f /home/user/.wine/system.reg ] && ! pgrep -u user -f wineboot >/dev/null && break
-    sleep 1
-  done
+  # click right away, like an impatient user: first-login Wine setup may still be running
   # shellcheck disable=SC2086
   runuser -u user -- env $env sh -c 'gio open "$1" 2>/dev/null || xdg-open "$1"' sh "$exe" \
     > /tmp/guitest.out 2>&1 &
-  name=$(basename "$exe")
   ok=""
-  for _ in $(seq 1 120); do
-    # the exe itself, not the launcher chain (winedows-run, wine start, gio)
-    if ps -u user -o args= | grep -F "$name" | grep -qvE 'winedows-run|start(\.exe)? /unix|gio open|xdg-open|grep'; then ok=1; break; fi
+  # pass only when the program's window is on screen: a running process is not enough
+  # (a Wine desktop without a display keeps the process alive but shows nothing)
+  for _ in $(seq 1 180); do
+    # shellcheck disable=SC2086
+    if runuser -u user -- env $env xwininfo -root -tree 2>/dev/null | grep -q '"Totally Native Linux App"'; then ok=1; break; fi
     sleep 1
   done
-  if [ -n "$ok" ]; then sleep 5; say "GUITEST exe-open=ok"; else
-    say "GUITEST exe-open=FAIL"
+  if [ -n "$ok" ]; then sleep 3; say "GUITEST exe-open=ok"; else
+    say "GUITEST exe-open=FAIL: no window"
+    ps -u user -o args= | grep -iE 'wine|\.exe' | grep -v grep | head -n 15 | sed 's/^/GUITEST diag ps: /' > "$out"
     tail -n 15 /tmp/guitest.out | sed 's/^/GUITEST diag open: /' > "$out"
   fi
 fi

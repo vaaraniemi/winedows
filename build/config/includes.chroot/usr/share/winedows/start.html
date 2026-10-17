@@ -13,9 +13,10 @@ main{max-width:860px;margin:32px auto;padding:0 16px;display:grid;gap:20px}
 h2{margin:0 0 10px;font-size:20px;font-weight:600}
 p{margin:0 0 10px}
 .row{margin:14px 0 4px;font-size:14px;color:var(--mut)}
-.bar{background:var(--alt);border:1px solid var(--line);height:30px}
-.bar div{height:100%;display:flex;align-items:center;padding:0 10px;color:#fff;font-size:14px;white-space:nowrap;background:var(--mut)}
+.bar{background:var(--alt);border:1px solid var(--line);height:30px;display:flex;align-items:center}
+.bar div{flex:none;height:100%;display:flex;align-items:center;padding:0 10px;color:#fff;font-size:14px;white-space:nowrap;background:var(--mut)}
 .bar .win{background:var(--blue)}
+.bar span{padding:0 10px;color:var(--fg);font-size:14px;white-space:nowrap}
 small{color:var(--mut)}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:8px 16px 32px}
 </style></head><body>
@@ -32,7 +33,7 @@ footer{text-align:center;color:var(--mut);font-size:13px;padding:8px 16px 32px}
   <section class="card wine">
     <h2>Binary compatibility benchmark <small>(higher is better)</small></h2>
     <div class="row">Ubuntu, native Linux binaries</div>
-    <div class="bar"><div style="width:23%">23% &mdash; &ldquo;error while loading shared libraries&rdquo;</div></div>
+    <div class="bar"><div style="width:23%">23%</div><span>&ldquo;error while loading shared libraries&rdquo;</span></div>
     <div class="row">Ubuntu, &ldquo;just recompile it&rdquo;</div>
     <div class="bar"><div style="width:41%">41%</div></div>
     <div class="row">Winedows, Win32 binaries</div>

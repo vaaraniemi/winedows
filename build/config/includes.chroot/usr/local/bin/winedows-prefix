@@ -1,0 +1,13 @@
+#!/bin/sh
+# Winedows: first-login Wine setup ("Setting up your device").
+# The prefix is created with no display so Wine's "configuration is being
+# updated" window never shows. That headless session must be shut down before
+# any program runs: Wine programs join the desktop of the running wineserver,
+# and a desktop started without a display swallows every window (the .exe runs
+# but nothing appears). winedows-run waits on the same lock.
+lock="${XDG_RUNTIME_DIR:-/tmp}/winedows-prefix-$(id -u).lock"
+exec 9>"$lock"
+flock 9
+notify-send "Winedows" "Setting up your device..." 2>/dev/null || true
+WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=-all DISPLAY='' WAYLAND_DISPLAY='' wineboot -u
+WINEDEBUG=-all timeout 30 wineserver -w || WINEDEBUG=-all wineserver -k

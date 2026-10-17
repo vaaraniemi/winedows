@@ -36,6 +36,7 @@ xserver-xorg
 xserver-xorg-input-all
 xserver-xorg-video-all
 mesa-utils
+x11-utils
 adwaita-icon-theme
 gnome-themes-extra
 papirus-icon-theme

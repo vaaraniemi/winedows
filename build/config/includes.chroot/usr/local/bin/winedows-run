@@ -4,6 +4,10 @@ export WINEDLLOVERRIDES="${WINEDLLOVERRIDES:-mscoree,mshtml=}"
 export WINEDEBUG="${WINEDEBUG:--all}"
 [ $# -ge 1 ] || { echo "usage: winedows-run file.exe|file.msi" >&2; exit 2; }
 f=$1
+# wait for first-login setup (winedows-prefix) so we never join its headless desktop
+exec 9>"${XDG_RUNTIME_DIR:-/tmp}/winedows-prefix-$(id -u).lock"
+flock 9
+exec 9>&-
 case "$(printf '%s' "$f" | tr '[:upper:]' '[:lower:]')" in
   *.msi) exec wine msiexec /i "$f" ;;
   *)     cd "$(dirname "$f")" 2>/dev/null || true
