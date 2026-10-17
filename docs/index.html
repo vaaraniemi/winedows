@@ -98,7 +98,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 </div></section>
 
 <section class="blk" id="endorsement" hidden><div class="wrap" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap">
-  <img src="linux-torvalds.png" alt="Linux Torvalds" style="height:220px;width:auto" onload="this.closest('section').hidden=false">
+  <img src="linux-torvalds.png" alt="Linux Torvalds" style="height:240px;width:auto">
   <blockquote style="margin:0;max-width:560px;font-size:22px;color:var(--wine)">"It runs the .exe. I have no further comments."<footer style="padding:8px 0 0;background:none;color:var(--mut);font-size:14px">Linux Torvalds, allegedly</footer></blockquote>
 </div></section>
 
@@ -146,6 +146,25 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
       if(sums){var s=document.createElement("a");s.href=sums.browser_download_url;s.textContent="SHA256SUMS";box.appendChild(s);}
     })
     .catch(function(){document.getElementById("meta").textContent="No release published yet — check back soon, or build it yourself from the repo.";});
+})();
+</script>
+
+<script>
+// Easter egg: type "linus" or click the logo 5 times
+(function(){
+  var sec=document.getElementById("endorsement"),buf="",clicks=0,t;
+  function show(){sec.hidden=false;sec.scrollIntoView({behavior:"smooth"});}
+  document.addEventListener("keydown",function(e){
+    if(!e.key||e.key.length!==1)return;
+    buf=(buf+e.key.toLowerCase()).slice(-5);
+    if(buf==="linus")show();
+  });
+  document.querySelectorAll('img[src="logo.svg"]').forEach(function(img){
+    img.addEventListener("click",function(ev){
+      clicks++;clearTimeout(t);t=setTimeout(function(){clicks=0;},1500);
+      if(clicks>=5){clicks=0;ev.preventDefault();show();}
+    });
+  });
 })();
 </script>
 </body>

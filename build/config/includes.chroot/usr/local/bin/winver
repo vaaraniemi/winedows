@@ -1,0 +1,6 @@
+#!/bin/sh
+# Easter egg: "About" box for GigaHard Winedows.
+echo "GigaHard Winedows 13 (Debian Edition)"
+echo "Linux, but it works. Win32 is the only stable ABI."
+echo "Licensed to: Linux Torvalds (allegedly)"
+nohup firefox-esr "file:///usr/share/winedows/linux-torvalds.png" >/dev/null 2>&1 &

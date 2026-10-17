@@ -8,5 +8,5 @@ Stretch ideas: fake BSOD screensaver, "Updates are available" popup that is a no
 ## Branding & site
 Product brand is "GigaHard Winedows" (parody of a certain Redmond company). Logo: `docs/logo.svg` (copied to `/usr/share/winedows/logo.svg` in the image): four panes, two wine-red (glass, grapes), two blue (swoosh). Website (`docs/index.html`) is deliberately flat and corporate: white/light-grey, blue accent, top nav, cards and a table, no gradients, dark mode via `prefers-color-scheme`. Keep it that way.
 
-## Linux Torvalds image
-The penguin meme "LINUX TORVALDS" belongs at `docs/linux-torvalds.png`; `docs/index.html` has an "endorsement" section that stays hidden until that file exists. (The user supplied the image in chat, but it was not available on disk to the agent, so it must be committed by the user.) The quote is fictional and labelled "allegedly".
+## Linux Torvalds easter egg
+Image: `docs/linux-torvalds.png` (also `/usr/share/winedows/linux-torvalds.png` in the image). Hidden on the website: type "linus" or click the logo 5 times to reveal the "endorsement" section (fictional quote, labelled "allegedly"). In the ISO, run `winver` in the Command Prompt: prints a fake About text and opens the image in the browser. Keep it hidden; do not link it from the nav.
