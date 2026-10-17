@@ -1,21 +1,21 @@
-/* Edgy: blue browser chrome. Loaded as an agent sheet by Firefox autoconfig (edgy.cfg). */
-@-moz-document url("chrome://browser/content/browser.xhtml") {
-  :root {
-    --lwt-accent-color: #0a4fd6 !important;
-    --lwt-text-color: #ffffff !important;
-    --toolbar-bgcolor: #e8f0fe !important;
-    --toolbar-color: #1b1b1f !important;
-    --tab-selected-bgcolor: #e8f0fe !important;
-    --tab-selected-textcolor: #1b1b1f !important;
-    --toolbar-field-background-color: #ffffff !important;
-    --toolbar-field-focus-border-color: #0a4fd6 !important;
-  }
-  #navigator-toolbox, #titlebar, #TabsToolbar {
-    background-color: #0a4fd6 !important;
-    color: #ffffff !important;
-  }
-  .tabbrowser-tab:not([selected]) .tab-label { color: #ffffff !important; }
-  .tab-background[selected] { background-color: #e8f0fe !important; background-image: none !important; }
-  #nav-bar, #PersonalToolbar { background-color: #e8f0fe !important; color: #1b1b1f !important; }
-  #urlbar-background { border-radius: 0 !important; }
+/* Edgy: blue browser chrome. Loaded as an agent sheet by Firefox autoconfig (edgy.cfg).
+   Agent sheets apply to every document and ignore @-moz-document, so every rule is
+   scoped to the browser window's root element instead. */
+:root[windowtype="navigator:browser"] {
+  --lwt-accent-color: #0a4fd6 !important;
+  --lwt-text-color: #ffffff !important;
+  --toolbar-bgcolor: #e8f0fe !important;
+  --toolbar-color: #1b1b1f !important;
+  --tab-selected-bgcolor: #e8f0fe !important;
+  --tab-selected-textcolor: #1b1b1f !important;
+  --toolbar-field-background-color: #ffffff !important;
+  --toolbar-field-focus-border-color: #0a4fd6 !important;
 }
+:root[windowtype="navigator:browser"] :is(#navigator-toolbox, #titlebar, #TabsToolbar) {
+  background-color: #0a4fd6 !important;
+  color: #ffffff !important;
+}
+:root[windowtype="navigator:browser"] .tabbrowser-tab:not([selected]) .tab-label { color: #ffffff !important; }
+:root[windowtype="navigator:browser"] .tab-background[selected] { background-color: #e8f0fe !important; background-image: none !important; }
+:root[windowtype="navigator:browser"] :is(#nav-bar, #PersonalToolbar) { background-color: #e8f0fe !important; color: #1b1b1f !important; }
+:root[windowtype="navigator:browser"] #urlbar-background { border-radius: 0 !important; }
