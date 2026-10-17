@@ -25,6 +25,7 @@ The punchline: it has *better* binary compatibility than Windows. Keep the joke 
 - `build/` live-build tree (run `lb` from here). `auto/` wrappers; `config/package-lists/` packages;
   `config/hooks/live/NNNN-*.hook.chroot` chroot hooks (numeric order); `config/includes.chroot/` files overlaid on the rootfs;
   `config/includes.chroot_before_packages/` files present before package install (enables `i386` via `/var/lib/dpkg/arch`).
+- `docs/index.html` project website (GitHub Pages from `/docs`; auto-links latest release).
 - `scripts/` host/container scripts. `docs/wiki/` deep-dive docs. `.github/workflows/build.yml` CI ISO build.
 
 ## Wiki index (read before touching the matching area)

@@ -7,3 +7,4 @@
 - **D6** Self-test is a systemd unit gated on kernel cmdline `winedows.selftest`; inert in normal boots.
 - **D8** Browser is Firefox ESR branded "Edgy" with an Edge user-agent override. Real Microsoft Edge is NOT bundled: it only comes from Microsoft's apt repo and redistributing the binary in a public ISO likely violates its license.
 - **D7** Autologin as `user`/`live` (live-config defaults).
+- **D9** Project website is `docs/index.html` (static, `.nojekyll`). Enable Pages with "Deploy from branch → /docs". Download button fetches the latest GitHub Release via the API client-side; handles split ISOs.
