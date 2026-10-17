@@ -54,12 +54,13 @@ code{padding:1px 6px;font-size:.92em}pre{padding:14px;overflow:auto}
 ol{padding-left:22px}
 footer{padding:32px 0;background:var(--foot);color:var(--footfg);font-size:13px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
-.shots{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.shots figure{margin:0}
-.shots figure.wide{grid-column:1/-1}
-.shots img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:2px;background:var(--alt)}
-.shots figcaption{color:var(--mut);font-size:14px;margin-top:8px}
-@media(max-width:760px){.shots{grid-template-columns:1fr}}
+.shots{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.shots figure{margin:0;min-width:0}
+.shots a{display:block}
+.shots img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--line);border-radius:2px;background:var(--alt)}
+.shots a:hover img{border-color:var(--blue)}
+.shots figcaption{color:var(--mut);font-size:13px;margin-top:6px}
+@media(max-width:760px){.shots{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero img{max-width:300px}nav .links{display:none}}
 </style>
 </head>
@@ -98,12 +99,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 <section class="blk alt" id="screens"><div class="wrap">
   <h2>The real thing</h2>
   <div class="shots">
-    <figure class="wide"><img src="screenshots/desktop.png" alt="Winedows desktop with icons for Documents, Edgy, Recycle Bin, This PC, Totally Native Linux App.exe and Wi-Fi" width="1280" height="800" loading="lazy"><figcaption>The desktop. Everything starts from an icon. There is nothing else to learn.</figcaption></figure>
-    <figure><img src="screenshots/edgy.png" alt="The Edgy browser showing the Winedows start page" width="1280" height="800" loading="lazy"><figcaption>Edgy, the browser with all the edges.</figcaption></figure>
-    <figure><img src="screenshots/bootmenu.png" alt="The Winedows boot menu" width="800" height="600" loading="lazy"><figcaption>The boot menu. It starts on its own.</figcaption></figure>
-    <figure class="wide"><img src="screenshots/hardware.jpg" alt="A ThinkPad laptop running Winedows, with the blueprint wallpaper and Edgy open on the start page" width="920" height="600" loading="lazy"><figcaption>On a real laptop, booted from a USB stick. It works.</figcaption></figure>
+    <figure><a href="screenshots/desktop.png" target="_blank" rel="noopener"><img src="screenshots/desktop.png" alt="Winedows desktop with icons for Documents, Edgy, Recycle Bin, This PC, Totally Native Linux App.exe and Wi-Fi" width="1280" height="800" loading="lazy"></a><figcaption>The desktop. Everything starts from an icon. There is nothing else to learn.</figcaption></figure>
+    <figure><a href="screenshots/edgy.png" target="_blank" rel="noopener"><img src="screenshots/edgy.png" alt="The Edgy browser showing the Winedows start page" width="1280" height="800" loading="lazy"></a><figcaption>Edgy, the browser with all the edges.</figcaption></figure>
+    <figure><a href="screenshots/bootmenu.png" target="_blank" rel="noopener"><img src="screenshots/bootmenu.png" alt="The Winedows boot menu" width="800" height="600" loading="lazy"></a><figcaption>The boot menu. It starts on its own.</figcaption></figure>
+    <figure><a href="screenshots/hardware.jpg" target="_blank" rel="noopener"><img src="screenshots/hardware.jpg" alt="A ThinkPad laptop running Winedows, with the blueprint wallpaper and Edgy open on the start page" width="920" height="600" loading="lazy"></a><figcaption>On a real laptop, booted from a USB stick. It works.</figcaption></figure>
   </div>
-  <p class="fine">Screenshots are unedited, from the automated boot test of the latest build. The photo is a real ThinkPad.</p>
+  <p class="fine">Click a picture to see it full size. Screenshots are unedited, from the automated boot test of the latest build. The photo is a real ThinkPad.</p>
 </div></section>
 
 <section class="blk" id="compat"><div class="wrap">
