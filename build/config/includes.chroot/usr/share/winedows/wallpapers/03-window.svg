@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>Winedows wallpaper: Window</title>
+<defs>
+<linearGradient id="mkR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c1d3f"/><stop offset="1" stop-color="#5e0f27"/></linearGradient>
+<linearGradient id="mkB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+<symbol id="mark" viewBox="0 0 64 64">
+  <g stroke-linejoin="round" stroke-width="2.5">
+    <polygon points="4,10 30,8 30,30 4,30" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="4,34 30,34 30,58 4,57" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="34,7 60,3 60,30 34,30" fill="url(#mkB)" stroke="url(#mkB)"/>
+    <polygon points="34,34 60,34 60,61 34,58" fill="url(#mkB)" stroke="url(#mkB)"/>
+  </g>
+  <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z" fill="#fff"/>
+  <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5 C22.3 21.6 20 23.8 17 23.8 C14 23.8 11.7 21.6 11.2 16.5 Z" fill="#c42a55"/>
+  <path d="M17 25 V28.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  <g fill="#fff">
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/>
+    <circle cx="17" cy="53.1" r="3.3"/>
+  </g>
+  <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z" fill="#fff" opacity=".9"/>
+</symbol>
+
+<symbol id="markline" viewBox="0 0 64 64">
+  <g fill="none" stroke="#fff" stroke-width="0.35" stroke-linejoin="round">
+    <polygon points="4,10 30,8 30,30 4,30"/><polygon points="4,34 30,34 30,58 4,57"/>
+    <polygon points="34,7 60,3 60,30 34,30"/><polygon points="34,34 60,34 60,61 34,58"/>
+    <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z"/>
+    <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5"/>
+    <path d="M17 25.5 V28.5"/>
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/><circle cx="17" cy="53.1" r="3.3"/>
+    <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z"/>
+  </g>
+</symbol>
+
+<symbol id="linus" viewBox="0 0 40 52">
+  <ellipse cx="20" cy="32" rx="15" ry="17" fill="#111"/>
+  <circle cx="20" cy="13" r="11" fill="#111"/>
+  <ellipse cx="20" cy="34" rx="10" ry="13" fill="#f2f2f2"/>
+  <ellipse cx="20" cy="14.5" rx="7.2" ry="6.8" fill="#8d7f74"/>
+  <rect x="12.6" y="11.4" width="14.8" height="3.4" rx="1.6" fill="#050505"/>
+  <path d="M16.2 18.4 Q20 20.4 23.8 17.6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+  <path d="M5 33 Q2 41 8 46 Z M35 33 Q38 41 32 46 Z" fill="#111"/>
+  <ellipse cx="12" cy="49" rx="7" ry="3" fill="#f2b705"/>
+  <ellipse cx="28" cy="49" rx="7" ry="3" fill="#f2b705"/>
+</symbol>
+
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a4fd6"/><stop offset="1" stop-color="#06173f"/></linearGradient>
+<pattern id="tiles" width="120" height="120" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+  <use xlink:href="#mark" href="#mark" x="34" y="34" width="52" height="52" opacity="0.16"/>
+</pattern>
+<filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#bg)"/><rect width="1920" height="1080" fill="url(#tiles)"/><rect x="566" y="274" width="800" height="500" fill="#000" opacity="0.35" filter="url(#shadow)"/><rect x="560" y="250" width="800" height="500" fill="#fff"/><rect x="560" y="250" width="800" height="500" fill="none" stroke="#0a4fd6" stroke-width="1.5"/><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="574.0" y="259.0" width="18.0" height="18.0" /><text x="602" y="274" font-size="14" fill="#222">Winedows</text><g stroke="#222" stroke-width="1.2" fill="none"><path d="M1208 268 h12"/><rect x="1260" y="262" width="11" height="11"/><path d="M1324 262 l11 11 M1335 262 l-11 11"/></g><line x1="560" y1="286" x2="1360" y2="286" stroke="#e6e6e6"/><use xlink:href="#mark" href="#mark" x="860.0" y="330.0" width="200.0" height="200.0" /><text x="960.0" y="602" text-anchor="middle" font-size="46" fill="#14213d" font-weight="300">GigaHard <tspan font-weight="bold">Winedows</tspan></text><text x="960.0" y="642" text-anchor="middle" font-size="22" fill="#555">Linux, but it works.</text><rect x="1220" y="686" width="112" height="36" fill="#0a4fd6"/><text x="1276" y="710" text-anchor="middle" font-size="16" fill="#fff">OK</text><rect x="1092" y="686" width="112" height="36" fill="#e5e5e5"/><text x="1148" y="710" text-anchor="middle" font-size="16" fill="#222">Also OK</text></g><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="1832.0" y="944.0" width="48.0" height="48.0" /><text x="1816" y="966" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="end">GigaHard Winedows</text><text x="1816" y="989" fill="#ffffff" fill-opacity="0.72" font-size="16" text-anchor="end">Linux, but it works.</text></g>
+</svg>

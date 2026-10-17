@@ -11,3 +11,4 @@ Product brand is "GigaHard Winedows" (shorthand "Winedows" wherever text space i
 
 ## Linux Torvalds easter egg
 Image: `docs/linux-torvalds.png` (also `/usr/share/winedows/linux-torvalds.png` in the image). Hidden on the website: type "linus" or click the logo 5 times to reveal the "endorsement" section (fictional quote, labelled "allegedly"). In the ISO, run `winver` in the Command Prompt: prints a fake About text and opens the image in the browser. Keep it hidden; do not link it from the nav.
+Also hidden in the rotating wallpapers (`scripts/gen-wallpapers.py`): 04-vineyard (standing in a vine row, lower left), 07-no-problems (centre of the code square), 10-constellation (faint "Linux Torvalds Minor" constellation, lower left). Keep him small; never on the default wallpaper.

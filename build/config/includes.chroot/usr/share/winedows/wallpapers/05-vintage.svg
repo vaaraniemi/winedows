@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>Winedows wallpaper: Vintage</title>
+<defs>
+<linearGradient id="mkR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c1d3f"/><stop offset="1" stop-color="#5e0f27"/></linearGradient>
+<linearGradient id="mkB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+<symbol id="mark" viewBox="0 0 64 64">
+  <g stroke-linejoin="round" stroke-width="2.5">
+    <polygon points="4,10 30,8 30,30 4,30" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="4,34 30,34 30,58 4,57" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="34,7 60,3 60,30 34,30" fill="url(#mkB)" stroke="url(#mkB)"/>
+    <polygon points="34,34 60,34 60,61 34,58" fill="url(#mkB)" stroke="url(#mkB)"/>
+  </g>
+  <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z" fill="#fff"/>
+  <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5 C22.3 21.6 20 23.8 17 23.8 C14 23.8 11.7 21.6 11.2 16.5 Z" fill="#c42a55"/>
+  <path d="M17 25 V28.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  <g fill="#fff">
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/>
+    <circle cx="17" cy="53.1" r="3.3"/>
+  </g>
+  <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z" fill="#fff" opacity=".9"/>
+</symbol>
+
+<symbol id="markline" viewBox="0 0 64 64">
+  <g fill="none" stroke="#fff" stroke-width="0.35" stroke-linejoin="round">
+    <polygon points="4,10 30,8 30,30 4,30"/><polygon points="4,34 30,34 30,58 4,57"/>
+    <polygon points="34,7 60,3 60,30 34,30"/><polygon points="34,34 60,34 60,61 34,58"/>
+    <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z"/>
+    <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5"/>
+    <path d="M17 25.5 V28.5"/>
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/><circle cx="17" cy="53.1" r="3.3"/>
+    <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z"/>
+  </g>
+</symbol>
+
+<symbol id="linus" viewBox="0 0 40 52">
+  <ellipse cx="20" cy="32" rx="15" ry="17" fill="#111"/>
+  <circle cx="20" cy="13" r="11" fill="#111"/>
+  <ellipse cx="20" cy="34" rx="10" ry="13" fill="#f2f2f2"/>
+  <ellipse cx="20" cy="14.5" rx="7.2" ry="6.8" fill="#8d7f74"/>
+  <rect x="12.6" y="11.4" width="14.8" height="3.4" rx="1.6" fill="#050505"/>
+  <path d="M16.2 18.4 Q20 20.4 23.8 17.6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+  <path d="M5 33 Q2 41 8 46 Z M35 33 Q38 41 32 46 Z" fill="#111"/>
+  <ellipse cx="12" cy="49" rx="7" ry="3" fill="#f2b705"/>
+  <ellipse cx="28" cy="49" rx="7" ry="3" fill="#f2b705"/>
+</symbol>
+
+<radialGradient id="bg" cx="0.5" cy="0.4" r="0.8"><stop offset="0" stop-color="#7a1838"/><stop offset="0.6" stop-color="#3d0b24"/><stop offset="1" stop-color="#14051a"/></radialGradient>
+<linearGradient id="wine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c42a55"/><stop offset="0.55" stop-color="#6b2a9e"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+<clipPath id="bowl"><path d="M760 230 H1160 C1160 520 1070 640 960 640 C850 640 760 520 760 230 Z"/></clipPath>
+<radialGradient id="shine"><stop offset="0" stop-color="#fff" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1920" height="1080" fill="url(#bg)"/><ellipse cx="960" cy="860" rx="300" ry="26" fill="#000" opacity="0.35"/><g clip-path="url(#bowl)"><path d="M700 360 C820 330 900 390 960 370 C1030 345 1100 380 1220 350 V700 H700 Z" fill="url(#wine)"/><circle cx="999.3" cy="558.0" r="6.0" fill="none" stroke="#fff" stroke-opacity="0.77" stroke-width="1.5"/><circle cx="1036.8" cy="601.4" r="2.1" fill="none" stroke="#fff" stroke-opacity="0.53" stroke-width="1.5"/><circle cx="1101.9" cy="535.8" r="6.5" fill="none" stroke="#fff" stroke-opacity="0.36" stroke-width="1.5"/><circle cx="950.1" cy="439.2" r="4.7" fill="none" stroke="#fff" stroke-opacity="0.59" stroke-width="1.5"/><circle cx="804.2" cy="432.0" r="3.4" fill="none" stroke="#fff" stroke-opacity="0.76" stroke-width="1.5"/><circle cx="1045.0" cy="418.3" r="6.0" fill="none" stroke="#fff" stroke-opacity="0.37" stroke-width="1.5"/><circle cx="997.6" cy="410.4" r="2.0" fill="none" stroke="#fff" stroke-opacity="0.74" stroke-width="1.5"/><circle cx="867.0" cy="431.7" r="6.9" fill="none" stroke="#fff" stroke-opacity="0.74" stroke-width="1.5"/><circle cx="892.6" cy="610.8" r="4.7" fill="none" stroke="#fff" stroke-opacity="0.64" stroke-width="1.5"/><circle cx="865.5" cy="605.8" r="5.5" fill="none" stroke="#fff" stroke-opacity="0.78" stroke-width="1.5"/><circle cx="1086.0" cy="451.7" r="3.8" fill="none" stroke="#fff" stroke-opacity="0.38" stroke-width="1.5"/><circle cx="846.6" cy="395.6" r="3.5" fill="none" stroke="#fff" stroke-opacity="0.60" stroke-width="1.5"/><circle cx="801.1" cy="542.7" r="3.7" fill="none" stroke="#fff" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="1061.9" cy="495.4" r="3.6" fill="none" stroke="#fff" stroke-opacity="0.54" stroke-width="1.5"/><circle cx="1025.5" cy="393.7" r="6.9" fill="none" stroke="#fff" stroke-opacity="0.31" stroke-width="1.5"/><circle cx="1039.9" cy="582.8" r="2.1" fill="none" stroke="#fff" stroke-opacity="0.69" stroke-width="1.5"/><circle cx="917.2" cy="518.8" r="2.0" fill="none" stroke="#fff" stroke-opacity="0.32" stroke-width="1.5"/><circle cx="857.9" cy="609.2" r="3.0" fill="none" stroke="#fff" stroke-opacity="0.68" stroke-width="1.5"/><circle cx="1097.5" cy="606.1" r="3.7" fill="none" stroke="#fff" stroke-opacity="0.48" stroke-width="1.5"/><circle cx="967.9" cy="566.1" r="2.5" fill="none" stroke="#fff" stroke-opacity="0.67" stroke-width="1.5"/><circle cx="1055.1" cy="586.3" r="2.2" fill="none" stroke="#fff" stroke-opacity="0.77" stroke-width="1.5"/><circle cx="829.2" cy="461.8" r="5.1" fill="none" stroke="#fff" stroke-opacity="0.76" stroke-width="1.5"/><circle cx="908.8" cy="601.8" r="4.7" fill="none" stroke="#fff" stroke-opacity="0.46" stroke-width="1.5"/><circle cx="901.4" cy="422.6" r="2.4" fill="none" stroke="#fff" stroke-opacity="0.37" stroke-width="1.5"/><circle cx="1020.5" cy="619.2" r="2.8" fill="none" stroke="#fff" stroke-opacity="0.32" stroke-width="1.5"/><circle cx="1115.7" cy="508.0" r="4.0" fill="none" stroke="#fff" stroke-opacity="0.42" stroke-width="1.5"/><circle cx="990.1" cy="578.3" r="4.3" fill="none" stroke="#fff" stroke-opacity="0.51" stroke-width="1.5"/><circle cx="817.8" cy="599.9" r="2.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.5"/><circle cx="1068.3" cy="411.3" r="5.7" fill="none" stroke="#fff" stroke-opacity="0.77" stroke-width="1.5"/><circle cx="1001.7" cy="569.1" r="2.5" fill="none" stroke="#fff" stroke-opacity="0.52" stroke-width="1.5"/><circle cx="847.8" cy="582.7" r="3.5" fill="none" stroke="#fff" stroke-opacity="0.53" stroke-width="1.5"/><circle cx="1119.8" cy="584.5" r="6.9" fill="none" stroke="#fff" stroke-opacity="0.53" stroke-width="1.5"/><circle cx="956.2" cy="555.1" r="4.4" fill="none" stroke="#fff" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="929.2" cy="415.2" r="3.9" fill="none" stroke="#fff" stroke-opacity="0.79" stroke-width="1.5"/><circle cx="1107.1" cy="530.5" r="4.5" fill="none" stroke="#fff" stroke-opacity="0.47" stroke-width="1.5"/><circle cx="828.5" cy="445.4" r="5.9" fill="none" stroke="#fff" stroke-opacity="0.73" stroke-width="1.5"/><circle cx="915.6" cy="568.6" r="5.9" fill="none" stroke="#fff" stroke-opacity="0.65" stroke-width="1.5"/><circle cx="1012.5" cy="562.3" r="3.8" fill="none" stroke="#fff" stroke-opacity="0.65" stroke-width="1.5"/><circle cx="889.9" cy="496.6" r="5.8" fill="none" stroke="#fff" stroke-opacity="0.65" stroke-width="1.5"/><circle cx="894.0" cy="606.9" r="5.2" fill="none" stroke="#fff" stroke-opacity="0.59" stroke-width="1.5"/></g><path d="M760 230 H1160 C1160 520 1070 640 960 640 C850 640 760 520 760 230 Z" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round"/><path d="M960 640 V840 M840 846 H1080" stroke="#fff" stroke-width="8" stroke-linecap="round"/><ellipse cx="840" cy="330" rx="40" ry="90" fill="url(#shine)"/><use xlink:href="#mark" href="#mark" x="924.0" y="420.0" width="72.0" height="72.0" opacity="0.95"/><text x="960" y="944" text-anchor="middle" font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif" font-size="30" fill="#fff" fill-opacity="0.85" letter-spacing="6">WIN32 · AGED SINCE 1993</text><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="1832.0" y="944.0" width="48.0" height="48.0" /><text x="1816" y="966" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="end">GigaHard Winedows</text><text x="1816" y="989" fill="#ffffff" fill-opacity="0.72" font-size="16" text-anchor="end">Linux, but it works.</text></g>
+</svg>
