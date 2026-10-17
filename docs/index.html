@@ -60,13 +60,28 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 .shots img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--line);border-radius:2px;background:var(--alt)}
 .shots a:hover img{border-color:var(--blue)}
 .shots figcaption{color:var(--mut);font-size:13px;margin-top:6px}
-@media(max-width:760px){.shots{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.shots,.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.cards{grid-template-columns:1fr}}
 .lightbox{border:0;padding:0;background:transparent;max-width:min(1280px,94vw);max-height:92vh;overflow:visible}
 .lightbox::backdrop{background:rgba(20,20,26,.85)}
 .lightbox img{display:block;max-width:min(1280px,94vw);max-height:calc(92vh - 40px);width:auto;height:auto;border:1px solid var(--line);background:var(--alt)}
-.lightbox p{margin:8px 0 0;color:#fff;font-size:14px}
-.lightbox button{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border:0;border-radius:2px;background:var(--blue);color:#fff;font-size:20px;line-height:1;cursor:pointer}
-@media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero img{max-width:300px}nav .links{display:none}}
+.lightbox p{margin:0;padding:6px 10px;background:rgba(20,20,26,.9);color:#fff;font-size:14px}
+.lightbox button{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;border-radius:2px;background:var(--blue);color:#fff;font-size:20px;line-height:1;cursor:pointer}
+@media(max-width:760px){.hero{padding:40px 0 36px}.hero .wrap{grid-template-columns:1fr;gap:24px}.hero img{max-width:260px;order:-1}.lead{font-size:18px}
+  nav .wrap{flex-wrap:wrap;height:auto;gap:4px 14px;padding-top:8px;padding-bottom:8px}nav .sp{order:1;flex-basis:100%;height:0}.cta{margin-left:auto}
+  nav .links{order:2}nav .links a{font-size:14px}
+  section.blk{padding:40px 0}h2{font-size:24px}}
+@media(max-width:600px){
+  #compat table,#compat tbody,#compat tr,#compat td{display:block;width:100%}
+  #compat tr:first-child{display:none}
+  #compat tr{border-bottom:1px solid var(--line);padding:12px 14px}
+  #compat tr:last-child{border-bottom:0}
+  #compat td{border:0;padding:2px 0}
+  #compat td.n{white-space:normal}
+  #compat td .meter{margin:4px 0}
+  #endorsement img{height:180px!important}
+  #endorsement blockquote{font-size:19px!important}
+  pre{font-size:13px}}
 </style>
 </head>
 <body>
