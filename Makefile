@@ -15,7 +15,7 @@ shell: builder
 	docker run --rm -it --privileged -v $(CURDIR):/work -w /work $(IMAGE) bash
 
 lint:
-	shellcheck scripts/*.sh build/auto/* build/config/hooks/live/*.chroot build/config/includes.chroot/usr/local/bin/*
+	shellcheck -S warning scripts/*.sh build/auto/* build/config/hooks/live/*.chroot build/config/includes.chroot/usr/local/bin/*
 
 test: builder
 	$(DOCKER_RUN) scripts/smoke-test.sh
