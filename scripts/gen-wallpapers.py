@@ -181,43 +181,24 @@ def panes():
     return svg("Panes", body, defs)
 
 
-# 03 Window: a flat app window sitting on a field of tiny marks. The wallpaper is a window. In Winedows.
-def window():
+# 03 Tiles: a field of marks, lit from the middle and fading into the dark.
+def tiles():
     defs = f"""
-<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{BLUE}"/><stop offset="1" stop-color="{NAVY}"/></linearGradient>
-<pattern id="tiles" width="120" height="120" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
-  <use xlink:href="#mark" href="#mark" x="34" y="34" width="52" height="52" opacity="0.16"/>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{NAVY2}"/><stop offset="1" stop-color="#020817"/></linearGradient>
+<radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="{SKY}" stop-opacity="0.45"/><stop offset="0.5" stop-color="{ROSE}" stop-opacity="0.12"/><stop offset="1" stop-color="{ROSE}" stop-opacity="0"/></radialGradient>
+<radialGradient id="fade" cx="0.5" cy="0.5" r="0.62"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#fade)"/></mask>
+<pattern id="tiles" width="132" height="132" patternUnits="userSpaceOnUse" patternTransform="rotate(-12 960 540)">
+  <use xlink:href="#mark" href="#mark" x="30" y="30" width="72" height="72"/>
 </pattern>
-<filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="18"/></filter>
 """
-    x, y, w, h = 560, 250, 800, 500
     body = (
         '<rect width="1920" height="1080" fill="url(#bg)"/>'
-        '<rect width="1920" height="1080" fill="url(#tiles)"/>'
-        f'<rect x="{x + 6}" y="{y + 24}" width="{w}" height="{h}" fill="#000" opacity="0.35" filter="url(#shadow)"/>'
-        f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#fff"/>'
-        f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="none" stroke="{BLUE}" stroke-width="1.5"/>'
-        # Title bar: white, with generic min/max/close glyphs.
-        f'<g font-family="{FONT}">'
-        + use("mark", x + 14, y + 9, 18)
-        + f'<text x="{x + 42}" y="{y + 24}" font-size="14" fill="#222">Winedows</text>'
-        f'<g stroke="#222" stroke-width="1.2" fill="none">'
-        f'<path d="M{x + w - 152} {y + 18} h12"/>'
-        f'<rect x="{x + w - 100}" y="{y + 12}" width="11" height="11"/>'
-        f'<path d="M{x + w - 36} {y + 12} l11 11 M{x + w - 25} {y + 12} l-11 11"/>'
-        "</g>"
-        f'<line x1="{x}" y1="{y + 36}" x2="{x + w}" y2="{y + 36}" stroke="#e6e6e6"/>'
-        + use("mark", x + 300, y + 80, 200)
-        + f'<text x="{x + w / 2}" y="{y + 352}" text-anchor="middle" font-size="46" fill="#14213d" font-weight="300">GigaHard <tspan font-weight="bold">Winedows</tspan></text>'
-        f'<text x="{x + w / 2}" y="{y + 392}" text-anchor="middle" font-size="22" fill="#555">Linux, but it works.</text>'
-        f'<rect x="{x + w - 140}" y="{y + h - 64}" width="112" height="36" fill="{BLUE}"/>'
-        f'<text x="{x + w - 84}" y="{y + h - 40}" text-anchor="middle" font-size="16" fill="#fff">OK</text>'
-        f'<rect x="{x + w - 268}" y="{y + h - 64}" width="112" height="36" fill="#e5e5e5"/>'
-        f'<text x="{x + w - 212}" y="{y + h - 40}" text-anchor="middle" font-size="16" fill="#222">Also OK</text>'
-        "</g>"
+        '<ellipse cx="960" cy="540" rx="900" ry="560" fill="url(#glow)"/>'
+        '<rect width="1920" height="1080" fill="url(#tiles)" mask="url(#m)" opacity="0.55"/>'
         + brand()
     )
-    return svg("Window", body, defs)
+    return svg("Tiles", body, defs)
 
 
 # 04 Vineyard: dusk over the rows, the mark rising as the sun. Linus works the third row.
@@ -608,7 +589,7 @@ def horizon():
 WALLPAPERS = [
     ("01-hero", hero),
     ("02-panes", panes),
-    ("03-window", window),
+    ("03-tiles", tiles),
     ("04-vineyard", vineyard),
     ("05-vintage", vintage),
     ("06-bedrock", bedrock),

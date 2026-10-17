@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
-<title>Winedows wallpaper: Window</title>
+<title>Winedows wallpaper: Tiles</title>
 <defs>
 <linearGradient id="mkR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c1d3f"/><stop offset="1" stop-color="#5e0f27"/></linearGradient>
 <linearGradient id="mkB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
@@ -46,11 +46,13 @@
   <ellipse cx="28" cy="49" rx="7" ry="3" fill="#f2b705"/>
 </symbol>
 
-<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a4fd6"/><stop offset="1" stop-color="#06173f"/></linearGradient>
-<pattern id="tiles" width="120" height="120" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
-  <use xlink:href="#mark" href="#mark" x="34" y="34" width="52" height="52" opacity="0.16"/>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a2a6b"/><stop offset="1" stop-color="#020817"/></linearGradient>
+<radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#2aa3ff" stop-opacity="0.45"/><stop offset="0.5" stop-color="#c42a55" stop-opacity="0.12"/><stop offset="1" stop-color="#c42a55" stop-opacity="0"/></radialGradient>
+<radialGradient id="fade" cx="0.5" cy="0.5" r="0.62"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#fade)"/></mask>
+<pattern id="tiles" width="132" height="132" patternUnits="userSpaceOnUse" patternTransform="rotate(-12 960 540)">
+  <use xlink:href="#mark" href="#mark" x="30" y="30" width="72" height="72"/>
 </pattern>
-<filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="18"/></filter>
 </defs>
-<rect width="1920" height="1080" fill="url(#bg)"/><rect width="1920" height="1080" fill="url(#tiles)"/><rect x="566" y="274" width="800" height="500" fill="#000" opacity="0.35" filter="url(#shadow)"/><rect x="560" y="250" width="800" height="500" fill="#fff"/><rect x="560" y="250" width="800" height="500" fill="none" stroke="#0a4fd6" stroke-width="1.5"/><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="574.0" y="259.0" width="18.0" height="18.0" /><text x="602" y="274" font-size="14" fill="#222">Winedows</text><g stroke="#222" stroke-width="1.2" fill="none"><path d="M1208 268 h12"/><rect x="1260" y="262" width="11" height="11"/><path d="M1324 262 l11 11 M1335 262 l-11 11"/></g><line x1="560" y1="286" x2="1360" y2="286" stroke="#e6e6e6"/><use xlink:href="#mark" href="#mark" x="860.0" y="330.0" width="200.0" height="200.0" /><text x="960.0" y="602" text-anchor="middle" font-size="46" fill="#14213d" font-weight="300">GigaHard <tspan font-weight="bold">Winedows</tspan></text><text x="960.0" y="642" text-anchor="middle" font-size="22" fill="#555">Linux, but it works.</text><rect x="1220" y="686" width="112" height="36" fill="#0a4fd6"/><text x="1276" y="710" text-anchor="middle" font-size="16" fill="#fff">OK</text><rect x="1092" y="686" width="112" height="36" fill="#e5e5e5"/><text x="1148" y="710" text-anchor="middle" font-size="16" fill="#222">Also OK</text></g><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="1832.0" y="944.0" width="48.0" height="48.0" /><text x="1816" y="966" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="end">GigaHard Winedows</text><text x="1816" y="989" fill="#ffffff" fill-opacity="0.72" font-size="16" text-anchor="end">Linux, but it works.</text></g>
+<rect width="1920" height="1080" fill="url(#bg)"/><ellipse cx="960" cy="540" rx="900" ry="560" fill="url(#glow)"/><rect width="1920" height="1080" fill="url(#tiles)" mask="url(#m)" opacity="0.55"/><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="1832.0" y="944.0" width="48.0" height="48.0" /><text x="1816" y="966" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="end">GigaHard Winedows</text><text x="1816" y="989" fill="#ffffff" fill-opacity="0.72" font-size="16" text-anchor="end">Linux, but it works.</text></g>
 </svg>
