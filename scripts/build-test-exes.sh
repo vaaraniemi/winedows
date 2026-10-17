@@ -2,7 +2,7 @@
 # Cross-compile tiny demo .exe files used on the live Desktop and by the smoke test.
 set -eu
 out=build/config/includes.chroot/etc/skel/Desktop
-mkdir -p "$out"
+mkdir -p "$out" build/config/includes.chroot/usr/share/winedows/tests
 cat > /tmp/hello.c <<'C'
 #include <windows.h>
 int main(void){
