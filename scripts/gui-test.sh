@@ -1,7 +1,7 @@
 #!/bin/bash
 # Boots the ISO to the full desktop (graphical.target, autologin) with winedows.guitest;
 # the image's winedows-guitest.service checks Cinnamon and opening the Desktop .exe and
-# prints GUITEST lines on serial. Screenshots: out/bootmenu.png, out/desktop.png, out/edgy.png.
+# prints GUITEST lines on serial. Screenshots: out/bootmenu.png, out/desktop.png, out/edgy.png, out/final.png.
 set -euo pipefail
 iso=$(find out -maxdepth 1 -name '*.iso' | sort | tail -1)
 [ -n "$iso" ] || { echo "no ISO in out/" >&2; exit 1; }
@@ -35,17 +35,17 @@ timeout 2400 qemu-system-x86_64 "${accel[@]}" -m 4096 -smp 2 -cdrom "$iso" \
   -append "boot=live components quiet console=ttyS0 username=user hostname=winedows winedows.guitest" \
   -vga std -display none -serial file:"$log" -monitor unix:"$mon",server,nowait >/dev/null 2>&1 &
 pid=$!
-took_desktop=""
+# the guest announces "GUITEST screenshot=<name>" when something worth a picture is on screen
+taken=" "
 for _ in $(seq 1 480); do
-  if [ -z "$took_desktop" ] && grep -q 'GUITEST screenshot=desktop' "$log" 2>/dev/null; then
-    shot "$mon" desktop; took_desktop=1   # the desktop with the .exe's window open
-  fi
+  for name in $(grep -ao 'GUITEST screenshot=[a-z]*' "$log" 2>/dev/null | cut -d= -f2); do
+    case "$taken" in *" $name "*) ;; *) shot "$mon" "$name"; taken="$taken$name " ;; esac
+  done
   grep -q 'WINEDOWS_GUITEST_DONE' "$log" 2>/dev/null && break
   kill -0 "$pid" 2>/dev/null || break
-  sleep 5
+  sleep 3
 done
-# whatever is on screen now (Edgy, if it opened)
-if [ -n "$took_desktop" ]; then shot "$mon" edgy; else shot "$mon" desktop; fi
+shot "$mon" final
 kill "$pid" 2>/dev/null || true
 cat "$log"
 for want in 'GUITEST cinnamon=ok' 'GUITEST desktop-icons=ok' 'GUITEST exe-open=ok' \

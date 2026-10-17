@@ -37,7 +37,7 @@ if [ -z "$b" ]; then say "SELFTEST branding=ok"; else say "SELFTEST branding=FAI
 # Desktop: launchers present, Command Prompt gone, .exe not executable (Nemo must hand it to Wine)
 d=/etc/skel/Desktop
 dk=""
-for f in Edgy.desktop Wi-Fi.desktop "Totally Native Linux App.exe"; do [ -e "$d/$f" ] || dk="$dk missing:$f"; done
+for f in "This PC.desktop" Documents.desktop "Recycle Bin.desktop" Edgy.desktop Wi-Fi.desktop "Totally Native Linux App.exe"; do [ -e "$d/$f" ] || dk="$dk missing:$f"; done
 [ -e "$d/Command Prompt.desktop" ] && dk="$dk command-prompt"
 for f in "$d"/*.exe; do [ -x "$f" ] && dk="$dk executable:$(basename "$f")"; done
 if [ -z "$dk" ]; then say "SELFTEST desktop=ok"; else say "SELFTEST desktop=FAIL:$dk"; fi

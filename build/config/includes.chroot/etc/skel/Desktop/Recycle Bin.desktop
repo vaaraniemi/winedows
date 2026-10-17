@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Recycle Bin
+Exec=nemo trash:///
+Icon=user-trash
+Terminal=false

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=This PC
+Exec=nemo computer:///
+Icon=computer
+Terminal=false

@@ -23,6 +23,11 @@ exe=$(ls /home/user/Desktop/*.exe 2>/dev/null | head -1)
 if [ -z "$exe" ]; then say "GUITEST exe-open=FAIL"; say "GUITEST diag: no .exe on /home/user/Desktop"
 else
   [ -x "$exe" ] && say "GUITEST diag: $exe is executable (should be 0644)"
+  # like a real user, give first-login Wine setup (winedows-prefix autostart) time to finish
+  for _ in $(seq 1 120); do
+    [ -f /home/user/.wine/system.reg ] && ! pgrep -u user -f wineboot >/dev/null && break
+    sleep 1
+  done
   # shellcheck disable=SC2086
   runuser -u user -- env $env sh -c 'gio open "$1" 2>/dev/null || xdg-open "$1"' sh "$exe" \
     > /tmp/guitest.out 2>&1 &
@@ -54,6 +59,8 @@ sleep 8
 # shellcheck disable=SC2086
 runuser -u user -- env $env sh -c 'firefox-esr >/dev/null 2>&1 &'
 if wait_for 60 -u user -f firefox-esr; then sleep 25; say "GUITEST edgy=ok"; else say "GUITEST edgy=FAIL"; fi
+say "GUITEST screenshot=edgy"
+sleep 8
 # wallpaper slideshow: speed it up to 1 minute and check the wallpaper changes
 # shellcheck disable=SC2086
 gs() { runuser -u user -- env $env gsettings "$@" 2>&1; }

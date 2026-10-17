@@ -5,6 +5,8 @@ After=display-manager.service live-config.service
 
 [Service]
 Type=simple
+# leave the apps it opened (the .exe, Edgy) running for the screenshots
+KillMode=process
 ExecStart=/usr/local/bin/winedows-guitest
 
 [Install]
