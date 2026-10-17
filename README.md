@@ -13,6 +13,4 @@ make vm     # boot it in QEMU
 make test   # headless smoke test
 ```
 
-Building it yourself, or contributing: start at [docs/wiki](docs/wiki/).
-
 Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond.
