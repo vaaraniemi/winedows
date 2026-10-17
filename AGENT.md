@@ -23,6 +23,7 @@ Never write the OS name "W-i-n-d-o-w-s" anywhere in the repo (code, docs, commen
 |---|---|
 | `make iso` | build builder image, cross-compile demo exes, build `out/winedows-YYYYMMDD.iso` |
 | `make test` | boot ISO headless in QEMU with `winedows.selftest`, assert results on serial |
+| `make guitest` | boot ISO to the Cinnamon desktop with `winedows.guitest`, open the Desktop .exe, save `out/desktop.png` |
 | `make vm` | boot newest ISO in a QEMU window |
 | `make lint` | shellcheck all scripts/hooks |
 | `make shell` | shell in the builder container |

@@ -37,11 +37,17 @@ jobs:
           sudo udevadm trigger --name-match=kvm || true
           ls -l /dev/kvm || true
       - run: make test
+      - name: Desktop test (Cinnamon + open the Desktop .exe)
+        if: always()
+        run: make guitest
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: serial-log
-          path: out/serial.log
+          path: |
+            out/serial.log
+            out/serial-gui.log
+            out/desktop.png
           if-no-files-found: ignore
 
   release:

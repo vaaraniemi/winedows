@@ -1,0 +1,41 @@
+#!/bin/sh
+# Boot-time desktop test; only runs with winedows.guitest on the kernel cmdline.
+# Waits for the autologin Cinnamon session, then opens the Desktop .exe the way a
+# double-click in Nemo does (default app for its MIME type) and checks Wine runs it.
+out=/dev/ttyS0
+say() { echo "$*" > "$out"; }
+wait_for() { # seconds, pgrep args...
+  n=$1; shift
+  for _ in $(seq 1 "$n"); do pgrep "$@" >/dev/null && return 0; sleep 1; done
+  return 1
+}
+if wait_for 240 -u user -x cinnamon; then say "GUITEST cinnamon=ok"; else
+  say "GUITEST cinnamon=FAIL"
+  ps -eo user,args | grep -v ' \[' | tail -n 25 | sed 's/^/GUITEST diag ps: /' > "$out"
+  say "WINEDOWS_GUITEST_DONE"; exit 0
+fi
+wait_for 60 -u user -x nemo-desktop && say "GUITEST desktop-icons=ok" || say "GUITEST desktop-icons=FAIL"
+pid=$(pgrep -u user -x cinnamon | head -1)
+# borrow the session's environment so the open happens inside the user's desktop
+env=$(tr '\0' '\n' < "/proc/$pid/environ" \
+  | grep -E '^(DISPLAY|XAUTHORITY|DBUS_SESSION_BUS_ADDRESS|XDG_CURRENT_DESKTOP|XDG_RUNTIME_DIR|XDG_DATA_DIRS|HOME|PATH)=')
+exe=$(ls /home/user/Desktop/*.exe 2>/dev/null | head -1)
+if [ -z "$exe" ]; then say "GUITEST exe-open=FAIL"; say "GUITEST diag: no .exe on /home/user/Desktop"
+else
+  [ -x "$exe" ] && say "GUITEST diag: $exe is executable (should be 0644)"
+  # shellcheck disable=SC2086
+  runuser -u user -- env $env sh -c 'gio open "$1" 2>/dev/null || xdg-open "$1"' sh "$exe" \
+    > /tmp/guitest.out 2>&1 &
+  name=$(basename "$exe")
+  ok=""
+  for _ in $(seq 1 120); do
+    # the exe itself, not the launcher chain (winedows-run, wine start, gio)
+    if ps -u user -o args= | grep -F "$name" | grep -qvE 'winedows-run|start(\.exe)? /unix|gio open|xdg-open|grep'; then ok=1; break; fi
+    sleep 1
+  done
+  if [ -n "$ok" ]; then sleep 5; say "GUITEST exe-open=ok"; else
+    say "GUITEST exe-open=FAIL"
+    tail -n 15 /tmp/guitest.out | sed 's/^/GUITEST diag open: /' > "$out"
+  fi
+fi
+say "WINEDOWS_GUITEST_DONE"

@@ -1,0 +1,11 @@
+[Unit]
+Description=Winedows desktop test
+ConditionKernelCommandLine=winedows.guitest
+After=display-manager.service live-config.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/winedows-guitest
+
+[Install]
+WantedBy=graphical.target
