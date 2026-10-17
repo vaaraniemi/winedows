@@ -1,4 +1,6 @@
-# Winedows
+<p align="center"><img src="docs/logo.svg" alt="GigaHard Winedows" width="420"></p>
+
+# GigaHard Winedows
 
 > Linux, but it works.
 

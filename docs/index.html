@@ -3,79 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Winedows — Linux, but it works</title>
-<meta name="description" content="Winedows: a Debian 13 desktop dressed as W*ndows. Double-click any .exe and it runs, because Win32 is the stable ABI on Linux. Happy April 1st.">
+<title>GigaHard Winedows — Linux, but it works</title>
+<meta name="description" content="GigaHard Winedows: a Debian 13 desktop dressed as W*ndows. Double-click any .exe and it runs, because Win32 is the stable ABI on Linux.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <style>
-:root{--bg:#0a1b4d;--bg2:#5b0f2e;--fg:#fff;--mut:#b9c6ff;--card:#ffffff14;--acc:#4a8cff;--ok:#2fbf71}
+:root{--bg:#fff;--alt:#f3f3f3;--fg:#1b1b1f;--mut:#5c5f66;--line:#dcdde1;--blue:#0a4fd6;--blue2:#083fa8;--wine:#7d1230;--ok:#107c41}
+@media (prefers-color-scheme:dark){:root{--bg:#1b1b1f;--alt:#26262b;--fg:#f2f2f4;--mut:#a9acb4;--line:#3a3a41;--blue:#5b9bff;--blue2:#86b4ff;--wine:#e0708f;--ok:#4cc38a}}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Segoe UI","Liberation Sans",system-ui,sans-serif;color:var(--fg);background:linear-gradient(135deg,var(--bg2),var(--bg) 60%);min-height:100vh}
-main{max-width:860px;margin:0 auto;padding:0 16px 64px}
-header{padding:72px 0 24px;text-align:center}
-h1{font-weight:300;font-size:clamp(40px,9vw,72px);margin:0}
-.tag{color:var(--mut);font-size:20px;margin-top:8px}
-.btn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;padding:14px 28px;border-radius:4px;font-size:18px;margin:24px 0 6px}
-.btn:hover{filter:brightness(1.15)}
-.sub{color:var(--mut);font-size:14px;min-height:20px}
-section{background:var(--card);border-radius:8px;padding:20px 24px;margin:24px 0}
-h2{font-weight:400;margin-top:0}
-.bar{background:#ffffff22;border-radius:4px;margin:4px 0 14px}.bar div{padding:6px 10px;border-radius:4px;background:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-code,pre{background:#0006;border-radius:4px;padding:2px 6px}pre{padding:12px;overflow:auto}
-a{color:#9db4ff}
-ul{padding-left:20px}
-footer{color:var(--mut);font-size:13px;text-align:center}
-.parts a{display:block}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI","Liberation Sans",system-ui,-apple-system,Arial,sans-serif;color:var(--fg);background:var(--bg);line-height:1.55}
+a{color:var(--blue)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+nav{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+nav .wrap{display:flex;align-items:center;gap:24px;height:56px}
+nav img{height:30px;width:auto}
+nav a{color:var(--fg);text-decoration:none;font-size:15px}
+nav a:hover{color:var(--blue)}
+nav .sp{flex:1}
+.cta{background:var(--blue);color:#fff!important;padding:8px 18px;border-radius:2px}
+.cta:hover{background:var(--blue2);color:#fff!important}
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero img{width:100%;max-width:420px;height:auto}
+h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 12px;letter-spacing:-.5px}
+.lead{font-size:20px;color:var(--mut);margin:0 0 28px}
+.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:12px 28px;border-radius:2px;font-size:17px}
+.btn:hover{background:var(--blue2)}
+.sub{color:var(--mut);font-size:14px;margin-top:10px;min-height:20px}
+.parts a{display:block;font-size:14px}
+section.blk{padding:56px 0;border-bottom:1px solid var(--line)}
+section.alt{background:var(--alt)}
+h2{font-size:28px;font-weight:600;margin:0 0 24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{border:1px solid var(--line);background:var(--bg);padding:20px;border-radius:2px}
+.card h3{margin:0 0 6px;font-size:17px;font-weight:600}
+.card p{margin:0;color:var(--mut);font-size:15px}
+table{width:100%;border-collapse:collapse;background:var(--bg);border:1px solid var(--line)}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+th{background:var(--alt);font-weight:600}
+td.n{white-space:nowrap;font-weight:600}
+.meter{background:var(--alt);height:10px;border-radius:2px;min-width:120px}
+.meter i{display:block;height:100%;background:var(--wine);border-radius:2px}
+.meter.ok i{background:var(--ok)}
+.fine{color:var(--mut);font-size:13px;margin-top:10px}
+code,pre{font-family:Consolas,"Liberation Mono",monospace;background:var(--alt);border:1px solid var(--line);border-radius:2px}
+code{padding:1px 6px;font-size:.92em}pre{padding:14px;overflow:auto}
+ol{padding-left:22px}
+footer{padding:32px 0;color:var(--mut);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
+@media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero img{max-width:300px}nav .links{display:none}}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <h1>Winedows</h1>
-  <div class="tag">Linux, but it works.</div>
-  <a class="btn" id="dl" href="https://github.com/vaaraniemi/winedows/releases">Download Winedows</a>
-  <div class="sub" id="meta">Looking for the latest build…</div>
-  <div class="parts" id="parts"></div>
-</header>
+<nav><div class="wrap">
+  <a href="#"><img src="logo.svg" alt="GigaHard Winedows"></a>
+  <span class="links"><a href="#features">Features</a></span>
+  <span class="links"><a href="#compat">Compatibility</a></span>
+  <span class="links"><a href="#start">Get started</a></span>
+  <span class="sp"></span>
+  <a class="cta" href="#download">Download</a>
+</div></nav>
 
-<section>
-  <h2>What is it?</h2>
-  <p>A Linux desktop dressed up as W*ndows. Double-click any <code>.exe</code> and it just runs.
-  On Linux, the most stable ABI turned out to be Win32. We just stopped fighting it.</p>
-  <ul>
-    <li>Start-style menu, taskbar, "This PC" and "Recycle Bin"</li>
-    <li>"Edgy", a browser that tells every website it's Edge</li>
-    <li>A "Command Prompt" that says <code>'sudo' is not recognized as an internal or external command</code></li>
-    <li>No package manager. We removed it. You're welcome.</li>
-  </ul>
-</section>
+<header class="hero"><div class="wrap">
+  <div>
+    <h1>Linux, but it works.</h1>
+    <p class="lead">GigaHard Winedows is a Linux desktop dressed as W*ndows. Double-click any <code>.exe</code> and it runs, because Win32 turned out to be the stable ABI on Linux.</p>
+    <a class="btn" id="dl" href="https://github.com/vaaraniemi/winedows/releases">Download GigaHard Winedows</a>
+    <div class="sub" id="meta">Looking for the latest build…</div>
+    <div class="parts" id="parts"></div>
+  </div>
+  <img src="logo.svg" alt="GigaHard Winedows logo">
+</div></header>
 
-<section>
-  <h2>Binary compatibility benchmark</h2>
-  <p>Percentage of ten-year-old programs that still start when you double-click them (higher is better).</p>
-  Ubuntu, native Linux binaries<div class="bar"><div style="width:23%">23% — "error while loading shared libraries: libpng12.so.0"</div></div>
-  Ubuntu, after "just recompile it"<div class="bar"><div style="width:41%">41% — "which distro? which glibc? which Qt?"</div></div>
-  Winedows, Win32 binaries<div class="bar"><div style="width:100%;background:var(--ok)">100% — double-click, it runs</div></div>
-  <small>Methodology: we double-clicked things. Inspired by <a href="https://blog.hiler.eu/win32-the-only-stable-abi/">“Win32 is the only stable ABI on Linux”</a> — it is funny because it is true.</small>
-</section>
+<section class="blk" id="features"><div class="wrap">
+  <h2>Everything you expect. Nothing you can break.</h2>
+  <div class="cards">
+    <div class="card"><h3>Double-click to run</h3><p>Any .exe or .msi opens through Wine. No prompts, no terminal, no "which distro?".</p></div>
+    <div class="card"><h3>Familiar desktop</h3><p>Taskbar, Start-style menu, This PC and Recycle Bin, on a Cinnamon desktop.</p></div>
+    <div class="card"><h3>Edgy browser</h3><p>Firefox under the hood, branded Edgy, and it tells every website it is Edge.</p></div>
+    <div class="card"><h3>Zero package managers</h3><p>apt has been removed. Software arrives the traditional way: as an installer you found somewhere.</p></div>
+  </div>
+</div></section>
 
-<section>
-  <h2>Try it</h2>
-  <ol>
-    <li>Download the ISO above (verify with <code>SHA256SUMS</code>).</li>
-    <li>Boot it in VirtualBox, QEMU, or from a USB stick (<code>dd</code> or Rufus in DD mode). Login is automatic.</li>
+<section class="blk alt" id="compat"><div class="wrap">
+  <h2>Binary compatibility</h2>
+  <p>Share of ten-year-old programs that still start when you double-click them. Higher is better.</p>
+  <table>
+    <tr><th>Platform</th><th>Result</th><th style="width:34%">Notes</th></tr>
+    <tr><td class="n">Ubuntu, native Linux binaries</td><td><div class="meter"><i style="width:23%"></i></div>23%</td><td>"error while loading shared libraries: libpng12.so.0"</td></tr>
+    <tr><td class="n">Ubuntu, "just recompile it"</td><td><div class="meter"><i style="width:41%"></i></div>41%</td><td>Which distro? Which glibc? Which Qt?</td></tr>
+    <tr><td class="n">GigaHard Winedows, Win32 binaries</td><td><div class="meter ok"><i style="width:100%"></i></div>100%</td><td>Double-click, it runs.</td></tr>
+  </table>
+  <p class="fine">Methodology: we double-clicked things. Inspired by <a href="https://blog.hiler.eu/win32-the-only-stable-abi/">"Win32 is the only stable ABI on Linux"</a>. It is funny because it is true.</p>
+</div></section>
+
+<section class="blk" id="download"><div class="wrap">
+  <h2>Get started</h2>
+  <ol id="start">
+    <li>Download the ISO above and check it against <code>SHA256SUMS</code>.</li>
+    <li>Boot it in VirtualBox, QEMU, or from a USB stick (<code>dd</code>, or Rufus in DD mode). Login is automatic.</li>
     <li>Double-click <b>Totally Native Linux App.exe</b> on the desktop.</li>
   </ol>
   <pre>qemu-system-x86_64 -enable-kvm -m 4096 -cdrom winedows.iso</pre>
-  <p>If the download is split into parts, join them first: <code>cat winedows-*.iso.part* &gt; winedows.iso</code></p>
-</section>
+  <p class="fine">If the download is split into parts, join them first: <code>cat winedows-*.iso.part* &gt; winedows.iso</code></p>
+</div></section>
 
-<section>
-  <h2>Under the hood (the spoiler)</h2>
-  <p>Debian 13 "trixie" + Cinnamon + Firefox ESR + Wine, assembled with live-build. <code>apt</code> is purged in the last build step.
-  <a href="https://github.com/vaaraniemi/winedows">Source on GitHub</a>.</p>
-</section>
+<section class="blk alt"><div class="wrap">
+  <h2>Under the hood</h2>
+  <p>Debian 13 "trixie", Cinnamon, Firefox ESR and Wine, assembled with live-build. <code>apt</code> is purged in the final build step. Source and issues on <a href="https://github.com/vaaraniemi/winedows">GitHub</a>.</p>
+</div></section>
 
-<footer>Parody project. Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond. Happy April 1st.</footer>
-</main>
+<footer><div class="wrap">
+  <span>&copy; GigaHard Winedows. A parody project; every statistic is a joke.</span>
+  <span>Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond. Happy April 1st.</span>
+</div></footer>
 <script>
 (function(){
   var repo="vaaraniemi/winedows";

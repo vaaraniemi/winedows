@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 460" width="1240" height="460" role="img" aria-label="GigaHard Winedows logo">
+  <title>GigaHard Winedows</title>
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c1d3f"/><stop offset="1" stop-color="#5e0f27"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+    <linearGradient id="wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d63a63"/><stop offset="1" stop-color="#7d1230"/></linearGradient>
+    <linearGradient id="txtred" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8e1a3a"/><stop offset="1" stop-color="#5a0e25"/></linearGradient>
+    <linearGradient id="txtblue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c6fe0"/><stop offset="1" stop-color="#0a45c0"/></linearGradient>
+  </defs>
+
+  <!-- four panes: two wine-coloured on the left, two blue on the right -->
+  <g stroke-linejoin="round" stroke-width="14">
+    <polygon points="62,98 238,84 238,236 62,236"  fill="url(#red)"  stroke="url(#red)"/>
+    <polygon points="62,262 238,262 238,420 62,412" fill="url(#red)"  stroke="url(#red)"/>
+    <polygon points="268,80 450,48 450,236 268,236" fill="url(#blue)" stroke="url(#blue)"/>
+    <polygon points="268,262 450,262 450,432 268,414" fill="url(#blue)" stroke="url(#blue)"/>
+  </g>
+  <!-- swoosh on the lower blue pane -->
+  <path d="M290 392 C380 392 440 340 446 288 C420 340 370 372 290 378 Z" fill="#fff" opacity=".9"/>
+
+  <!-- wine glass in top-left pane -->
+  <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 118 H200 C200 178 176 212 150 212 C124 212 100 178 100 118 Z" fill="#ffffff22"/>
+  </g>
+  <path d="M106 150 C130 142 170 160 194 150 C190 190 172 206 150 206 C128 206 110 190 106 150 Z" fill="url(#wine)"/>
+  <path d="M150 212 V246" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- grapes in bottom-left pane -->
+  <g fill="#fff">
+    <circle cx="118" cy="336" r="15"/><circle cx="150" cy="336" r="15"/><circle cx="182" cy="336" r="15"/>
+    <circle cx="134" cy="366" r="15"/><circle cx="166" cy="366" r="15"/>
+    <circle cx="150" cy="394" r="15"/>
+  </g>
+  <path d="M150 322 C150 308 156 300 170 296" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M104 300 C112 284 132 280 142 290 C132 296 128 308 118 312 C112 306 108 304 104 300 Z" fill="#fff"/>
+
+  <!-- wordmark -->
+  <g font-family="'Liberation Sans','Arial Black','Segoe UI',Arial,sans-serif" font-weight="800" font-style="italic" font-size="138" letter-spacing="-3">
+    <text x="500" y="226" fill="url(#txtred)">GigaHard</text>
+    <text x="500" y="392" fill="url(#txtblue)">Winedows</text>
+  </g>
+</svg>
