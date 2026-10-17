@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Winedows wallpaper
-Comment=Start each session on a random wallpaper (the slideshow takes over from there)
-Exec=sh -c 'f=$(ls /usr/share/winedows/wallpapers/*.svg | shuf -n 1) && gsettings set org.cinnamon.desktop.background picture-uri "file://$f"'
-NoDisplay=true
-OnlyShowIn=X-Cinnamon;

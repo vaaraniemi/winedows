@@ -9,8 +9,9 @@ picture-uri='file:///usr/share/winedows/wallpapers/01-bedrock.svg'
 picture-options='zoom'
 
 [org/cinnamon/desktop/background/slideshow]
-# random order every 5 minutes (delay is in minutes); the first wallpaper at login
-# is picked at random by /etc/xdg/autostart/winedows-wallpaper.desktop
+# random order every 5 minutes (delay is in minutes). cinnamon-slideshow picks a random
+# first wallpaper itself at login. Never set picture-uri from anywhere else: the
+# slideshow treats an outside change as "user chose a wallpaper" and turns itself off.
 slideshow-enabled=true
 image-source='directory:///usr/share/winedows/wallpapers'
 delay=uint32 5
