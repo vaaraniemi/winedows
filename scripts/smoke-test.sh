@@ -5,8 +5,21 @@ set -eu
 iso=$(ls -t out/*.iso | head -1)
 log=out/serial.log
 tmp=$(mktemp -d)
-xorriso -osirrox on -indev "$iso" -extract /live/vmlinuz "$tmp/vmlinuz" \
-  -extract /live/initrd.img "$tmp/initrd.img" >/dev/null 2>&1
+# live-build names them vmlinuz-<kver> / initrd.img-<kver>; find whichever is there.
+# xorriso -find prints quoted ISO paths, one per line.
+find_live() {
+  xorriso -indev "$iso" -find /live -name "$1" 2>/dev/null | tr -d "'" | sort | tail -1
+}
+kernel=$(find_live 'vmlinuz*')
+initrd=$(find_live 'initrd.img*')
+if [ -z "$kernel" ] || [ -z "$initrd" ]; then
+  echo "FAIL: no kernel/initrd under /live in $iso:"
+  xorriso -indev "$iso" -ls /live 2>&1 || true
+  exit 1
+fi
+echo "using $kernel + $initrd"
+xorriso -osirrox on -indev "$iso" -extract "$kernel" "$tmp/vmlinuz" \
+  -extract "$initrd" "$tmp/initrd.img" >/dev/null
 accel=""
 [ -w /dev/kvm ] && accel="-enable-kvm -cpu host"
 : > "$log"
