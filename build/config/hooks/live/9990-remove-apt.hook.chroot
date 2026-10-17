@@ -7,7 +7,11 @@ pkgs=$(dpkg-query -W -f='${Package} ${db:Status-Abbrev}\n' \
   | awk '$2 ~ /^i/ && $1 ~ /^(apt|apt-utils|apt-listchanges|aptitude|aptitude-common|libapt-pkg[0-9.]*|python3-apt|unattended-upgrades|command-not-found|packagekit.*|software-properties.*|apt-config-.*)$/ {print $1}')
 # shellcheck disable=SC2086
 dpkg --purge --force-depends --force-remove-essential $pkgs
-rm -rf /etc/apt /var/lib/apt /var/cache/apt /var/log/apt /usr/lib/apt \
+# live-build still writes /etc/apt/sources.list in later stages (chroot_archives remove),
+# so keep empty directories there; only the packages, binaries and data go.
+find /etc/apt -mindepth 1 -delete 2>/dev/null || true
+mkdir -p /etc/apt/sources.list.d /etc/apt/apt.conf.d /etc/apt/preferences.d
+rm -rf /var/lib/apt /var/cache/apt /var/log/apt /usr/lib/apt \
        /usr/share/doc/apt /usr/share/keyrings/debian-archive-*.gpg
 rm -f /usr/bin/apt /usr/bin/apt-* /usr/bin/aptitude* /etc/cron.daily/apt-compat
 # Fail the build if anything survived
