@@ -13,4 +13,4 @@ make vm     # boot it in QEMU
 make test   # headless smoke test
 ```
 
-Login is automatic (user `user`, password `live`). Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond. Happy April 1st.
+Login is automatic (user `user`, password `live`). Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond.
