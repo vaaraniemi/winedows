@@ -9,11 +9,12 @@ picture-uri='file:///usr/share/winedows/wallpapers/01-bedrock.svg'
 picture-options='zoom'
 
 [org/cinnamon/desktop/background/slideshow]
-# rotate through the wallpapers (delay is in minutes)
+# random order every 5 minutes (delay is in minutes); the first wallpaper at login
+# is picked at random by /etc/xdg/autostart/winedows-wallpaper.desktop
 slideshow-enabled=true
 image-source='directory:///usr/share/winedows/wallpapers'
-delay=uint32 15
-random-order=false
+delay=uint32 5
+random-order=true
 
 [org/cinnamon/desktop/interface]
 gtk-theme='Adwaita'
