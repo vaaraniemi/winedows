@@ -39,7 +39,7 @@ footer{color:var(--mut);font-size:13px;text-align:center}
 <section>
   <h2>What is it?</h2>
   <p>A desktop that looks like the one you know. Double-click any <code>.exe</code> and it just runs.
-  Binary compatibility is reportedly better than the original, because it's… <em>shh</em>.</p>
+  On Linux, the most stable ABI turned out to be Win32. We just stopped fighting it.</p>
   <ul>
     <li>Start-style menu, taskbar, "This PC" and "Recycle Bin"</li>
     <li>"Edgy", a browser that tells every website it's Edge</li>
@@ -50,10 +50,11 @@ footer{color:var(--mut);font-size:13px;text-align:center}
 
 <section>
   <h2>Binary compatibility benchmark</h2>
-  Windows 11<div class="bar"><div style="width:62%">62% — "this app can't run on your PC"</div></div>
-  Windows 10<div class="bar"><div style="width:71%">71%</div></div>
-  Winedows<div class="bar"><div style="width:100%;background:var(--ok)">100% — double-click, it runs</div></div>
-  <small>Methodology: we double-clicked things.</small>
+  <p>Percentage of ten-year-old programs that still start when you double-click them (higher is better).</p>
+  Ubuntu, native Linux binaries<div class="bar"><div style="width:23%">23% — "error while loading shared libraries: libpng12.so.0"</div></div>
+  Ubuntu, after "just recompile it"<div class="bar"><div style="width:41%">41% — "which distro? which glibc? which Qt?"</div></div>
+  Winedows, Win32 binaries<div class="bar"><div style="width:100%;background:var(--ok)">100% — double-click, it runs</div></div>
+  <small>Methodology: we double-clicked things. Inspired by <a href="https://blog.hiler.eu/win32-the-only-stable-abi/">“Win32 is the only stable ABI on Linux”</a> — it is funny because it is true.</small>
 </section>
 
 <section>
