@@ -1,9 +1,9 @@
 # Winedows
 
-> Windows, but it works.
+> Linux, but it works.
 
-A Debian 13 live ISO containing exactly three things: Cinnamon (dressed as a Windows desktop), Firefox, and Wine.
-Double-click any `.exe` on the desktop and it runs. `apt` has been removed, so you cannot fix it.
+A Debian 13 live ISO containing exactly three things: Cinnamon (dressed as a W*ndows desktop), Firefox, and Wine.
+Double-click any `.exe` on the desktop and it runs. `apt` has been removed, so don't even try.
 
 ```
 make iso    # needs Docker with --privileged; output in out/
