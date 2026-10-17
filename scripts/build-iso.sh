@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 # Runs inside the builder container (needs --privileged).
-set -eu
+set -euo pipefail
 cd /work/build
 lb clean --purge >/dev/null 2>&1 || true
 lb config

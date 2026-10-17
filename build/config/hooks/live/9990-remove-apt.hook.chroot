@@ -11,7 +11,10 @@ rm -rf /etc/apt /var/lib/apt /var/cache/apt /var/log/apt /usr/lib/apt \
        /usr/share/doc/apt /usr/share/keyrings/debian-archive-*.gpg
 rm -f /usr/bin/apt /usr/bin/apt-* /usr/bin/aptitude* /etc/cron.daily/apt-compat
 # Fail the build if anything survived
+hash -r  # dash caches the path of apt-get from the earlier "apt-get clean"
 for c in apt apt-get apt-cache aptitude; do
-  if command -v "$c" >/dev/null 2>&1; then echo "FATAL: $c still present" >&2; exit 1; fi
+  for d in /usr/bin /usr/sbin /bin /sbin /usr/local/bin; do
+    if [ -e "$d/$c" ]; then echo "FATAL: $d/$c still present" >&2; exit 1; fi
+  done
 done
 echo "apt has been removed. You are welcome."
