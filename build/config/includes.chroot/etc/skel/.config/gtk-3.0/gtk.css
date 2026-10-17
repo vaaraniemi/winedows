@@ -1,0 +1,10 @@
+/* Winedows: flat, square, blue accents on top of Adwaita */
+* { border-radius: 0; }
+selection, *:selected, *:selected:focus, menuitem:hover, row:selected, treeview.view:selected {
+  background-color: #0a4fd6; color: #ffffff;
+}
+headerbar, .titlebar { background: #ffffff; border-bottom: 1px solid #dcdde1; box-shadow: none; min-height: 31px; }
+button.suggested-action, button.default { background: #0a4fd6; color: #ffffff; border-color: #083fa8; }
+/* desktop icon labels sit on a light wallpaper: dark text, no glow */
+.nemo-desktop.nemo-canvas-item { color: #1b1b1f; text-shadow: none; }
+.nemo-desktop.nemo-canvas-item:selected { background-color: rgba(10, 79, 214, 0.25); color: #1b1b1f; }

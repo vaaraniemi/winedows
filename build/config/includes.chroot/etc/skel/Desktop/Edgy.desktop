@@ -3,5 +3,5 @@ Type=Application
 Name=Edgy
 Comment=Browse the web, now with 100% more edge
 Exec=firefox-esr %u
-Icon=firefox-esr
+Icon=/usr/share/winedows/edgy.svg
 Categories=Network;WebBrowser;

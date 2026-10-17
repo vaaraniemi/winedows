@@ -1,0 +1,35 @@
+# Winedows boot menu (GRUB theme). Installed by 9000-winedows-bootmenu.hook.binary.
+title-text: ""
+desktop-image: "splash.png"
+desktop-color: "#ffffff"
+message-color: "#1b1b1f"
+message-bg-color: "#ffffff"
+
++ boot_menu {
+  left = 30%
+  width = 40%
+  top = 58%
+  height = 26%
+  item_font = "DejaVu Sans Bold 16"
+  selected_item_font = "DejaVu Sans Bold 16"
+  item_color = "#5c5f66"
+  selected_item_color = "#0a4fd6"
+  selected_item_pixmap_style = "select_*.png"
+  item_height = 36
+  item_padding = 12
+  item_spacing = 6
+  icon_width = 0
+  icon_height = 0
+  scrollbar = false
+}
+
++ label {
+  id = "__timeout__"
+  left = 0
+  top = 90%
+  width = 100%
+  align = "center"
+  color = "#5c5f66"
+  font = "DejaVu Sans Bold 14"
+  text = "Starting Winedows in %d seconds"
+}

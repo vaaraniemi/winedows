@@ -20,4 +20,24 @@ check wine64 cli64
 check wine32 cli32
 [ "$(xdg-mime query default application/x-ms-dos-executable)" = winedows-run.desktop ] \
   && say "SELFTEST mime=ok" || say "SELFTEST mime=FAIL"
+# no terminal: a command line is something you have to download as an .exe
+term=""
+for c in gnome-terminal xterm x-terminal-emulator uxterm konsole xfce4-terminal lxterminal mate-terminal tilix kgx; do
+  command -v "$c" >/dev/null 2>&1 && term="$term $c"
+done
+if [ -z "$term" ]; then say "SELFTEST terminal=absent"; else say "SELFTEST terminal=PRESENT:$term"; fi
+# what people read says Winedows (Debian only in technical details such as ID=)
+b=""
+grep -qi debian /etc/issue && b="$b issue"
+grep -i '^PRETTY_NAME=' /etc/os-release | grep -qi debian && b="$b os-release"
+grep -qi debian /usr/share/winedows/wallpaper.svg /usr/share/winedows/start.html && b="$b wallpaper/start"
+grep -qi '^Name=Edgy' /usr/share/applications/firefox-esr.desktop || b="$b edgy-name"
+if [ -z "$b" ]; then say "SELFTEST branding=ok"; else say "SELFTEST branding=FAIL:$b"; fi
+# Desktop: launchers present, Command Prompt gone, .exe not executable (Nemo must hand it to Wine)
+d=/etc/skel/Desktop
+dk=""
+for f in Edgy.desktop Wi-Fi.desktop "Totally Native Linux App.exe"; do [ -e "$d/$f" ] || dk="$dk missing:$f"; done
+[ -e "$d/Command Prompt.desktop" ] && dk="$dk command-prompt"
+for f in "$d"/*.exe; do [ -x "$f" ] && dk="$dk executable:$(basename "$f")"; done
+if [ -z "$dk" ]; then say "SELFTEST desktop=ok"; else say "SELFTEST desktop=FAIL:$dk"; fi
 say "WINEDOWS_SELFTEST_DONE"

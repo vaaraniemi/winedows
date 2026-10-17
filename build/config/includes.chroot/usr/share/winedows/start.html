@@ -1,16 +1,44 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>Welcome to Winedows</title>
+<html lang="en"><head><meta charset="utf-8"><title>Winedows</title>
 <style>
-body{font-family:"Liberation Sans",sans-serif;background:#0a1b4d;color:#fff;max-width:760px;margin:48px auto;padding:0 16px}
-h1{font-weight:300;font-size:44px}.bar{background:#ffffff22;border-radius:4px;margin:6px 0 18px}
-.bar div{padding:6px 10px;border-radius:4px;background:#4a8cff;white-space:nowrap}
-small{color:#9db4ff}
+:root{--bg:#fff;--alt:#f3f3f3;--fg:#1b1b1f;--mut:#5c5f66;--line:#dcdde1;--blue:#0a4fd6;--wine:#7a1a55;--ok:#1e8e3e}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI","Liberation Sans",system-ui,Arial,sans-serif;color:var(--fg);background:var(--alt);line-height:1.55}
+header{background:var(--bg);border-bottom:1px solid var(--line);padding:40px 16px 32px;text-align:center}
+header img{width:min(520px,90%);height:auto}
+.tag{color:var(--mut);font-size:22px;margin:8px 0 0}
+main{max-width:860px;margin:32px auto;padding:0 16px;display:grid;gap:20px}
+.card{background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--blue);padding:20px 24px;border-radius:2px}
+.card.wine{border-top-color:var(--wine)}
+h2{margin:0 0 10px;font-size:20px;font-weight:600}
+p{margin:0 0 10px}
+.row{margin:14px 0 4px;font-size:14px;color:var(--mut)}
+.bar{background:var(--alt);border:1px solid var(--line);height:30px}
+.bar div{height:100%;display:flex;align-items:center;padding:0 10px;color:#fff;font-size:14px;white-space:nowrap;background:var(--mut)}
+.bar .win{background:var(--blue)}
+small{color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:8px 16px 32px}
 </style></head><body>
-<h1>Welcome to Winedows</h1>
-<p>The most stable Linux ABI is Win32. We simply embraced it.</p>
-<h3>Binary compatibility benchmark (higher is better)</h3>
-Ubuntu, native Linux binaries<div class="bar"><div style="width:23%">23% &mdash; "error while loading shared libraries"</div></div>
-Ubuntu, "just recompile it"<div class="bar"><div style="width:41%">41%</div></div>
-Winedows, Win32 binaries<div class="bar"><div style="width:100%;background:#2fbf71">100% &mdash; double-click, it runs</div></div>
-<p><small>Methodology: we double-clicked things. See &ldquo;Win32 is the only stable ABI on Linux&rdquo; (blog.hiler.eu).</small></p>
+<header>
+  <img src="logo.svg" alt="GigaHard Winedows">
+  <p class="tag">Linux, but it works.</p>
+</header>
+<main>
+  <section class="card">
+    <h2>Welcome to Winedows</h2>
+    <p>The most stable Linux ABI is Win32. We simply embraced it.</p>
+    <p>Everything you need is on the Desktop. Double-click an <b>.exe</b> and it runs. There is nothing else to learn.</p>
+  </section>
+  <section class="card wine">
+    <h2>Binary compatibility benchmark <small>(higher is better)</small></h2>
+    <div class="row">Ubuntu, native Linux binaries</div>
+    <div class="bar"><div style="width:23%">23% &mdash; &ldquo;error while loading shared libraries&rdquo;</div></div>
+    <div class="row">Ubuntu, &ldquo;just recompile it&rdquo;</div>
+    <div class="bar"><div style="width:41%">41%</div></div>
+    <div class="row">Winedows, Win32 binaries</div>
+    <div class="bar"><div class="win" style="width:100%">100% &mdash; double-click, it runs</div></div>
+    <p style="margin-top:14px"><small>Methodology: we double-clicked things. See &ldquo;Win32 is the only stable ABI on Linux&rdquo; (blog.hiler.eu).</small></p>
+  </section>
+</main>
+<footer>GigaHard Winedows. A parody. Not affiliated with any company in Redmond.</footer>
 </body></html>

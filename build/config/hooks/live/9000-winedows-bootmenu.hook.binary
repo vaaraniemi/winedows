@@ -1,0 +1,26 @@
+#!/bin/sh
+# Rebrand the live boot menu (GRUB serves both BIOS and UEFI from boot/grub):
+# our theme/splash from includes.binary/boot/grub/winedows, and no distro name in titles.
+set -eu
+# live-build runs binary hooks from the build dir or from binary/; work in the ISO tree either way
+[ -d binary/boot ] && cd binary
+theme=/boot/grub/winedows/theme.txt
+if [ ! -f ".$theme" ]; then   # includes.binary not copied (yet): take the assets from the config tree
+  src=$(find .. . -maxdepth 6 -path '*config/includes.binary/boot/grub/winedows' -type d 2>/dev/null | head -1)
+  [ -n "$src" ] || { echo "FATAL: Winedows GRUB theme assets not found" >&2; exit 1; }
+  mkdir -p boot/grub/winedows && cp "$src"/* boot/grub/winedows/
+fi
+cfgs=$(find boot/grub -name '*.cfg' 2>/dev/null)
+[ -n "$cfgs" ] || { echo "FATAL: no GRUB configs under boot/grub" >&2; exit 1; }
+for f in $cfgs; do
+  sed -i -E \
+    -e "s#^([[:space:]]*set[[:space:]]+theme=).*#\1$theme#" \
+    -e '/^[[:space:]]*(menuentry|submenu)/{s/Live system/Winedows/g; s/Debian GNU\/Linux/Winedows/g; s/Debian/Winedows/g; s/[Tt]rixie//g}' \
+    "$f"
+done
+# live-build sets the theme only in some branches (e.g. when a splash exists); load ours
+# unconditionally after everything else, right before the menu is drawn
+printf '\n# Winedows\ninsmod png\ninsmod gfxterm\nset theme=%s\nterminal_output gfxterm\n' "$theme" >> boot/grub/grub.cfg
+# any leftover distro splash gets ours too
+find boot -name splash.png ! -path '*/winedows/*' -exec cp boot/grub/winedows/splash.png {} \;
+echo "Boot menu rebranded:"; grep -hE '^[[:space:]]*(menuentry|submenu)|set theme=' $cfgs || true

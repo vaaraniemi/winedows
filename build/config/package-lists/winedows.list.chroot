@@ -13,6 +13,8 @@ console-setup
 # Desktop: Cinnamon only
 cinnamon
 cinnamon-l10n
+# Wi-Fi settings for the desktop Wi-Fi icon (no taskbar, so no tray applet)
+cinnamon-control-center
 lightdm
 slick-greeter
 nemo
@@ -51,5 +53,4 @@ libwine:i386
 fonts-wine
 icoutils
 librsvg2-common
-gnome-terminal
 libnotify-bin

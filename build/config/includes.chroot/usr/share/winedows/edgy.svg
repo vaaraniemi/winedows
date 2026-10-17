@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Edgy">
+  <title>Edgy</title>
+  <!-- Edgy: the browser with all the edges. An angular "e" cut from a blue tile. -->
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#083fa8"/></linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <polygon points="40,8 216,8 248,40 248,216 216,248 40,248 8,216 8,40" fill="url(#tile)"/>
+  <polygon points="40,8 216,8 248,40 248,120 8,120 8,40" fill="url(#shine)"/>
+  <!-- the "e": every curve replaced by a corner -->
+  <path fill="#fff" d="M128 44 L196 72 L212 132 L212 146 L84 146 L96 176 L128 190 L176 178 L204 192 L176 214 L124 222 L72 204 L46 156 L46 112 L68 66 Z M88 116 L170 116 L160 88 L128 74 L100 86 Z"/>
+  <!-- a lightning notch, for speed (claimed) -->
+  <polygon points="150,30 172,30 158,52 176,52 140,92 152,62 136,62" fill="#ffd23f"/>
+</svg>

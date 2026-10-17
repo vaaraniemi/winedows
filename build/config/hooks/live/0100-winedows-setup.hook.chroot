@@ -7,10 +7,6 @@ systemctl enable winedows-selftest.service winedows-guitest.service systemd-binf
 # .exe files must NOT be executable so Nemo opens them with the default app (Wine)
 chmod 0644 /etc/skel/Desktop/*.exe 2>/dev/null || true
 chmod 0755 /etc/skel/Desktop/*.desktop
-# Rename the terminal so nobody notices it is one
-if [ -f /usr/share/applications/org.gnome.Terminal.desktop ]; then
-  sed -i 's/^Name=.*/Name=Command Prompt/; /^Name\[/d; /^GenericName/d' /usr/share/applications/org.gnome.Terminal.desktop
-fi
 # W*ndows-style prompt and error message
 cat >> /etc/skel/.bashrc <<'RC'
 PS1='C:${PWD//\//\\}> '

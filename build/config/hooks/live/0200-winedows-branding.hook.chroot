@@ -1,12 +1,44 @@
 #!/bin/sh
 set -e
-sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Winedows 13 (Debian Edition)"/; s/^NAME=.*/NAME="Winedows"/' /etc/os-release
-printf 'Winedows 13 (Debian Edition) \\n \\l\n\n' > /etc/issue
+# Debian stays in the technical details (ID=debian, VERSION_*); what people read says Winedows
+sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="GigaHard Winedows"/; s/^NAME=.*/NAME="Winedows"/' /etc/os-release
+printf 'GigaHard Winedows \\n \\l\n\n' > /etc/issue
+printf 'GigaHard Winedows\n' > /etc/issue.net
 echo winedows > /etc/hostname
 # Firefox is secretly "Edgy" (it also pretends to be Edge via policies.json)
 f=/usr/share/applications/firefox-esr.desktop
-[ -f "$f" ] && sed -i 's/^Name=.*/Name=Edgy/; /^Name\[/d; /^GenericName/d' "$f"
-true
+if [ -f "$f" ]; then
+  sed -i 's/^Name=.*/Name=Edgy/; /^Name\[/d; /^GenericName/d; s#^Icon=.*#Icon=/usr/share/winedows/edgy.svg#' "$f"
+fi
+# Edgy's own window/alt-tab icons
+for png in /usr/lib/firefox-esr/browser/chrome/icons/default/default*.png /usr/share/icons/hicolor/*/apps/firefox-esr.png; do
+  [ -f "$png" ] || continue
+  n=$(printf '%s' "$png" | grep -o '[0-9][0-9]*' | head -1)   # default48.png, hicolor/48x48/...
+  for s in 16 32 48 64 128 256; do [ "${n:-256}" -le "$s" ] && break; done
+  cp "/usr/share/winedows/edgy-$s.png" "$png"
+done
+svg=/usr/share/icons/hicolor/scalable/apps/firefox-esr.svg
+if [ -f "$svg" ]; then cp /usr/share/winedows/edgy.svg "$svg"; fi
+gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
+# Blue browser chrome: autoconfig registers edgy-chrome.css as an agent sheet
+ffdir=/usr/lib/firefox-esr
+mkdir -p "$ffdir/defaults/pref"
+cat > "$ffdir/defaults/pref/winedows-autoconfig.js" <<'JS'
+pref("general.config.filename", "edgy.cfg");
+pref("general.config.obscure_value", 0);
+pref("general.config.sandbox_enabled", false);
+JS
+cat > "$ffdir/edgy.cfg" <<'CFG'
+// Edgy (Winedows): blue browser chrome. The first line of this file must be a comment.
+try {
+  const sss = Components.classes["@mozilla.org/content/style-sheet-service;1"]
+    .getService(Components.interfaces.nsIStyleSheetService);
+  const uri = Components.classes["@mozilla.org/network/io-service;1"]
+    .getService(Components.interfaces.nsIIOService)
+    .newURI("file:///usr/share/winedows/edgy-chrome.css");
+  if (!sss.sheetRegistered(uri, sss.AGENT_SHEET)) sss.loadAndRegisterSheet(uri, sss.AGENT_SHEET);
+} catch (e) {}
+CFG
 # The Edge user-agent needs the real OS token; it is assembled here so the repo never spells it out.
 os_token=$(printf 'W%s' indows)
 sed -i "s/@OS@/$os_token/" /usr/lib/firefox-esr/distribution/policies.json

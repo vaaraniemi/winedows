@@ -38,4 +38,20 @@ else
     tail -n 15 /tmp/guitest.out | sed 's/^/GUITEST diag open: /' > "$out"
   fi
 fi
+# no taskbar: Cinnamon must be running with zero panels
+# shellcheck disable=SC2086
+panels=$(runuser -u user -- env $env gsettings get org.cinnamon panels-enabled 2>&1)
+case "$panels" in "@as []"|"[]") say "GUITEST panels=none" ;; *) say "GUITEST panels=FAIL: $panels" ;; esac
+# our window borders loaded (Muffin logs a warning and falls back if the theme is broken)
+wmlog() { journalctl -b --no-pager 2>/dev/null; cat /home/user/.xsession-errors 2>/dev/null; }
+if wmlog | grep -qiE 'fail(ed)? to load theme|theme.*Winedows.*(error|invalid)'; then
+  say "GUITEST wmtheme=FAIL"
+  wmlog | grep -iE 'theme' | tail -n 5 | sed 's/^/GUITEST diag wm: /' > "$out"
+else say "GUITEST wmtheme=ok"; fi
+# Edgy opens (the host takes a screenshot of it after DONE)
+say "GUITEST screenshot=desktop"
+sleep 8
+# shellcheck disable=SC2086
+runuser -u user -- env $env sh -c 'firefox-esr >/dev/null 2>&1 &'
+if wait_for 60 -u user -f firefox-esr; then sleep 25; say "GUITEST edgy=ok"; else say "GUITEST edgy=FAIL"; fi
 say "WINEDOWS_GUITEST_DONE"

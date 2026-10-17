@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Wi-Fi
+Comment=Connect to the internet. It works.
+Exec=sh -c 'cinnamon-settings network || nm-connection-editor'
+Icon=network-wireless
+Terminal=false

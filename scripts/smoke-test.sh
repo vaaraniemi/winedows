@@ -15,6 +15,13 @@ echo "kernel=$kernel initrd=$initrd"
 [ -n "$kernel" ] && [ -n "$initrd" ] || { xorriso -indev "$iso" -ls /live >&2 || true; echo "kernel/initrd not found in ISO" >&2; exit 1; }
 xorriso -osirrox on -indev "$iso" -extract "$kernel" "$tmp/vmlinuz" -extract "$initrd" "$tmp/initrd.img" >&2
 
+# Boot menu: our GRUB theme, no distro name in the entries
+xorriso -osirrox on -indev "$iso" -extract /boot/grub "$tmp/grub" >/dev/null 2>&1
+grep -rqs 'set theme=/boot/grub/winedows/theme.txt' "$tmp/grub" || { echo "FAIL: boot menu does not load the Winedows theme"; exit 1; }
+[ -f "$tmp/grub/winedows/splash.png" ] || { echo "FAIL: boot menu splash missing"; exit 1; }
+if grep -rhiE '^[[:space:]]*(menuentry|submenu).*debian' "$tmp/grub"; then echo "FAIL: boot menu still says Debian"; exit 1; fi
+echo "boot menu ok: $(grep -rhE '^[[:space:]]*menuentry' "$tmp/grub" | head -3 | tr -s ' ' | tr '\n' ';')"
+
 accel=()
 [ -w /dev/kvm ] && accel=(-enable-kvm -cpu host)
 echo "accel: ${accel[*]:-tcg (slow)}"
@@ -32,7 +39,8 @@ for _ in $(seq 1 480); do
 done
 kill "$pid" 2>/dev/null || true
 cat "$log"
-for want in 'SELFTEST apt=absent' 'SELFTEST wine64=ok' 'SELFTEST wine32=ok' 'SELFTEST mime=ok'; do
+for want in 'SELFTEST apt=absent' 'SELFTEST wine64=ok' 'SELFTEST wine32=ok' 'SELFTEST mime=ok' \
+            'SELFTEST terminal=absent' 'SELFTEST branding=ok' 'SELFTEST desktop=ok'; do
   grep -q "$want" "$log" || { echo "FAIL: missing '$want'"; exit 1; }
 done
 echo "smoke test passed"
