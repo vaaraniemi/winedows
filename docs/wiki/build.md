@@ -13,4 +13,5 @@ Requires a running Docker daemon and `--privileged` (loop devices, mounts, deboo
 - Host Ubuntu's `live-build` is 3.0~a57 (ancient): `lb config` there rejects `--bootloaders`/`--updates`, which are valid in trixie's live-build 20250505. Do not use it to validate flags.
 - CI run 21 (2026-10-17): ISO builds and boots under KVM in ~10 s; selftest `apt=absent`, `mime=ok`, but `wine64`/`wine32`=FAIL. Suspected missing live user (D11).
 - CI run 22 (2026-10-17): with `user-setup` installed all selftests pass (`apt=absent`, `wine64`, `wine32`, `mime`); release `iso-22` published. Desktop/GUI (multi-user target only in CI) is not covered yet: needs a manual `make vm` check.
+- CI run 23 (2026-10-17): desktop test passes too (`cinnamon`, `desktop-icons`, `exe-open` ok); release `iso-23`. Screenshot in the run's `serial-log` artifact.
 - **Static only so far** (historical) (shell syntax, JSON, SVG). The first sandbox had no Docker daemon, so the ISO has *never been built or booted* by an agent. First real build is expected to need fixes (likely candidates: i386 arch timing, package names, dconf keys, `lb config` flags). Update this section after each real build.
