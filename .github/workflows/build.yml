@@ -6,18 +6,52 @@ on:
 permissions:
   contents: write
 jobs:
-  iso:
+  build:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y shellcheck && make lint
       - run: make iso
-      - run: make test
       - uses: actions/upload-artifact@v4
         with:
           name: winedows-iso
           path: out/*.iso
+          compression-level: 0
+          retention-days: 14
+
+  test:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: winedows-iso
+          path: out
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm || true
+          ls -l /dev/kvm || true
+      - run: make test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: serial-log
+          path: out/serial.log
+          if-no-files-found: ignore
+
+  release:
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: winedows-iso
+          path: out
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -34,10 +68,10 @@ jobs:
             note="ISO is split: cat $iso.part* > $iso"
           else
             assets="$assets $iso"
-            note="Boot it in QEMU/VirtualBox. Login is automatic."
+            note="Boot it in QEMU/VirtualBox or write it to USB with dd. Login is automatic."
           fi
           tag="iso-${GITHUB_RUN_NUMBER}"
           # shellcheck disable=SC2086
-          gh release create "$tag" $assets --target "$GITHUB_SHA" \
+          gh release create "$tag" $assets --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
             --title "Winedows ISO build $GITHUB_RUN_NUMBER" \
-            --notes "Debian 13 + Cinnamon + Firefox + Wine, no apt. $note"
+            --notes "Debian 13 + Cinnamon + Edgy + Wine, no apt. $note"
