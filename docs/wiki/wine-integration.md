@@ -5,3 +5,4 @@
 - 32-bit exes need `wine32:i386`. Prefix created at first login by autostart (`wineboot -u`).
 - Nemo: `executable-text-activation='display'`, double-click policy.
 - Known limits: 16-bit apps, kernel-mode drivers/anti-cheat do not work (don't put that on the start page).
+- Rule: `.exe` files on the Desktop are mode `0644`, `.desktop` launchers `0755` (set in `0100-winedows-setup`). An executable `.exe` would make Nemo try to exec it natively.

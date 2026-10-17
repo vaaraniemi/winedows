@@ -1,4 +1,22 @@
 # Build
+| Command | What |
+|---|---|
+| `make iso` | build the builder image, cross-compile the demo exes, build `out/winedows-YYYYMMDD.iso` |
+| `make test` | boot the ISO headless in QEMU with `winedows.selftest`, assert results on serial |
+| `make guitest` | boot to the Cinnamon desktop with `winedows.guitest`, open the Desktop .exe, screenshots in `out/` |
+| `make vm` | boot the newest ISO in a QEMU window |
+| `make lint` | shellcheck all scripts and hooks |
+| `make shell` | shell in the builder container |
+| `make clean` | remove build state and `out/` |
+
+Everything is built reproducibly in Docker (`--privileged`); never rely on host packages.
+
+## Working on this repo
+- Change behavior: update the matching wiki page and append to `decisions.md` in the same commit.
+- Before committing: `sh -n` edited scripts, `make lint` if shellcheck exists, validate JSON/SVG you touched, and run the naming-rule check (joke-design.md "Rules").
+- Develop on the branch your task names; don't open PRs unless asked. What has been built and booted so far: "Verification status" below.
+- Agent sandboxes often have no Docker daemon or KVM: only static validation is possible there, so say so rather than claiming a build was verified. CI (`build.yml`) is the real build check; release assets (`screenshot-*.png`) show the boot menu, desktop and Edgy.
+
 `make iso` → Docker image `winedows-builder` (Dockerfile) → `scripts/build-test-exes.sh` (mingw demo exes into the overlay) → `scripts/build-iso.sh` (`lb clean/config/build`) → `out/winedows-DATE.iso`.
 Requires a running Docker daemon and `--privileged` (loop devices, mounts, debootstrap). Log: `build/build.log`.
 
