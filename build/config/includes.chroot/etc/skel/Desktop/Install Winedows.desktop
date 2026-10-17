@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Install Winedows
+Comment=Put Winedows on this computer's disk. One question, no product key.
+Exec=/usr/local/lib/winedows/installer.py
+Icon=winedows-install
+Terminal=false

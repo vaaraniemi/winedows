@@ -1,0 +1,215 @@
+#!/bin/bash
+# Winedows installer backend (the "Install Winedows" Desktop app calls it through sudo).
+#   winedows-install-disk --list                  disks you may install to: PATH<TAB>BYTES<TAB>NAME
+#   winedows-install-disk --install DISK [--cmdline "extra kernel args"]
+# --install wipes DISK completely: GPT with a BIOS boot partition, an EFI system partition
+# and one ext4 root, a copy of the live system, the live user with autologin, and GRUB for
+# both UEFI and BIOS. Progress goes to stdout as "STEP <percent> <text>", then "DONE".
+set -euo pipefail
+export LC_ALL=C
+MIN_BYTES=$((10 * 1024 * 1024 * 1024))
+medium=/run/live/medium
+target=/mnt/winedows-target
+
+# the disk the live system runs from (USB stick, DVD); never offered, never touched
+boot_disk() {
+  local src parent
+  src=$(findmnt -no SOURCE "$medium" 2>/dev/null | head -1) || true
+  [ -n "$src" ] || return 0
+  parent=$(lsblk -ndo PKNAME "$src" 2>/dev/null | head -1) || true
+  if [ -n "$parent" ]; then echo "/dev/$parent"; else echo "$src"; fi
+}
+
+# value of KEY in one line of `lsblk -P` output (KEY="value" pairs)
+field() { sed -n "s/.*\b$1=\"\([^\"]*\)\".*/\1/p" <<< "$2"; }
+
+list_disks() {
+  local bd line path model tran
+  bd=$(boot_disk)
+  while read -r line; do
+    path=$(field PATH "$line")
+    [ "$(field TYPE "$line")" = disk ] && [ "$(field RO "$line")" = 0 ] || continue
+    [ "$path" != "$bd" ] || continue
+    [ "$(field SIZE "$line")" -ge "$MIN_BYTES" ] || continue
+    case "$path" in /dev/zram*|/dev/loop*|/dev/sr*|/dev/fd*) continue ;; esac
+    model=$(field MODEL "$line" | sed 's/[[:space:]]*$//')
+    tran=$(field TRAN "$line")
+    [ -n "$model" ] || model="Disk"
+    [ "$tran" = usb ] && model="$model (USB)"
+    printf '%s\t%s\t%s\n' "$path" "$(field SIZE "$line")" "$model"
+  done < <(lsblk -dbnpP -o PATH,SIZE,TYPE,RO,TRAN,MODEL 2>/dev/null)
+}
+
+log=/tmp/winedows-install.log
+step() { echo "STEP $1 $2" >&3; }
+# errors: one ERROR line, then the end of the log for whoever wants to know why
+die() { echo "ERROR $*" >&4; [ -f "$log" ] && tail -n 20 "$log" | sed 's/^/LOG /' >&4; exit 1; }
+exec 3>&1 4>&2
+
+cleanup() {
+  for m in sys/firmware/efi/efivars sys proc dev/pts dev run boot/efi ""; do
+    mountpoint -q "$target/$m" 2>/dev/null && umount -l "$target/$m" || true
+  done
+}
+
+install_to() {
+  local disk=$1 extra=$2 bd part
+  [ "$(id -u)" = 0 ] || die "must run as root"
+  [ -b "$disk" ] || die "$disk is not a disk"
+  bd=$(boot_disk)
+  [ "$disk" != "$bd" ] || die "$disk is the disk Winedows is running from"
+  list_disks | cut -f1 | grep -qxF "$disk" || die "$disk cannot be used"
+  trap cleanup EXIT
+  # tool output goes to the log; progress (fd 3) and errors (fd 4) to the caller
+  exec >"$log" 2>&1
+
+  step 2 "Preparing the disk"
+  # nothing on the disk may be in use (the desktop may have mounted a partition)
+  for part in $(lsblk -lnpo NAME "$disk" | tail -n +2); do
+    swapoff "$part" 2>/dev/null || true
+    { findmnt -rno TARGET -S "$part" || true; } | sort -r | while read -r m; do umount -l "$m"; done
+    wipefs -aq "$part" || true
+  done
+  wipefs -aq "$disk"
+  # GPT: BIOS boot (GRUB core for legacy BIOS), EFI system partition, root
+  sfdisk -q -W always -X gpt "$disk" <<'EOF'
+size=1MiB, type=21686148-6453-6F6E-7420-4E656564454649, name="bios"
+size=512MiB, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="EFI"
+type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, name="Winedows"
+EOF
+  local esp="" root="" _
+  for _ in $(seq 1 20); do
+    partx -u "$disk" || true
+    udevadm settle || true
+    esp=$(lsblk -lnpo NAME "$disk" | sed -n 3p)
+    root=$(lsblk -lnpo NAME "$disk" | sed -n 4p)
+    [ -b "$esp" ] && [ -b "$root" ] && break
+    sleep 1
+  done
+  [ -b "$esp" ] && [ -b "$root" ] || die "new partitions did not show up on $disk"
+  mkfs.vfat -F 32 -n EFI "$esp" || die "formatting $esp failed"
+  mkfs.ext4 -q -F -L Winedows "$root" || die "formatting $root failed"
+  mkdir -p "$target"
+  mount "$root" "$target"
+  mkdir -p "$target/boot/efi"
+  mount "$esp" "$target/boot/efi"
+
+  step 5 "Copying Winedows"
+  local sq=$medium/live/filesystem.squashfs
+  if [ -f "$sq" ]; then
+    # unsquashfs -percentage prints one number per update; map it to 5..85
+    { unsquashfs -f -percentage -d "$target" "$sq" 2>>"$log" || echo FAILED; } \
+      | tr '\r' '\n' | while read -r p; do
+          case "$p" in
+            FAILED) echo "unsquashfs failed" ;;
+            ''|*[!0-9]*) ;;
+            *) step $((5 + p * 80 / 100)) "Copying Winedows" ;;
+          esac
+        done
+  fi
+  # booted with toram (the medium is gone) or no -percentage: plain copy of the read-only system layer
+  if [ ! -x "$target/usr/bin/cinnamon" ]; then
+    if [ -f "$sq" ]; then unsquashfs -f -no-progress -d "$target" "$sq" || die "copying the system failed"
+    else cp -a /run/live/rootfs/filesystem.squashfs/. "$target/" || die "copying the system failed"; fi
+  fi
+  [ -x "$target/usr/bin/cinnamon" ] || die "copying the system failed"
+
+  step 86 "Setting things up"
+  local ruuid euuid
+  ruuid=$(blkid -s UUID -o value "$root")
+  euuid=$(blkid -s UUID -o value "$esp")
+  cat > "$target/etc/fstab" <<EOF
+# Winedows
+UUID=$ruuid  /          ext4  errors=remount-ro  0  1
+UUID=$euuid  /boot/efi  vfat  umask=0077         0  2
+EOF
+  echo winedows > "$target/etc/hostname"
+  printf '127.0.0.1\tlocalhost\n127.0.1.1\twinedows\n::1\tlocalhost ip6-localhost ip6-loopback\n' > "$target/etc/hosts"
+  : > "$target/etc/machine-id"
+  # the live session's language, keyboard and clock (live-config set them at boot)
+  for f in etc/default/locale etc/locale.gen etc/default/keyboard etc/timezone usr/lib/locale/locale-archive; do
+    [ -f "/$f" ] && cp -a "/$f" "$target/$f"
+  done
+  [ -L /etc/localtime ] && ln -sf "$(readlink /etc/localtime)" "$target/etc/localtime"
+  # kernel and initrd (normally already in the system copy)
+  if ! ls "$target"/boot/vmlinuz-* >/dev/null 2>&1; then
+    cp "$medium"/live/vmlinuz-* "$medium"/live/initrd.img-* "$target/boot/"
+  fi
+  # the installed system has no installer
+  rm -f "$target/etc/skel/Desktop/Install Winedows.desktop"
+
+  for m in dev dev/pts proc sys run; do mount --bind "/$m" "$target/$m"; done
+  [ -d /sys/firmware/efi/efivars ] && mount --bind /sys/firmware/efi/efivars "$target/sys/firmware/efi/efivars" 2>/dev/null || true
+
+  # the same account as the live session: "user", no password, autologin (lightdm conf is in the copy)
+  chroot "$target" useradd -m -s /bin/bash -c "Winedows" user
+  local groups="" g
+  for g in sudo audio video plugdev netdev cdrom dip bluetooth lpadmin scanner powerdev; do
+    chroot "$target" getent group "$g" >/dev/null && groups="$groups,$g"
+  done
+  [ -z "$groups" ] || chroot "$target" usermod -aG "${groups#,}" user
+  chroot "$target" passwd -d user
+  echo 'user ALL=(ALL) NOPASSWD: ALL' > "$target/etc/sudoers.d/winedows"
+  chmod 0440 "$target/etc/sudoers.d/winedows"
+
+  step 92 "Installing the boot loader"
+  # BIOS: GRUB core in the BIOS boot partition
+  chroot "$target" grub-install --target=i386-pc --recheck "$disk" \
+    || die "boot loader (BIOS) failed"
+  # UEFI: the fallback path EFI/BOOT works on any firmware without a boot entry; also the
+  # regular path with a firmware entry when we are running under UEFI. Signed (Secure Boot) when available.
+  local sb=() nv=(--no-nvram)
+  [ -d "$target/usr/lib/grub/x86_64-efi-signed" ] && sb=(--uefi-secure-boot)
+  [ -d /sys/firmware/efi ] && nv=()
+  chroot "$target" grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable --no-nvram "${sb[@]}" \
+    || die "boot loader (UEFI) failed"
+  # the signed GRUB looks in EFI/debian (a technical name nobody sees)
+  chroot "$target" grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=debian "${nv[@]}" "${sb[@]}" \
+    || chroot "$target" grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=debian --no-nvram "${sb[@]}" \
+    || true
+
+  # our own boot menu: one entry, the live ISO's theme
+  local theme=/boot/grub/themes/winedows kernel initrd fonts=""
+  mkdir -p "$target$theme"
+  cp "$medium"/boot/grub/winedows/* "$target$theme/" 2>/dev/null || true
+  for f in "$medium"/boot/grub/*.pf2 "$medium"/boot/grub/fonts/*.pf2; do
+    [ -f "$f" ] || continue
+    cp "$f" "$target$theme/"
+    fonts="${fonts}loadfont $theme/$(basename "$f")"$'\n'
+  done
+  kernel=$(cd "$target/boot" && ls vmlinuz-* | sort -V | tail -1)
+  initrd=$(cd "$target/boot" && ls initrd.img-* | sort -V | tail -1)
+  cat > "$target/boot/grub/grub.cfg" <<EOF
+# Winedows boot menu (written by the installer; there are no updates, so it stays this way)
+insmod part_gpt
+insmod ext2
+insmod all_video
+insmod gfxterm
+insmod png
+search --no-floppy --fs-uuid --set=root $ruuid
+set default=0
+set timeout=3
+set timeout_style=menu
+loadfont unicode
+${fonts}set gfxmode=auto
+terminal_output gfxterm
+if [ -f $theme/theme.txt ]; then set theme=$theme/theme.txt; fi
+menuentry "Winedows" {
+  linux /boot/$kernel root=UUID=$ruuid ro quiet splash $extra
+  initrd /boot/$initrd
+}
+EOF
+  sync
+  step 100 "Done"
+  echo DONE >&3
+}
+
+case "${1:-}" in
+  --list) list_disks ;;
+  --install)
+    [ -n "${2:-}" ] || die "usage: $0 --install DISK [--cmdline ARGS]"
+    extra=""
+    [ "${3:-}" = --cmdline ] && extra=${4:-}
+    install_to "$2" "$extra" ;;
+  *) echo "usage: $0 --list | --install DISK [--cmdline ARGS]" >&2; exit 2 ;;
+esac

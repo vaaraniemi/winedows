@@ -1,0 +1,22 @@
+#!/bin/sh
+# Boot-time install test; only runs with winedows.installtest on the kernel cmdline.
+# Installs to the first disk the installer offers (CI attaches an empty virtual disk),
+# with the selftest flags on the installed system's kernel cmdline, then powers off.
+out=/dev/ttyS0
+say() { echo "$*" > "$out"; }
+disks=$(/usr/local/bin/winedows-install-disk --list)
+printf '%s\n' "$disks" | sed 's/^/INSTALLTEST diag disk: /' > "$out"
+disk=$(printf '%s\n' "$disks" | head -1 | cut -f1)
+if [ -z "$disk" ]; then say "INSTALLTEST install=FAIL: no disk offered"
+elif /usr/local/bin/winedows-install-disk --install "$disk" \
+       --cmdline "console=ttyS0 systemd.unit=multi-user.target winedows.selftest" \
+       > /tmp/installtest.out 2> /tmp/installtest.err; then
+  say "INSTALLTEST install=ok $disk"
+else
+  say "INSTALLTEST install=FAIL"
+  sed 's/^/INSTALLTEST diag: /' /tmp/installtest.err > "$out"
+fi
+grep '^STEP' /tmp/installtest.out 2>/dev/null | cut -d' ' -f3- | uniq | sed 's/^/INSTALLTEST step: /' > "$out"
+say "WINEDOWS_INSTALLTEST_DONE"
+sync
+systemctl poweroff

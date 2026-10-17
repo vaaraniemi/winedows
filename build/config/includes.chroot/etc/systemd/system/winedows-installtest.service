@@ -1,0 +1,12 @@
+[Unit]
+Description=Winedows install test
+ConditionKernelCommandLine=winedows.installtest
+After=live-config.service local-fs.target
+Wants=live-config.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/winedows-installtest
+
+[Install]
+WantedBy=multi-user.target

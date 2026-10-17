@@ -4,6 +4,7 @@
 | `make iso` | build the builder image, cross-compile the demo exes, build `out/winedows-YYYYMMDD.iso` |
 | `make test` | boot the ISO headless in QEMU with `winedows.selftest`, assert results on serial |
 | `make guitest` | boot to the Cinnamon desktop with `winedows.guitest`, open the Desktop .exe, screenshots in `out/` |
+| `make installtest` | install the ISO onto an empty virtual disk with `winedows.installtest`, then boot that disk with BIOS and UEFI and run the selftest on it |
 | `make vm` | boot the newest ISO in a QEMU window |
 | `make lint` | shellcheck all scripts and hooks |
 | `make shell` | shell in the builder container |

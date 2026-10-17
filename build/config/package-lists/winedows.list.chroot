@@ -55,3 +55,16 @@ fonts-wine
 icoutils
 librsvg2-common
 libnotify-bin
+# "Install Winedows" Desktop app: partitioning, filesystems, copying the system, GRUB for BIOS + UEFI
+python3-gi
+gir1.2-gtk-3.0
+fdisk
+e2fsprogs
+dosfstools
+squashfs-tools
+grub2-common
+grub-pc-bin
+grub-efi-amd64-bin
+grub-efi-amd64-signed
+shim-signed
+efibootmgr

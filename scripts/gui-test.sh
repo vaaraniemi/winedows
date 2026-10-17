@@ -1,7 +1,7 @@
 #!/bin/bash
 # Boots the ISO to the full desktop (graphical.target, autologin) with winedows.guitest;
 # the image's winedows-guitest.service checks Cinnamon and opening the Desktop .exe and
-# prints GUITEST lines on serial. Screenshots: out/bootmenu.png, out/desktop.png, out/edgy.png, out/final.png.
+# prints GUITEST lines on serial. Screenshots: out/bootmenu.png, out/desktop.png, out/edgy.png, out/installer.png, out/final.png.
 set -euo pipefail
 iso=$(find out -maxdepth 1 -name '*.iso' | sort | tail -1)
 [ -n "$iso" ] || { echo "no ISO in out/" >&2; exit 1; }
@@ -30,9 +30,11 @@ kill "$bpid" 2>/dev/null || true
 wait "$bpid" 2>/dev/null || true
 : > "$log"
 mon="$tmp/monitor.sock"
+truncate -s 64G "$tmp/disk.img"   # an empty disk for the installer to offer (sparse, never written)
 timeout 2400 qemu-system-x86_64 "${accel[@]}" -m 4096 -smp 2 -cdrom "$iso" \
   -kernel "$tmp/vmlinuz" -initrd "$tmp/initrd.img" \
   -append "boot=live components quiet console=ttyS0 username=user hostname=winedows winedows.guitest" \
+  -drive file="$tmp/disk.img",format=raw,if=virtio \
   -vga std -display none -serial file:"$log" -monitor unix:"$mon",server,nowait >/dev/null 2>&1 &
 pid=$!
 # the guest announces "GUITEST screenshot=<name>" when something worth a picture is on screen
@@ -49,7 +51,8 @@ shot "$mon" final
 kill "$pid" 2>/dev/null || true
 cat "$log"
 for want in 'GUITEST cinnamon=ok' 'GUITEST desktop-icons=ok' 'GUITEST exe-open=ok' \
-            'GUITEST panels=none' 'GUITEST wmtheme=ok' 'GUITEST edgy=ok' 'GUITEST slideshow=ok'; do
+            'GUITEST panels=none' 'GUITEST wmtheme=ok' 'GUITEST edgy=ok' 'GUITEST slideshow=ok' \
+            'GUITEST installer=ok'; do
   grep -q "$want" "$log" || { echo "FAIL: missing '$want'"; exit 1; }
 done
 echo "gui test passed"

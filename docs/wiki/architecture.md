@@ -7,6 +7,7 @@ Debian live-build (`lb`) assembles a hybrid BIOS/UEFI ISO from `build/`.
    `includes.binary/` is copied into the ISO tree (GRUB theme assets).
 4. squashfs + ISO. At runtime live-boot/live-config create `user`, LightDM autologins into Cinnamon,
    `winedows-prefix.desktop` autostarts `wineboot -u`.
+Installer: the "Install Winedows" Desktop launcher (live only) runs `/usr/local/lib/winedows/installer.py` (GTK 3, one question: which disk; then an "erases everything" confirmation), which runs `/usr/local/bin/winedows-install-disk --install DISK` via passwordless `sudo` (pkexec fallback). The backend never offers the disk the live system runs from (`/run/live/medium`) or disks under 10 GB, wipes the disk to GPT (1 MiB BIOS boot, 512 MiB EFI, ext4 root), unsquashes `live/filesystem.squashfs`, writes fstab/hostname, copies the live session's locale/keyboard/timezone, creates `user` (no password, sudo, LightDM autologin as in the live session), removes the installer launcher, and installs GRUB for BIOS (`i386-pc`) and UEFI (fallback `EFI/BOOT`, plus `EFI/debian`; shim-signed for Secure Boot). Its `grub.cfg` is written by hand: one "Winedows" entry with the live boot menu's theme (`/boot/grub/themes/winedows`), since nothing ever updates the kernel.
 Key runtime files: `/usr/local/bin/winedows-run`, `/usr/share/applications/winedows-run.desktop`, `/etc/xdg/mimeapps.list`, `/etc/binfmt.d/winedows.conf`, `/etc/dconf/db/local.d/00-winedows`.
 
 ## Layout

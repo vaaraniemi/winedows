@@ -61,6 +61,13 @@ GLYPHS = {
   <path d="M102 100 H154 C154 140 142 158 128 158 C114 158 102 140 102 100 Z" fill="#c22a55"/>
   <rect x="124" y="158" width="8" height="22" fill="#5e0f27"/>
   <rect x="108" y="180" width="40" height="8" fill="#5e0f27"/>"""),
+    # Install Winedows: a disk with an arrow going into it
+    "winedows-install": ("blue", """
+  <rect x="112" y="40" width="32" height="64" fill="#fff"/>
+  <polygon points="76,98 180,98 128,150" fill="#fff"/>
+  <rect x="44" y="158" width="168" height="56" fill="#fff"/>
+  <rect x="60" y="182" width="88" height="8" fill="#0b2a6b"/>
+  <rect x="176" y="178" width="16" height="16" fill="#c22a55"/>"""),
 }
 
 # extra names that should look the same
@@ -75,7 +82,7 @@ ALIASES = {
 CONTEXT = {
     "computer": "devices", "user-desktop-computer": "devices", "network-wireless": "devices",
     "folder-documents": "places", "user-trash": "places", "user-trash-full": "places",
-    "wine": "apps",
+    "wine": "apps", "winedows-install": "apps",
 }
 
 

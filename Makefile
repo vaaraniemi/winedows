@@ -1,7 +1,7 @@
 IMAGE ?= winedows-builder
 DOCKER_RUN = docker run --rm --privileged -v $(CURDIR):/work -w /work $(IMAGE)
 
-.PHONY: builder exes iso shell lint test guitest vm clean
+.PHONY: builder exes iso shell lint test guitest installtest vm clean
 builder:
 	docker build -t $(IMAGE) .
 
@@ -22,6 +22,9 @@ test: builder
 
 guitest: builder
 	$(DOCKER_RUN) scripts/gui-test.sh
+
+installtest: builder
+	$(DOCKER_RUN) scripts/install-test.sh
 
 vm:
 	scripts/run-qemu.sh

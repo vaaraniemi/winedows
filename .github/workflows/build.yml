@@ -40,6 +40,9 @@ jobs:
       - name: Desktop test (Cinnamon + open the Desktop .exe)
         if: always()
         run: make guitest
+      - name: Install test (install to a virtual disk, boot it with BIOS and UEFI)
+        if: always()
+        run: make installtest
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -47,6 +50,7 @@ jobs:
           path: |
             out/serial.log
             out/serial-gui.log
+            out/serial-install*.log
             out/*.png
           if-no-files-found: ignore
 
@@ -85,7 +89,10 @@ jobs:
             note="Boot it in QEMU/VirtualBox or write it to USB with dd. Login is automatic."
           fi
           tag="iso-${GITHUB_RUN_NUMBER}"
+          # builds of work branches are pre-releases, so "latest" (the site's download) stays master's
+          pre=""
+          [ "$GITHUB_REF_NAME" = master ] || pre="--prerelease"
           # shellcheck disable=SC2086
-          gh release create "$tag" $assets --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+          gh release create "$tag" $assets $pre --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
             --title "Winedows ISO build $GITHUB_RUN_NUMBER" \
             --notes "Debian 13 + Cinnamon + Edgy + Wine, no apt. $note"

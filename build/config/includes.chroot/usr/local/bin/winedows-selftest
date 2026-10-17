@@ -42,6 +42,16 @@ d=/etc/skel/Desktop
 dk=""
 for f in "This PC.desktop" Documents.desktop "Recycle Bin.desktop" Edgy.desktop Wi-Fi.desktop "Totally Native Linux App.exe"; do [ -e "$d/$f" ] || dk="$dk missing:$f"; done
 [ -e "$d/Command Prompt.desktop" ] && dk="$dk command-prompt"
+# "Install Winedows" only on the live system; the installed one has nothing left to install
+if [ -d /run/live/medium ] || grep -qw 'boot=live' /proc/cmdline; then
+  system=live
+  [ -e "$d/Install Winedows.desktop" ] || dk="$dk missing:installer"
+else
+  system=installed
+  [ -e "$d/Install Winedows.desktop" ] && dk="$dk installer-on-installed"
+  [ -e /home/user/Desktop/Edgy.desktop ] || dk="$dk no-home-desktop"
+fi
+say "SELFTEST system=$system root=$(findmnt -no SOURCE / 2>/dev/null)"
 for f in "$d"/*.exe; do [ -x "$f" ] && dk="$dk executable:$(basename "$f")"; done
 if [ -z "$dk" ]; then say "SELFTEST desktop=ok"; else say "SELFTEST desktop=FAIL:$dk"; fi
 say "WINEDOWS_SELFTEST_DONE"

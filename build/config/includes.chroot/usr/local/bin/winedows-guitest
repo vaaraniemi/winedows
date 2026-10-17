@@ -72,4 +72,16 @@ done
 enabled=$(gs get org.cinnamon.desktop.background.slideshow slideshow-enabled)
 if [ -n "$changed" ] && [ "$enabled" = true ]; then say "GUITEST slideshow=ok"
 else say "GUITEST slideshow=FAIL: picture-uri still $before, slideshow-enabled=$enabled"; fi
+# Install Winedows: the Desktop launcher opens the installer, which lists the test disk
+# shellcheck disable=SC2086
+runuser -u user -- env $env sh -c 'gio launch "$1" >/dev/null 2>&1 &' sh "/home/user/Desktop/Install Winedows.desktop"
+ok=""
+for _ in $(seq 1 60); do
+  # shellcheck disable=SC2086
+  runuser -u user -- env $env xwininfo -root -tree 2>/dev/null | grep -q '"Install Winedows"' && { ok=1; break; }
+  sleep 1
+done
+if [ -n "$ok" ]; then sleep 3; say "GUITEST installer=ok"; else say "GUITEST installer=FAIL: no window"; fi
+say "GUITEST screenshot=installer"
+sleep 5
 say "WINEDOWS_GUITEST_DONE"
