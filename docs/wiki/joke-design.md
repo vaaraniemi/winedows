@@ -6,6 +6,7 @@ Start page (`start.html`) has the "compatibility benchmark" (the butt of the jok
 Stretch ideas: fake BSOD screensaver, "Updates are available" popup that is a no-op, GRUB entry rename, icon extraction from exes with `wrestool`.
 
 ## Branding & site
+Site palette rule: white page with light-grey section bands; purple (wine) and blue only as small accents (top stripe, headline, bars, card tops, buttons). NEVER tint whole sections purple.
 Product brand is "GigaHard Winedows" (parody of a certain Redmond company). Logo: `docs/logo.svg` (copied to `/usr/share/winedows/logo.svg` in the image): four panes, two wine-red (glass, grapes), two blue (swoosh). Website (`docs/index.html`) is deliberately flat and corporate: white/light-grey, blue accent, top nav, cards and a table, no gradients, dark mode via `prefers-color-scheme`. Keep it that way.
 
 ## Linux Torvalds easter egg
