@@ -13,6 +13,6 @@ make vm     # boot it in QEMU
 make test   # headless smoke test
 ```
 
-How it is built, the project rules and every decision so far: [docs/wiki](docs/wiki/) (start with [architecture](docs/wiki/architecture.md) and the rules in [joke-design](docs/wiki/joke-design.md#rules-hard)).
+Building it yourself, or contributing: start at [docs/wiki](docs/wiki/).
 
 Login is automatic (user `user`, password `live`). Not affiliated with, endorsed by, or in any way competing with a certain company in Redmond.
