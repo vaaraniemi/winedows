@@ -6,7 +6,9 @@
 <meta name="color-scheme" content="light only">
 <title>Winedows — Linux, but it works</title>
 <meta name="description" content="GigaHard Winedows: a Debian 13 desktop dressed as W*ndows. Double-click any .exe and it runs, because Win32 is the stable ABI on Linux.">
-<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+<link rel="icon" href="logo-mark-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="logo-mark-180.png">
 <style>
 :root{color-scheme:light only;--bg:#fff;--alt:#f3f3f3;--tint:#fff;--fg:#1b1b1f;--mut:#5c5f66;--line:#dcdde1;--blue:#0a4fd6;--blue2:#083fa8;--wine:#7a1a55;--ok:#0a4fd6;--foot:#26232b;--footfg:#d6d3dc}
 *{box-sizing:border-box}
@@ -16,7 +18,7 @@ a{color:var(--blue)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 nav{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
 nav .wrap{display:flex;align-items:center;gap:24px;height:56px}
-nav img{height:30px;width:auto}
+nav img{height:32px;width:32px;display:block}
 nav a{color:var(--fg);text-decoration:none;font-size:15px}
 nav a:hover{color:var(--wine)}
 nav .sp{flex:1}
@@ -56,7 +58,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 </head>
 <body>
 <nav><div class="wrap">
-  <a href="#"><img src="logo.svg" alt="GigaHard Winedows"></a>
+  <a href="#"><img src="logo-mark.svg" alt="Winedows" width="32" height="32"></a>
   <span class="links"><a href="#features">Features</a></span>
   <span class="links"><a href="#compat">Compatibility</a></span>
   <span class="links"><a href="#start">Get started</a></span>
@@ -159,7 +161,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
     buf=(buf+e.key.toLowerCase()).slice(-5);
     if(buf==="linus")show();
   });
-  document.querySelectorAll('img[src="logo.svg"]').forEach(function(img){
+  document.querySelectorAll('img[src="logo.svg"],img[src="logo-mark.svg"]').forEach(function(img){
     img.addEventListener("click",function(ev){
       clicks++;clearTimeout(t);t=setTimeout(function(){clicks=0;},1500);
       if(clicks>=5){clicks=0;ev.preventDefault();show();}
