@@ -7,7 +7,7 @@ Stretch ideas: fake BSOD screensaver, "Updates are available" popup that is a no
 
 ## Branding & site
 Site palette rule: white page with light-grey section bands; purple (wine) and blue only as small accents (top stripe, headline, bars, card tops, buttons). NEVER tint whole sections purple.
-Product brand is "GigaHard Winedows" (parody of a certain Redmond company). Logo: `docs/logo.svg` (copied to `/usr/share/winedows/logo.svg` in the image): four panes, two wine-red (glass, grapes), two blue (swoosh). Website (`docs/index.html`) is deliberately flat and corporate: white/light-grey, blue accent, top nav, cards and a table, no gradients, dark mode via `prefers-color-scheme`. Keep it that way.
+Product brand is "GigaHard Winedows" (shorthand "Winedows" wherever text space is limited, e.g. the website `<title>`; see AGENT.md "Product name") (parody of a certain Redmond company). Logo: `docs/logo.svg` (copied to `/usr/share/winedows/logo.svg` in the image): four panes, two wine-red (glass, grapes), two blue (swoosh). Website (`docs/index.html`) is deliberately flat and corporate: white/light-grey, blue accent, top nav, cards and a table, no gradients, dark mode via `prefers-color-scheme`. Keep it that way.
 
 ## Linux Torvalds easter egg
 Image: `docs/linux-torvalds.png` (also `/usr/share/winedows/linux-torvalds.png` in the image). Hidden on the website: type "linus" or click the logo 5 times to reveal the "endorsement" section (fictional quote, labelled "allegedly"). In the ISO, run `winver` in the Command Prompt: prints a fake About text and opens the image in the browser. Keep it hidden; do not link it from the nav.

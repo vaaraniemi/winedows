@@ -12,6 +12,9 @@ The punchline: "Linux, but it works" — Win32 via Wine is the stable ABI on Lin
 4. `.exe` files on the Desktop are mode `0644`; `.desktop` launchers are `0755`. Executable `.exe` would make Nemo try to exec natively.
 5. Everything is built reproducibly in Docker (`--privileged`). Never rely on host packages.
 
+## Product name
+Full brand: **GigaHard Winedows** (use it in headings, the logo, the README title, formal copy). Shorthand: **Winedows**. Use the shorthand wherever space is limited: page `<title>`, buttons, nav/tab labels, window titles, file/package/hostname identifiers, release titles, commit messages. When unsure, use the shorthand.
+
 ## Naming rule (hard)
 Never write the OS name "W-i-n-d-o-w-s" anywhere in the repo (code, docs, comments, site, commit messages). Always censor it as **W*ndows**. `Winedows`, `Win32`, `WINEDOWS` are fine. If a tool genuinely needs the real token (Edge user-agent in policies.json, the mingw header/flag), assemble it from fragments at build time as `scripts/build-test-exes.sh` and `0200-winedows-branding.hook.chroot` do. Check with: `git grep -niI windows | grep -v 'W\*ndows'` (must be empty).
 
