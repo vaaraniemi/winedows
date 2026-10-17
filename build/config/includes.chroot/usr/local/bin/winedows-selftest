@@ -30,7 +30,8 @@ if [ -z "$term" ]; then say "SELFTEST terminal=absent"; else say "SELFTEST termi
 b=""
 grep -qi debian /etc/issue && b="$b issue"
 grep -i '^PRETTY_NAME=' /etc/os-release | grep -qi debian && b="$b os-release"
-grep -qi debian /usr/share/winedows/wallpaper.svg /usr/share/winedows/start.html && b="$b wallpaper/start"
+grep -qil debian /usr/share/winedows/wallpapers/*.svg /usr/share/winedows/start.html && b="$b wallpaper/start"
+ls /usr/share/winedows/wallpapers/*.svg >/dev/null 2>&1 || b="$b no-wallpapers"
 grep -qi '^Name=Edgy' /usr/share/applications/firefox-esr.desktop || b="$b edgy-name"
 if [ -z "$b" ]; then say "SELFTEST branding=ok"; else say "SELFTEST branding=FAIL:$b"; fi
 # Desktop: launchers present, Command Prompt gone, .exe not executable (Nemo must hand it to Wine)

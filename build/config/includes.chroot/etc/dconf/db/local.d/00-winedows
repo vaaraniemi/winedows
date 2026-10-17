@@ -5,8 +5,15 @@ enabled-applets=@as []
 favorite-apps=@as []
 
 [org/cinnamon/desktop/background]
-picture-uri='file:///usr/share/winedows/wallpaper.svg'
+picture-uri='file:///usr/share/winedows/wallpapers/01-hero.svg'
 picture-options='zoom'
+
+[org/cinnamon/desktop/background/slideshow]
+# rotate through the 12 wallpapers (delay is in minutes)
+slideshow-enabled=true
+image-source='directory:///usr/share/winedows/wallpapers'
+delay=uint32 15
+random-order=false
 
 [org/cinnamon/desktop/interface]
 gtk-theme='Adwaita'

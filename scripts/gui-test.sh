@@ -49,7 +49,7 @@ if [ -n "$took_desktop" ]; then shot "$mon" edgy; else shot "$mon" desktop; fi
 kill "$pid" 2>/dev/null || true
 cat "$log"
 for want in 'GUITEST cinnamon=ok' 'GUITEST desktop-icons=ok' 'GUITEST exe-open=ok' \
-            'GUITEST panels=none' 'GUITEST wmtheme=ok' 'GUITEST edgy=ok'; do
+            'GUITEST panels=none' 'GUITEST wmtheme=ok' 'GUITEST edgy=ok' 'GUITEST slideshow=ok'; do
   grep -q "$want" "$log" || { echo "FAIL: missing '$want'"; exit 1; }
 done
 echo "gui test passed"
