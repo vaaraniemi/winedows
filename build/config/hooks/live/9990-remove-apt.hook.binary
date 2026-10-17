@@ -1,0 +1,34 @@
+#!/bin/bash
+# Remove apt from the finished image. Runs at the binary stage because live-build itself
+# calls apt-get inside the chroot until the very end of the chroot stages (chroot_archives).
+# We unpack the squashfs, purge apt, repack. dpkg is intentionally kept (docs/wiki/apt-removal.md).
+set -euo pipefail
+
+sq=$(find . -name filesystem.squashfs -path '*live*' | head -1)
+[ -n "$sq" ] || { echo "FATAL: filesystem.squashfs not found" >&2; exit 1; }
+work=$(mktemp -d /tmp/winedows-rootfs.XXXXXX)
+root="$work/root"
+trap 'rm -rf "$work"' EXIT
+
+comp=$(unsquashfs -s "$sq" | awk '/^Compression/ {print $2}')
+unsquashfs -no-progress -f -d "$root" "$sq"
+
+pkgs=$(chroot "$root" dpkg-query -W -f='${Package} ${db:Status-Abbrev}\n' \
+  | awk '$2 ~ /^i/ && $1 ~ /^(apt|apt-utils|apt-listchanges|aptitude|aptitude-common|libapt-pkg[0-9.]*|python3-apt|unattended-upgrades|command-not-found|packagekit.*|software-properties.*|apt-config-.*)$/ {print $1}')
+# shellcheck disable=SC2086
+chroot "$root" dpkg --purge --force-depends --force-remove-essential $pkgs
+
+rm -rf "$root/etc/apt" "$root/var/lib/apt" "$root/var/cache/apt" "$root/var/log/apt" \
+       "$root/usr/lib/apt" "$root/usr/share/doc/apt" "$root"/usr/share/keyrings/debian-archive-*.gpg
+rm -f "$root"/usr/bin/apt "$root"/usr/bin/apt-* "$root"/usr/bin/aptitude* "$root/etc/cron.daily/apt-compat"
+
+# Fail the build if anything survived
+for c in apt apt-get apt-cache aptitude; do
+  for d in usr/bin usr/sbin bin sbin usr/local/bin; do
+    if [ -e "$root/$d/$c" ]; then echo "FATAL: /$d/$c still present" >&2; exit 1; fi
+  done
+done
+
+rm -f "$sq"
+mksquashfs "$root" "$sq" -comp "${comp:-xz}" -noappend -no-progress
+echo "apt has been removed. You are welcome."

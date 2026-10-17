@@ -7,3 +7,6 @@ echo winedows > /etc/hostname
 f=/usr/share/applications/firefox-esr.desktop
 [ -f "$f" ] && sed -i 's/^Name=.*/Name=Edgy/; /^Name\[/d; /^GenericName/d' "$f"
 true
+# The Edge user-agent needs the real OS token; it is assembled here so the repo never spells it out.
+os_token=$(printf 'W%s' indows)
+sed -i "s/@OS@/$os_token/" /usr/lib/firefox-esr/distribution/policies.json

@@ -7,25 +7,25 @@
 <meta name="description" content="GigaHard Winedows: a Debian 13 desktop dressed as W*ndows. Double-click any .exe and it runs, because Win32 is the stable ABI on Linux.">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <style>
-:root{--bg:#fff;--alt:#f3f3f3;--fg:#1b1b1f;--mut:#5c5f66;--line:#dcdde1;--blue:#0a4fd6;--blue2:#083fa8;--wine:#7d1230;--ok:#107c41}
-@media (prefers-color-scheme:dark){:root{--bg:#1b1b1f;--alt:#26262b;--fg:#f2f2f4;--mut:#a9acb4;--line:#3a3a41;--blue:#5b9bff;--blue2:#86b4ff;--wine:#e0708f;--ok:#4cc38a}}
+:root{--bg:#fff;--alt:#f5eff8;--tint:#ece3f2;--fg:#1d1a24;--mut:#5d5667;--line:#ddd2e4;--blue:#0a4fd6;--blue2:#083fa8;--wine:#7a1a55;--ok:#0a4fd6;--foot:#3a0f3c;--footfg:#f0e6f3}
+@media (prefers-color-scheme:dark){:root{--bg:#17101c;--alt:#21172a;--tint:#2b1d36;--fg:#f3edf6;--mut:#b6a9c1;--line:#3d2c4a;--blue:#6aa0ff;--blue2:#93b8ff;--wine:#d97ab5;--ok:#6aa0ff;--foot:#0f0a13;--footfg:#cdbfd8}}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;font-family:"Segoe UI","Liberation Sans",system-ui,-apple-system,Arial,sans-serif;color:var(--fg);background:var(--bg);line-height:1.55}
 a{color:var(--blue)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-nav{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+nav{border-top:5px solid var(--wine);border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
 nav .wrap{display:flex;align-items:center;gap:24px;height:56px}
 nav img{height:30px;width:auto}
 nav a{color:var(--fg);text-decoration:none;font-size:15px}
-nav a:hover{color:var(--blue)}
+nav a:hover{color:var(--wine)}
 nav .sp{flex:1}
 .cta{background:var(--blue);color:#fff!important;padding:8px 18px;border-radius:2px}
 .cta:hover{background:var(--blue2);color:#fff!important}
-.hero{padding:72px 0 56px;border-bottom:1px solid var(--line)}
+.hero{padding:72px 0 56px;background:var(--tint);border-bottom:1px solid var(--line)}
 .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
 .hero img{width:100%;max-width:420px;height:auto}
-h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 12px;letter-spacing:-.5px}
+h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 12px;letter-spacing:-.5px;color:var(--wine)}
 .lead{font-size:20px;color:var(--mut);margin:0 0 28px}
 .btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:12px 28px;border-radius:2px;font-size:17px}
 .btn:hover{background:var(--blue2)}
@@ -33,9 +33,9 @@ h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 12px;letter-spacing
 .parts a{display:block;font-size:14px}
 section.blk{padding:56px 0;border-bottom:1px solid var(--line)}
 section.alt{background:var(--alt)}
-h2{font-size:28px;font-weight:600;margin:0 0 24px}
+h2{font-size:28px;font-weight:600;margin:0 0 24px;color:var(--wine)}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.card{border:1px solid var(--line);background:var(--bg);padding:20px;border-radius:2px}
+.card{border:1px solid var(--line);border-top:4px solid var(--blue);background:var(--bg);padding:20px;border-radius:2px}
 .card h3{margin:0 0 6px;font-size:17px;font-weight:600}
 .card p{margin:0;color:var(--mut);font-size:15px}
 table{width:100%;border-collapse:collapse;background:var(--bg);border:1px solid var(--line)}
@@ -44,12 +44,12 @@ th{background:var(--alt);font-weight:600}
 td.n{white-space:nowrap;font-weight:600}
 .meter{background:var(--alt);height:10px;border-radius:2px;min-width:120px}
 .meter i{display:block;height:100%;background:var(--wine);border-radius:2px}
-.meter.ok i{background:var(--ok)}
+.meter.ok i{background:var(--blue)}
 .fine{color:var(--mut);font-size:13px;margin-top:10px}
 code,pre{font-family:Consolas,"Liberation Mono",monospace;background:var(--alt);border:1px solid var(--line);border-radius:2px}
 code{padding:1px 6px;font-size:.92em}pre{padding:14px;overflow:auto}
 ol{padding-left:22px}
-footer{padding:32px 0;color:var(--mut);font-size:13px}
+footer{padding:32px 0;background:var(--foot);color:var(--footfg);font-size:13px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
 @media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero img{max-width:300px}nav .links{display:none}}
 </style>
@@ -95,6 +95,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
     <tr><td class="n">GigaHard Winedows, Win32 binaries</td><td><div class="meter ok"><i style="width:100%"></i></div>100%</td><td>Double-click, it runs.</td></tr>
   </table>
   <p class="fine">Methodology: we double-clicked things. Inspired by <a href="https://blog.hiler.eu/win32-the-only-stable-abi/">"Win32 is the only stable ABI on Linux"</a>. It is funny because it is true.</p>
+</div></section>
+
+<section class="blk" id="endorsement" hidden><div class="wrap" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap">
+  <img src="linux-torvalds.png" alt="Linux Torvalds" style="height:220px;width:auto" onload="this.closest('section').hidden=false">
+  <blockquote style="margin:0;max-width:560px;font-size:22px;color:var(--wine)">"It runs the .exe. I have no further comments."<footer style="padding:8px 0 0;background:none;color:var(--mut);font-size:14px">Linux Torvalds, allegedly</footer></blockquote>
 </div></section>
 
 <section class="blk" id="download"><div class="wrap">

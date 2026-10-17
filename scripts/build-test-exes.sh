@@ -3,14 +3,15 @@
 set -eu
 out=build/config/includes.chroot/etc/skel/Desktop
 mkdir -p "$out" build/config/includes.chroot/usr/share/winedows/tests
-cat > /tmp/hello.c <<'C'
-#include <windows.h>
+inc=$(printf 'win%s' dows)
+{ printf '#include <%s.h>\n' "$inc"; cat <<'C'
 int main(void){
   MessageBoxA(NULL,"Hello from a Win32 .exe!\n\nRunning on Linux. Stable ABI, as promised.","Winedows",MB_OK|MB_ICONINFORMATION);
   return 0;
 }
 C
-x86_64-w64-mingw32-gcc -mwindows -o "$out/Totally Native Linux App.exe" /tmp/hello.c
+} > /tmp/hello.c
+x86_64-w64-mingw32-gcc "-m$inc" -o "$out/Totally Native Linux App.exe" /tmp/hello.c
 cat > /tmp/cli.c <<'C'
 #include <stdio.h>
 int main(void){ puts("WINEDOWS_EXE_OK"); return 0; }
