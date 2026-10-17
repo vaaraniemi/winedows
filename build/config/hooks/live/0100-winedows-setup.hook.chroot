@@ -1,0 +1,22 @@
+#!/bin/sh
+# Wire up dconf, MIME defaults, binfmt, selftest, launcher permissions.
+set -e
+dconf update
+update-desktop-database /usr/share/applications || true
+systemctl enable winedows-selftest.service systemd-binfmt.service || true
+# .exe files must NOT be executable so Nemo opens them with the default app (Wine)
+chmod 0644 /etc/skel/Desktop/*.exe 2>/dev/null || true
+chmod 0755 /etc/skel/Desktop/*.desktop
+# Rename the terminal so nobody notices it is one
+if [ -f /usr/share/applications/org.gnome.Terminal.desktop ]; then
+  sed -i 's/^Name=.*/Name=Command Prompt/; /^Name\[/d; /^GenericName/d' /usr/share/applications/org.gnome.Terminal.desktop
+fi
+# Windows-style prompt and error message
+cat >> /etc/skel/.bashrc <<'RC'
+PS1='C:${PWD//\//\\}> '
+command_not_found_handle() {
+  echo "'$1' is not recognized as an internal or external command,"
+  echo "operable program or batch file."
+  return 127
+}
+RC

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Windows Program Loader
+Comment=Runs Windows programs
+Exec=/usr/local/bin/winedows-run %f
+Icon=wine
+NoDisplay=true
+MimeType=application/x-ms-dos-executable;application/x-msdos-program;application/x-msi;application/x-msdownload;application/vnd.microsoft.portable-executable;application/x-dosexec;

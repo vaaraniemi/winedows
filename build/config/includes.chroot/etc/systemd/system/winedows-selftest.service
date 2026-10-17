@@ -1,0 +1,12 @@
+[Unit]
+Description=Winedows self test
+ConditionKernelCommandLine=winedows.selftest
+After=live-config.service network.target
+Wants=live-config.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/winedows-selftest
+
+[Install]
+WantedBy=multi-user.target

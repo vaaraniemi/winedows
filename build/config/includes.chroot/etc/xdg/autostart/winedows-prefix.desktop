@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Setting up your device
+Exec=sh -c 'notify-send "Winedows" "Setting up your device... (creating a Wine prefix)"; WINEDLLOVERRIDES=mscoree,mshtml= WINEDEBUG=-all wineboot -u'
+NoDisplay=true

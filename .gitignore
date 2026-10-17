@@ -1,0 +1,17 @@
+out/
+build/.build/
+build/cache/
+build/chroot/
+build/binary/
+build/binary.*
+build/chroot.*
+build/live-image-*
+build/config/binary
+build/config/bootstrap
+build/config/chroot
+build/config/common
+build/config/source
+build/*.log
+*.iso
+build/config/includes.chroot/etc/skel/Desktop/*.exe
+build/config/includes.chroot/usr/share/winedows/tests/*.exe

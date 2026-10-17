@@ -1,0 +1,10 @@
+[Default Applications]
+application/x-ms-dos-executable=winedows-run.desktop
+application/x-msdos-program=winedows-run.desktop
+application/x-msdownload=winedows-run.desktop
+application/vnd.microsoft.portable-executable=winedows-run.desktop
+application/x-dosexec=winedows-run.desktop
+application/x-msi=winedows-run.desktop
+text/html=firefox-esr.desktop
+x-scheme-handler/http=firefox-esr.desktop
+x-scheme-handler/https=firefox-esr.desktop

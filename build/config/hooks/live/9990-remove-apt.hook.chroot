@@ -1,0 +1,17 @@
+#!/bin/sh
+# Remove apt. Must stay the LAST hook: nothing after this can install packages.
+# dpkg is intentionally kept (see docs/wiki/apt-removal.md).
+set -e
+apt-get clean || true
+pkgs=$(dpkg-query -W -f='${Package} ${db:Status-Abbrev}\n' \
+  | awk '$2 ~ /^i/ && $1 ~ /^(apt|apt-utils|apt-listchanges|aptitude|aptitude-common|libapt-pkg[0-9.]*|python3-apt|unattended-upgrades|command-not-found|packagekit.*|software-properties.*|apt-config-.*)$/ {print $1}')
+# shellcheck disable=SC2086
+dpkg --purge --force-depends --force-remove-essential $pkgs
+rm -rf /etc/apt /var/lib/apt /var/cache/apt /var/log/apt /usr/lib/apt \
+       /usr/share/doc/apt /usr/share/keyrings/debian-archive-*.gpg
+rm -f /usr/bin/apt /usr/bin/apt-* /usr/bin/aptitude* /etc/cron.daily/apt-compat
+# Fail the build if anything survived
+for c in apt apt-get apt-cache aptitude; do
+  if command -v "$c" >/dev/null 2>&1; then echo "FATAL: $c still present" >&2; exit 1; fi
+done
+echo "apt has been removed. You are welcome."

@@ -1,0 +1,11 @@
+#!/bin/sh
+# Winedows: "double-click an .exe" handler. It is just Wine. Shh.
+export WINEDLLOVERRIDES="${WINEDLLOVERRIDES:-mscoree,mshtml=}"
+export WINEDEBUG="${WINEDEBUG:--all}"
+[ $# -ge 1 ] || { echo "usage: winedows-run file.exe|file.msi" >&2; exit 2; }
+f=$1
+case "$(printf '%s' "$f" | tr '[:upper:]' '[:lower:]')" in
+  *.msi) exec wine msiexec /i "$f" ;;
+  *)     cd "$(dirname "$f")" 2>/dev/null || true
+         exec wine start /unix "$f" ;;
+esac

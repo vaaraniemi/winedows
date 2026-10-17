@@ -1,0 +1,11 @@
+{
+  "policies": {
+    "Homepage": { "URL": "file:///usr/share/winedows/start.html", "StartPage": "homepage" },
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "DontCheckDefaultBrowser": true,
+    "DisableTelemetry": true,
+    "DisableAppUpdate": true,
+    "NoDefaultBookmarks": true
+  }
+}

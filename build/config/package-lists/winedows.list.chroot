@@ -1,0 +1,52 @@
+# Base system
+linux-image-amd64
+live-boot
+live-config
+systemd-sysv
+dbus-user-session
+sudo
+locales
+console-setup
+# Desktop: Cinnamon only
+cinnamon
+cinnamon-l10n
+lightdm
+slick-greeter
+nemo
+nemo-fileroller
+gvfs-backends
+gvfs-fuse
+xdg-user-dirs-gtk
+xdg-utils
+shared-mime-info
+desktop-file-utils
+dconf-cli
+network-manager
+network-manager-gnome
+pipewire
+pipewire-pulse
+wireplumber
+pavucontrol
+xserver-xorg
+xserver-xorg-input-all
+xserver-xorg-video-all
+mesa-utils
+adwaita-icon-theme
+gnome-themes-extra
+papirus-icon-theme
+fonts-liberation
+fonts-noto-core
+fonts-noto-color-emoji
+# Browser
+firefox-esr
+# Wine (32-bit exes need the i386 side)
+wine
+wine64
+wine32:i386
+libwine
+libwine:i386
+fonts-wine
+icoutils
+librsvg2-common
+gnome-terminal
+libnotify-bin

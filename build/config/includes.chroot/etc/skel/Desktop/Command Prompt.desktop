@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Command Prompt
+Comment=Not a terminal. Definitely not.
+Exec=gnome-terminal
+Icon=utilities-terminal
+Terminal=false

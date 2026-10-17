@@ -1,0 +1,13 @@
+#!/bin/sh
+# Boot-time self test; only runs with winedows.selftest on the kernel cmdline.
+out=/dev/ttyS0
+say() { echo "$*" > "$out"; }
+if command -v apt >/dev/null 2>&1 || command -v apt-get >/dev/null 2>&1 \
+   || [ -e /etc/apt/sources.list ]; then say "SELFTEST apt=PRESENT"; else say "SELFTEST apt=absent"; fi
+t=/usr/share/winedows/tests
+run() { su user -c "env WINEDEBUG=-all WINEDLLOVERRIDES=mscoree,mshtml= timeout 300 wine $1" 2>/dev/null; }
+run "$t/cli64.exe" | grep -q WINEDOWS_EXE_OK && say "SELFTEST wine64=ok" || say "SELFTEST wine64=FAIL"
+run "$t/cli32.exe" | grep -q WINEDOWS_EXE_OK && say "SELFTEST wine32=ok" || say "SELFTEST wine32=FAIL"
+[ "$(xdg-mime query default application/x-ms-dos-executable)" = winedows-run.desktop ] \
+  && say "SELFTEST mime=ok" || say "SELFTEST mime=FAIL"
+say "WINEDOWS_SELFTEST_DONE"
