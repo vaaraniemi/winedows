@@ -4,10 +4,12 @@
 Writes 1920x1080 SVGs to build/config/includes.chroot/usr/share/winedows/wallpapers/.
 Pure stdlib, deterministic (fixed seeds), so re-running gives identical files.
 Everything is drawn here: the logo mark is redrawn from docs/logo-mark.svg, no outside artwork.
-Linux Torvalds (see docs/wiki/joke-design.md) hides in 04, 07 and 10. Keep him small.
+Linux Torvalds (docs/linux-torvalds.png, see docs/wiki/joke-design.md) hides in 04, 06 and 09. Keep him small.
+File order is rotation order; 01 is the default (dconf picture-uri).
 
 Usage: python3 scripts/gen-wallpapers.py [outdir]
 """
+import base64
 import math
 import os
 import random
@@ -64,20 +66,12 @@ MARK_LINE = """
 </symbol>
 """
 
-# Linux Torvalds: the project's penguin with a face (docs/linux-torvalds.png), redrawn as a tiny vector.
-LINUS = """
-<symbol id="linus" viewBox="0 0 40 52">
-  <ellipse cx="20" cy="32" rx="15" ry="17" fill="#111"/>
-  <circle cx="20" cy="13" r="11" fill="#111"/>
-  <ellipse cx="20" cy="34" rx="10" ry="13" fill="#f2f2f2"/>
-  <ellipse cx="20" cy="14.5" rx="7.2" ry="6.8" fill="#8d7f74"/>
-  <rect x="12.6" y="11.4" width="14.8" height="3.4" rx="1.6" fill="#050505"/>
-  <path d="M16.2 18.4 Q20 20.4 23.8 17.6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
-  <path d="M5 33 Q2 41 8 46 Z M35 33 Q38 41 32 46 Z" fill="#111"/>
-  <ellipse cx="12" cy="49" rx="7" ry="3" fill="#f2b705"/>
-  <ellipse cx="28" cy="49" rx="7" ry="3" fill="#f2b705"/>
-</symbol>
-"""
+# Linux Torvalds: the project's easter-egg image (docs/linux-torvalds.png, 253x290), embedded as a data URI
+# so the SVG stays self-contained (librsvg won't load files outside the SVG's own folder).
+def _linus_uri():
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, "docs/linux-torvalds.png"), "rb") as f:
+        return "data:image/png;base64," + base64.b64encode(f.read()).decode()
 
 
 def svg(title, body, defs=""):
@@ -85,7 +79,7 @@ def svg(title, body, defs=""):
         f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
         f'width="{W}" height="{H}" viewBox="0 0 {W} {H}">\n'
         f"<title>Winedows wallpaper: {title}</title>\n"
-        f"<defs>{MARK}{MARK_LINE}{LINUS}{defs}</defs>\n{body}\n</svg>\n"
+        f"<defs>{MARK}{MARK_LINE}{defs}</defs>\n{body}\n</svg>\n"
     )
 
 
@@ -94,8 +88,13 @@ def use(sym, x, y, size, extra=""):
 
 
 def linus(x, y, h, extra=""):
-    w = h * 40 / 52
-    return f'<use xlink:href="#linus" href="#linus" x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" {extra}/>'
+    """The image cropped to rows 25-260, which drops its LINUX / TORVALDS captions (R: text may go)."""
+    w = h * 253 / 235
+    uri = _linus_uri()
+    return (
+        f'<svg x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" viewBox="0 25 253 235" overflow="hidden" {extra}>'
+        f'<image width="253" height="290" xlink:href="{uri}" href="{uri}"/></svg>'
+    )
 
 
 def brand(dark_bg=True):
@@ -120,28 +119,16 @@ def stars(rng, n, y_max=H, r_max=1.6, opacity=0.9):
     return "".join(out)
 
 
-# 01 Hero: the mark floating in the dark, lit from behind, beams fanning out.
+# Hero: the mark floating in the dark, lit from behind.
 def hero():
     defs = f"""
 <radialGradient id="bg" cx="0.6" cy="0.45" r="0.8"><stop offset="0" stop-color="{NAVY2}"/><stop offset="0.6" stop-color="{NAVY}"/><stop offset="1" stop-color="#020817"/></radialGradient>
-<linearGradient id="beam" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#7cc4ff" stop-opacity="0.5"/><stop offset="1" stop-color="#7cc4ff" stop-opacity="0"/></linearGradient>
-<linearGradient id="beamR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="{ROSE}" stop-opacity="0.45"/><stop offset="1" stop-color="{ROSE}" stop-opacity="0"/></linearGradient>
 <radialGradient id="glow"><stop offset="0" stop-color="{SKY}" stop-opacity="0.55"/><stop offset="1" stop-color="{SKY}" stop-opacity="0"/></radialGradient>
-<filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
 """
-    # Logo panel, slightly in perspective. Beams leave its left edge.
+    # Logo panel, slightly in perspective, lit from behind.
     lx, ly, s = 1040, 250, 560
-    beams = []
-    for i, (y0, y1, ty0, ty1, grad) in enumerate([
-        (ly + 40, ly + 250, -200, 300, "beamR"),
-        (ly + 290, ly + 520, 520, 1180, "beamR"),
-        (ly + 20, ly + 260, 120, 470, "beam"),
-        (ly + 300, ly + 540, 640, 900, "beam"),
-    ]):
-        beams.append(f'<polygon points="{lx + 120},{y0} {lx + 120},{y1} -100,{ty1} -100,{ty0}" fill="url(#{grad})" opacity="0.55" filter="url(#soft)"/>')
     body = (
         '<rect width="1920" height="1080" fill="url(#bg)"/>'
-        + "".join(beams)
         + f'<ellipse cx="{lx + s / 2}" cy="{ly + s / 2}" rx="520" ry="420" fill="url(#glow)"/>'
         + f'<g transform="translate({lx} {ly}) matrix(1 -0.06 0 1 0 0)">' + use("mark", 0, 0, s) + "</g>"
         + brand()
@@ -149,39 +136,9 @@ def hero():
     return svg("Hero", body, defs)
 
 
-# 02 Panes: the four panes, enormous, edge to edge.
-def panes():
-    defs = f"""
-<linearGradient id="r1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8264d"/><stop offset="1" stop-color="{WINE2}"/></linearGradient>
-<linearGradient id="r2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{WINE}"/><stop offset="1" stop-color="#3d0919"/></linearGradient>
-<linearGradient id="b1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{SKY}"/><stop offset="1" stop-color="{BLUE}"/></linearGradient>
-<linearGradient id="b2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1673ea"/><stop offset="1" stop-color="#062f8a"/></linearGradient>
-<linearGradient id="gap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#cfe6ff"/></linearGradient>
-"""
-    g = 22  # gap between panes
-    cx, cy = 900, 560
-    body = (
-        '<rect width="1920" height="1080" fill="url(#gap)"/>'
-        f'<polygon points="-20,-20 {cx - g},-60 {cx - g},{cy - g} -20,{cy - g + 10}" fill="url(#r1)"/>'
-        f'<polygon points="-20,{cy + g + 10} {cx - g},{cy + g} {cx - g},1100 -20,1100" fill="url(#r2)"/>'
-        f'<polygon points="{cx + g},-60 1940,-120 1940,{cy - g - 20} {cx + g},{cy - g}" fill="url(#b1)"/>'
-        f'<polygon points="{cx + g},{cy + g} 1940,{cy + g - 20} 1940,1100 {cx + g},1100" fill="url(#b2)"/>'
-        # Pane emblems, huge and white: glass, grapes, swoosh.
-        '<g transform="translate(150 40) scale(16)" opacity="0.95">'
-        '<path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z" fill="none" stroke="#fff" stroke-width="0.9" transform="translate(-9 -11)"/>'
-        '<path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5 C22.3 21.6 20 23.8 17 23.8 C14 23.8 11.7 21.6 11.2 16.5 Z" fill="#fff" fill-opacity="0.25" transform="translate(-9 -11)"/>'
-        '<path d="M8 14 V18 M3 18 H13" stroke="#fff" stroke-width="0.9" stroke-linecap="round" fill="none"/>'
-        "</g>"
-        '<g fill="#fff" fill-opacity="0.18">'
-        + "".join(f'<circle cx="{x}" cy="{y}" r="62"/>' for x, y in [(260, 700), (400, 700), (540, 700), (330, 822), (470, 822), (400, 944)])
-        + "</g>"
-        '<path d="M960 1010 C1380 1010 1700 860 1880 600 C1680 900 1380 980 960 975 Z" fill="#fff" opacity="0.85"/>'
-        + brand()
-    )
-    return svg("Panes", body, defs)
 
 
-# 03 Tiles: a field of marks, lit from the middle and fading into the dark.
+# Tiles: a field of marks, lit from the middle and fading into the dark.
 def tiles():
     defs = f"""
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{NAVY2}"/><stop offset="1" stop-color="#020817"/></linearGradient>
@@ -201,7 +158,7 @@ def tiles():
     return svg("Tiles", body, defs)
 
 
-# 04 Vineyard: dusk over the rows, the mark rising as the sun. Linus works the third row.
+# Vineyard: dusk over the rows, the mark rising as the sun. Linus works the third row.
 def vineyard():
     rng = random.Random(4)
     defs = f"""
@@ -216,17 +173,17 @@ def vineyard():
     vx, vy = 1300, 700
     for i in range(-12, 22):
         x_end = vx + i * 150
-        rows.append(f'<path d="M{vx + i * 6} {vy + 10} Q{vx + i * 40} {vy + 140} {x_end} 1100" stroke="#2c4bb0" stroke-opacity="0.55" stroke-width="{3 + abs(i) * 0.4:.1f}" fill="none"/>')
+        rows.append(f'<path d="M{vx + i * 6} {vy + 10} Q{vx + i * 40} {vy + 140} {x_end} 1100" stroke="#2c4bb0" stroke-opacity="0.25" stroke-width="{2 + abs(i) * 0.25:.1f}" fill="none"/>')
     # Vine bushes along rows (dots).
     for i in range(-12, 22):
-        for t in [0.25, 0.4, 0.55, 0.7, 0.85]:
+        for t in [0.45, 0.8]:
             x0, y0 = vx + i * 6, vy + 10
             x1, y1 = vx + i * 40, vy + 140
             x2, y2 = vx + i * 150, 1100
             bx = (1 - t) ** 2 * x0 + 2 * (1 - t) * t * x1 + t ** 2 * x2
             by = (1 - t) ** 2 * y0 + 2 * (1 - t) * t * y1 + t ** 2 * y2
             r = 2 + t * 14
-            col = rng.choice(["#3b1a5e", "#5e0f27", "#2a2f7a"])
+            col = rng.choice(["#1c1846", "#241238", "#161c4a"])
             rows.append(f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="{r:.1f}" fill="{col}"/>')
     # Linus stands in a row on the left, about one vine tall.
     t = 0.7
@@ -235,20 +192,20 @@ def vineyard():
     ly = (1 - t) ** 2 * (vy + 10) + 2 * (1 - t) * t * (vy + 140) + t ** 2 * 1100
     body = (
         '<rect width="1920" height="1080" fill="url(#sky)"/>'
-        + stars(rng, 120, y_max=380, opacity=0.8)
+        + stars(rng, 40, y_max=320, opacity=0.6)
         + '<circle cx="760" cy="640" r="340" fill="url(#sun)"/>'
         + use("mark", 640, 500, 240)
         + '<path d="M0 640 C300 590 520 610 760 650 C1000 690 1400 600 1920 640 V1080 H0 Z" fill="url(#h1)"/>'
         + '<path d="M0 700 C400 660 800 720 1200 700 C1500 685 1700 690 1920 705 V1080 H0 Z" fill="url(#h2)"/>'
         + '<path d="M0 740 C500 720 900 712 1300 710 C1600 712 1800 730 1920 745 V1080 H0 Z" fill="url(#h3)"/>'
         + "".join(rows)
-        + linus(lx - 12, ly - 38, 34)
+        + linus(lx - 30, ly - 74, 72)
         + brand()
     )
     return svg("Vineyard", body, defs)
 
 
-# 05 Vintage: a glass of Win32, still fizzing.
+# Vintage: a glass of Win32, still fizzing.
 def vintage():
     rng = random.Random(5)
     defs = f"""
@@ -278,7 +235,7 @@ def vintage():
     return svg("Vintage", body, defs)
 
 
-# 06 Bedrock: geological survey. Library versions erode; Win32 is the bedrock.
+# Bedrock: geological survey. Library versions erode; Win32 is the bedrock.
 def bedrock():
     layers = [
         ("#6b8f3a", "topsoil: whatever you installed this morning", 30),
@@ -332,13 +289,13 @@ def bedrock():
     return svg("Bedrock", body, defs)
 
 
-# 07 No problems: a full-screen notice that nothing is wrong. Linus is the middle of the code square.
+# No problems: a full-screen notice that nothing is wrong. Linus is the middle of the code square.
 def noproblems():
     rng = random.Random(7)
-    n, cell = 25, 6
+    n, cell = 29, 7
     qx, qy = 260, 640
     q = [f'<rect x="{qx - 8}" y="{qy - 8}" width="{n * cell + 16}" height="{n * cell + 16}" fill="#fff"/>']
-    hole = range(9, 16)
+    hole = range(9, 20)
     for r in range(n):
         for c in range(n):
             finder = (r < 7 and c < 7) or (r < 7 and c >= n - 7) or (r >= n - 7 and c < 7)
@@ -350,7 +307,7 @@ def noproblems():
         fx, fy = qx + fc * cell, qy + fr * cell
         q.append(f'<rect x="{fx + 3}" y="{fy + 3}" width="{7 * cell - 6}" height="{7 * cell - 6}" fill="none" stroke="{BLUE}" stroke-width="6"/>')
         q.append(f'<rect x="{fx + 2 * cell}" y="{fy + 2 * cell}" width="{3 * cell}" height="{3 * cell}" fill="{BLUE}"/>')
-    q.append(linus(qx + 9 * cell + 4, qy + 9 * cell + 2, 7 * cell - 4))
+    q.append(linus(qx + 9 * cell + 6, qy + 9 * cell + 2, 11 * cell - 4))
     t = f'font-family="{FONT}" fill="#fff"'
     body = (
         f'<rect width="1920" height="1080" fill="{BLUE}"/>'
@@ -359,16 +316,16 @@ def noproblems():
         f'<text x="260" y="522" {t} font-size="40">We\'re just collecting some compliments, then we\'ll keep going.</text>'
         f'<text x="260" y="600" {t} font-size="40">100% complete</text>'
         + "".join(q)
-        + f'<text x="460" y="672" {t} font-size="20">For more information about this non-issue, there is none.</text>'
-        f'<text x="460" y="708" {t} font-size="20">If you call a support person, give them this info:</text>'
-        f'<text x="460" y="740" {t} font-size="20">Stop code: EVERYTHING_WORKS</text>'
-        f'<text x="460" y="772" {t} font-size="20">What succeeded: setup.exe (via Wine)</text>'
+        + f'<text x="500" y="672" {t} font-size="20">For more information about this non-issue, there is none.</text>'
+        f'<text x="500" y="708" {t} font-size="20">If you call a support person, give them this info:</text>'
+        f'<text x="500" y="740" {t} font-size="20">Stop code: EVERYTHING_WORKS</text>'
+        f'<text x="500" y="772" {t} font-size="20">What succeeded: setup.exe (via Wine)</text>'
         + brand()
     )
     return svg("No problems", body)
 
 
-# 08 Aurora: night lake under wine-and-blue northern lights.
+# Aurora: night lake under wine-and-blue northern lights.
 def aurora():
     rng = random.Random(8)
     defs = f"""
@@ -408,14 +365,14 @@ def aurora():
     return svg("Aurora", body, defs)
 
 
-# 09 Blueprint: engineering drawing of the mark.
+# Blueprint: engineering drawing of the mark.
 def blueprint():
     defs = """
 <pattern id="minor" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0 H0 V24" fill="none" stroke="#fff" stroke-opacity="0.08"/></pattern>
 <pattern id="major" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0 H0 V120" fill="none" stroke="#fff" stroke-opacity="0.18"/></pattern>
 <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#fff"/></marker>
 """
-    x0, y0, s = 700, 170, 560  # 1 unit = 8.75 px
+    x0, y0, s = 700, 120, 500
     u = s / 64
     t = f'font-family="{MONO}" fill="#fff"'
     def P(px, py):
@@ -445,7 +402,7 @@ def blueprint():
         f'<path d="M{x0 - 40} {ay0:.0f} V{ay1:.0f}" stroke="#fff" marker-start="url(#arr)" marker-end="url(#arr)"/>'
         f'<text x="{x0 - 52}" y="{(ay0 + ay1) / 2:.0f}" text-anchor="middle" {t} font-size="16" transform="rotate(-90 {x0 - 52} {(ay0 + ay1) / 2:.0f})">58 UNITS</text>'
     )
-    tb_x, tb_y, tb_w = 240, 820, 760
+    tb_x, tb_y, tb_w = 240, 730, 760
     rows = [
         "GIGAHARD WINEDOWS · GENERAL ARRANGEMENT",
         "DWG NO. WD-0001   REV 32 (Win32)   SHEET 1 OF 1",
@@ -462,7 +419,7 @@ def blueprint():
         '<rect width="1920" height="1080" fill="#0b3a8f"/>'
         '<rect width="1920" height="1080" fill="url(#minor)"/>'
         '<rect width="1920" height="1080" fill="url(#major)"/>'
-        '<rect x="200" y="40" width="1680" height="1000" fill="none" stroke="#fff" stroke-opacity="0.5" stroke-width="2"/>'
+        '<rect x="180" y="40" width="1640" height="860" fill="none" stroke="#fff" stroke-opacity="0.5" stroke-width="2"/>'
         + use("markline", x0, y0, s)
         + f'<g transform="translate({x0} {y0}) scale({u})"><path d="M34 30 L60 3 M34 7 L60 30" stroke="#fff" stroke-opacity="0.35" stroke-width="0.2" stroke-dasharray="1 1"/></g>'
         + "".join(cl)
@@ -473,7 +430,7 @@ def blueprint():
     return svg("Blueprint", body, defs)
 
 
-# 10 Constellation: the mark in the stars. A smaller constellation nearby is Linux Torvalds Minor.
+# Constellation: the mark in the stars. A smaller constellation nearby is Linux Torvalds Minor.
 def constellation():
     rng = random.Random(10)
     defs = f"""
@@ -502,13 +459,11 @@ def constellation():
     g = [(9.5, 12.5), (24.5, 12.5), (17, 25.5), (9.5, 12.5)]
     lines.append(f'<polyline points="{" ".join(f"{ox + x * k:.0f},{oy + y * k:.0f}" for x, y in g)}" fill="none" stroke="#cfe6ff" stroke-opacity="0.3"/>')
     lines.append(f'<polyline points="{" ".join(f"{ox + x * k:.0f},{oy + y * k:.0f}" for x, y in [(37, 55.5), (49, 52), (59.3, 39)])}" fill="none" stroke="#cfe6ff" stroke-opacity="0.3"/>')
-    # Linux Torvalds Minor: faint penguin outline, lower left, with the little drawing under it at low opacity.
-    lx, ly = 300, 640
-    peng = [(0, 0), (-28, 30), (-40, 90), (-30, 140), (-50, 160), (0, 150), (50, 160), (30, 140), (40, 90), (28, 30), (0, 0)]
-    lines.append(f'<polyline points="{" ".join(f"{lx + x},{ly + y}" for x, y in peng)}" fill="none" stroke="#cfe6ff" stroke-opacity="0.18"/>')
-    for x, y in peng[:-1]:
-        nodes.append(f'<circle cx="{lx + x}" cy="{ly + y}" r="1.4" fill="#fff" opacity="0.7"/>')
-    hidden = linus(lx - 60, ly - 6, 172, 'opacity="0.07"')
+    # Linux Torvalds Minor: the easter-egg image, faint, with a few stars pinned on him.
+    lx, ly = 220, 600
+    for x, y in [(78, 70), (100, 70), (40, 150), (140, 150), (60, 250), (120, 250)]:
+        nodes.append(f'<circle cx="{lx + x}" cy="{ly + y}" r="1.6" fill="#fff" opacity="0.8"/>')
+    hidden = linus(lx, ly, 260, 'opacity="0.13"')
     body = (
         '<rect width="1920" height="1080" fill="url(#bg)"/>'
         '<ellipse cx="1000" cy="420" rx="620" ry="300" fill="url(#neb)" transform="rotate(-20 1000 420)"/>'
@@ -519,13 +474,13 @@ def constellation():
         + "".join(nodes)
         + f'<text x="{ox + 64 * k + 30:.0f}" y="{oy + 20}" font-family="{FONT}" font-size="22" fill="#cfe6ff" fill-opacity="0.75" letter-spacing="4" font-style="italic">FENESTRA VINIFERA</text>'
         f'<text x="{ox + 64 * k + 30:.0f}" y="{oy + 48}" font-family="{FONT}" font-size="15" fill="#cfe6ff" fill-opacity="0.5">visible from every desktop, all year</text>'
-        f'<text x="{lx + 60}" y="{ly + 170}" font-family="{FONT}" font-size="11" fill="#cfe6ff" fill-opacity="0.28" font-style="italic">Linux Torvalds Minor</text>'
+        f'<text x="{lx + 236}" y="{ly + 250}" font-family="{FONT}" font-size="11" fill="#cfe6ff" fill-opacity="0.28" font-style="italic">Linux Torvalds Minor</text>'
         + brand()
     )
     return svg("Constellation", body, defs)
 
 
-# 11 Daylight: the light one. Soft panes on white.
+# Daylight: the light one. Soft panes on white.
 def daylight():
     defs = f"""
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3e9f3"/></linearGradient>
@@ -551,54 +506,19 @@ def daylight():
     return svg("Daylight", body, defs)
 
 
-# 12 Horizon: flat sunrise over the sea, the sun cut into four panes.
-def horizon():
-    defs = f"""
-<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{NAVY}"/><stop offset="0.6" stop-color="#3a1f7a"/><stop offset="1" stop-color="{ROSE}"/></linearGradient>
-<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a7a"/><stop offset="1" stop-color="#030a26"/></linearGradient>
-<linearGradient id="sunr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7aa0"/><stop offset="1" stop-color="{WINE}"/></linearGradient>
-<linearGradient id="sunb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="{BLUE}"/></linearGradient>
-<clipPath id="sun"><circle cx="960" cy="640" r="300"/></clipPath>
-<radialGradient id="halo"><stop offset="0" stop-color="#ffb0c8" stop-opacity="0.45"/><stop offset="1" stop-color="#ffb0c8" stop-opacity="0"/></radialGradient>
-"""
-    gap = 14
-    slits = "".join(
-        f'<rect x="600" y="{640 - 30 * i - i * i * 1.2:.0f}" width="720" height="{3 + i * 1.6:.1f}" fill="url(#sky)"/>'
-        for i in range(1, 7)
-    )
-    refl = "".join(
-        f'<rect x="{960 - (300 - j * 30)}" y="{660 + j * 26}" width="{2 * (300 - j * 30)}" height="{10 - j * 0.6:.1f}" fill="{"url(#sunr)" if j % 2 else "url(#sunb)"}" opacity="{0.6 - j * 0.05:.2f}"/>'
-        for j in range(10)
-    )
-    body = (
-        '<rect width="1920" height="1080" fill="url(#sky)"/>'
-        '<circle cx="960" cy="640" r="560" fill="url(#halo)"/>'
-        '<g clip-path="url(#sun)">'
-        f'<rect x="660" y="340" width="{300 - gap / 2}" height="{300 - gap / 2}" fill="url(#sunr)"/>'
-        f'<rect x="{960 + gap / 2}" y="340" width="300" height="{300 - gap / 2}" fill="url(#sunb)"/>'
-        + slits
-        + "</g>"
-        + f'<rect x="{960 - gap / 2}" y="330" width="{gap}" height="310" fill="url(#sky)"/>'
-        + '<rect y="640" width="1920" height="440" fill="url(#sea)"/>'
-        + refl
-        + brand()
-    )
-    return svg("Horizon", body, defs)
 
 
 WALLPAPERS = [
-    ("01-hero", hero),
-    ("02-panes", panes),
+    ("01-bedrock", bedrock),
+    ("02-hero", hero),
     ("03-tiles", tiles),
     ("04-vineyard", vineyard),
     ("05-vintage", vintage),
-    ("06-bedrock", bedrock),
-    ("07-no-problems", noproblems),
-    ("08-aurora", aurora),
-    ("09-blueprint", blueprint),
-    ("10-constellation", constellation),
-    ("11-daylight", daylight),
-    ("12-horizon", horizon),
+    ("06-no-problems", noproblems),
+    ("07-aurora", aurora),
+    ("08-blueprint", blueprint),
+    ("09-constellation", constellation),
+    ("10-daylight", daylight),
 ]
 
 

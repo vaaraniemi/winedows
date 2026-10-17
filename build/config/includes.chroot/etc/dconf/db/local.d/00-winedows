@@ -5,11 +5,11 @@ enabled-applets=@as []
 favorite-apps=@as []
 
 [org/cinnamon/desktop/background]
-picture-uri='file:///usr/share/winedows/wallpapers/01-hero.svg'
+picture-uri='file:///usr/share/winedows/wallpapers/01-bedrock.svg'
 picture-options='zoom'
 
 [org/cinnamon/desktop/background/slideshow]
-# rotate through the 12 wallpapers (delay is in minutes)
+# rotate through the wallpapers (delay is in minutes)
 slideshow-enabled=true
 image-source='directory:///usr/share/winedows/wallpapers'
 delay=uint32 15

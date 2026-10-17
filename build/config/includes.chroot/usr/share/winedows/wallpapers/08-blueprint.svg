@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>Winedows wallpaper: Blueprint</title>
+<defs>
+<linearGradient id="mkR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c1d3f"/><stop offset="1" stop-color="#5e0f27"/></linearGradient>
+<linearGradient id="mkB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa3ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+<symbol id="mark" viewBox="0 0 64 64">
+  <g stroke-linejoin="round" stroke-width="2.5">
+    <polygon points="4,10 30,8 30,30 4,30" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="4,34 30,34 30,58 4,57" fill="url(#mkR)" stroke="url(#mkR)"/>
+    <polygon points="34,7 60,3 60,30 34,30" fill="url(#mkB)" stroke="url(#mkB)"/>
+    <polygon points="34,34 60,34 60,61 34,58" fill="url(#mkB)" stroke="url(#mkB)"/>
+  </g>
+  <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z" fill="#fff"/>
+  <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5 C22.3 21.6 20 23.8 17 23.8 C14 23.8 11.7 21.6 11.2 16.5 Z" fill="#c42a55"/>
+  <path d="M17 25 V28.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  <g fill="#fff">
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/>
+    <circle cx="17" cy="53.1" r="3.3"/>
+  </g>
+  <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z" fill="#fff" opacity=".9"/>
+</symbol>
+
+<symbol id="markline" viewBox="0 0 64 64">
+  <g fill="none" stroke="#fff" stroke-width="0.35" stroke-linejoin="round">
+    <polygon points="4,10 30,8 30,30 4,30"/><polygon points="4,34 30,34 30,58 4,57"/>
+    <polygon points="34,7 60,3 60,30 34,30"/><polygon points="34,34 60,34 60,61 34,58"/>
+    <path d="M9.5 12.5 H24.5 C24.5 21.5 21 25.5 17 25.5 C13 25.5 9.5 21.5 9.5 12.5 Z"/>
+    <path d="M11.2 16.5 C14 15.6 20 17.4 22.8 16.5"/>
+    <path d="M17 25.5 V28.5"/>
+    <circle cx="11" cy="42" r="3.3"/><circle cx="17" cy="42" r="3.3"/><circle cx="23" cy="42" r="3.3"/>
+    <circle cx="14" cy="47.6" r="3.3"/><circle cx="20" cy="47.6" r="3.3"/><circle cx="17" cy="53.1" r="3.3"/>
+    <path d="M37 55.5 C48 55.5 56 49 59.3 39 C55 48 47.5 52.6 37 53.2 Z"/>
+  </g>
+</symbol>
+
+<pattern id="minor" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0 H0 V24" fill="none" stroke="#fff" stroke-opacity="0.08"/></pattern>
+<pattern id="major" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0 H0 V120" fill="none" stroke="#fff" stroke-opacity="0.18"/></pattern>
+<marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#fff"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#0b3a8f"/><rect width="1920" height="1080" fill="url(#minor)"/><rect width="1920" height="1080" fill="url(#major)"/><rect x="180" y="40" width="1640" height="860" fill="none" stroke="#fff" stroke-opacity="0.5" stroke-width="2"/><use xlink:href="#markline" href="#markline" x="700.0" y="120.0" width="500.0" height="500.0" /><g transform="translate(700 120) scale(7.8125)"><path d="M34 30 L60 3 M34 7 L60 30" stroke="#fff" stroke-opacity="0.35" stroke-width="0.2" stroke-dasharray="1 1"/></g><path d="M833 261 L1340 224" stroke="#fff" stroke-width="1.2" fill="none" marker-start="url(#arr)"/><circle cx="833" cy="261" r="3" fill="#fff"/><text x="1360" y="230" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="18">A  GLASS, WINE-FILLED, QTY 1</text><path d="M856 492 L1340 324" stroke="#fff" stroke-width="1.2" fill="none" marker-start="url(#arr)"/><circle cx="856" cy="492" r="3" fill="#fff"/><text x="1360" y="330" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="18">B  GRAPES, ROUND, QTY 6</text><path d="M1075 526 L1340 424" stroke="#fff" stroke-width="1.2" fill="none" marker-start="url(#arr)"/><circle cx="1075" cy="526" r="3" fill="#fff"/><text x="1360" y="430" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="18">C  SWOOSH, FITS ALL APPS</text><path d="M1067 261 L1340 524" stroke="#fff" stroke-width="1.2" fill="none" marker-start="url(#arr)"/><circle cx="1067" cy="261" r="3" fill="#fff"/><text x="1360" y="530" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="18">D  BLANK PANE, RESERVED FOR ABI BREAKS</text><text x="1360" y="560" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="18">   (NONE PLANNED)</text><path d="M731 660 H1169" stroke="#fff" marker-start="url(#arr)" marker-end="url(#arr)"/><path d="M731 630 V672 M1169 630 V672" stroke="#fff" stroke-opacity="0.6"/><text x="950" y="652" text-anchor="middle" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="16">56 UNITS (ONE WIN32)</text><path d="M660 143 V597" stroke="#fff" marker-start="url(#arr)" marker-end="url(#arr)"/><text x="648" y="370" text-anchor="middle" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="16" transform="rotate(-90 648 370)">58 UNITS</text><rect x="240" y="730" width="760" height="144" fill="none" stroke="#fff" stroke-width="2"/><text x="256" y="758" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="20" font-weight="bold">GIGAHARD WINEDOWS · GENERAL ARRANGEMENT</text><text x="256" y="792" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="17">DWG NO. WD-0001   REV 32 (Win32)   SHEET 1 OF 1</text><line x1="240" y1="768" x2="1000" y2="768" stroke="#fff" stroke-opacity="0.6"/><text x="256" y="826" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="17">SCALE 1:1   TOLERANCE ±0 ABI BREAKS</text><line x1="240" y1="802" x2="1000" y2="802" stroke="#fff" stroke-opacity="0.6"/><text x="256" y="860" font-family="Liberation Mono, DejaVu Sans Mono, monospace" fill="#fff" font-size="17">DRAWN: L.T.   CHECKED: WINE   APPROVED: IT WORKS</text><line x1="240" y1="836" x2="1000" y2="836" stroke="#fff" stroke-opacity="0.6"/><g font-family="Liberation Sans, DejaVu Sans, Arial, sans-serif"><use xlink:href="#mark" href="#mark" x="1832.0" y="944.0" width="48.0" height="48.0" /><text x="1816" y="966" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="end">GigaHard Winedows</text><text x="1816" y="989" fill="#ffffff" fill-opacity="0.72" font-size="16" text-anchor="end">Linux, but it works.</text></g>
+</svg>
