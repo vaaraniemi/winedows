@@ -61,6 +61,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 .shots a:hover img{border-color:var(--blue)}
 .shots figcaption{color:var(--mut);font-size:13px;margin-top:6px}
 @media(max-width:760px){.shots{grid-template-columns:1fr 1fr}}
+.lightbox{border:0;padding:0;background:transparent;max-width:min(1280px,94vw);max-height:92vh;overflow:visible}
+.lightbox::backdrop{background:rgba(20,20,26,.85)}
+.lightbox img{display:block;max-width:min(1280px,94vw);max-height:calc(92vh - 40px);width:auto;height:auto;border:1px solid var(--line);background:var(--alt)}
+.lightbox p{margin:8px 0 0;color:#fff;font-size:14px}
+.lightbox button{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border:0;border-radius:2px;background:var(--blue);color:#fff;font-size:20px;line-height:1;cursor:pointer}
 @media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero img{max-width:300px}nav .links{display:none}}
 </style>
 </head>
@@ -99,10 +104,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 <section class="blk alt" id="screens"><div class="wrap">
   <h2>The real thing</h2>
   <div class="shots">
-    <figure><a href="screenshots/desktop.png" target="_blank" rel="noopener"><img src="screenshots/desktop.png" alt="Winedows desktop with icons for Documents, Edgy, Recycle Bin, This PC, Totally Native Linux App.exe and Wi-Fi" width="1280" height="800" loading="lazy"></a><figcaption>The desktop. Everything starts from an icon. There is nothing else to learn.</figcaption></figure>
-    <figure><a href="screenshots/edgy.png" target="_blank" rel="noopener"><img src="screenshots/edgy.png" alt="The Edgy browser showing the Winedows start page" width="1280" height="800" loading="lazy"></a><figcaption>Edgy, the browser with all the edges.</figcaption></figure>
-    <figure><a href="screenshots/bootmenu.png" target="_blank" rel="noopener"><img src="screenshots/bootmenu.png" alt="The Winedows boot menu" width="800" height="600" loading="lazy"></a><figcaption>The boot menu. It starts on its own.</figcaption></figure>
-    <figure><a href="screenshots/hardware.jpg" target="_blank" rel="noopener"><img src="screenshots/hardware.jpg" alt="A ThinkPad laptop running Winedows, with the blueprint wallpaper and Edgy open on the start page" width="920" height="600" loading="lazy"></a><figcaption>Runs on ThinkPad.</figcaption></figure>
+    <figure><a href="screenshots/desktop.png"><img src="screenshots/desktop.png" alt="Winedows desktop with icons for Documents, Edgy, Recycle Bin, This PC, Totally Native Linux App.exe and Wi-Fi" width="1280" height="800" loading="lazy"></a><figcaption>The desktop. Everything starts from an icon. There is nothing else to learn.</figcaption></figure>
+    <figure><a href="screenshots/edgy.png"><img src="screenshots/edgy.png" alt="The Edgy browser showing the Winedows start page" width="1280" height="800" loading="lazy"></a><figcaption>Edgy, the browser with all the edges.</figcaption></figure>
+    <figure><a href="screenshots/bootmenu.png"><img src="screenshots/bootmenu.png" alt="The Winedows boot menu" width="800" height="600" loading="lazy"></a><figcaption>The boot menu. It starts on its own.</figcaption></figure>
+    <figure><a href="screenshots/hardware.jpg"><img src="screenshots/hardware.jpg" alt="A ThinkPad laptop running Winedows, with the blueprint wallpaper and Edgy open on the start page" width="920" height="600" loading="lazy"></a><figcaption>Runs on ThinkPad.</figcaption></figure>
   </div>
   <p class="fine">Click a picture to see it full size. Screenshots are from the automated boot test of the latest build.</p>
 </div></section>
@@ -187,6 +192,24 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
       if(clicks>=5){clicks=0;ev.preventDefault();show();}
     });
   });
+})();
+</script>
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot"><button type="button" aria-label="Close">&times;</button><img alt=""><p></p></dialog>
+<script>
+(function(){
+  var box=document.getElementById("lightbox");
+  if(!box||!box.showModal)return;
+  var img=box.querySelector("img"),cap=box.querySelector("p");
+  document.querySelectorAll(".shots a").forEach(function(a){
+    a.addEventListener("click",function(e){
+      e.preventDefault();
+      var t=a.querySelector("img"),f=a.parentNode.querySelector("figcaption");
+      img.src=a.getAttribute("href");img.alt=t.alt;cap.textContent=f?f.textContent:"";
+      box.showModal();
+    });
+  });
+  box.querySelector("button").addEventListener("click",function(){box.close()});
+  box.addEventListener("click",function(e){if(e.target===box)box.close()});
 })();
 </script>
 </body>
