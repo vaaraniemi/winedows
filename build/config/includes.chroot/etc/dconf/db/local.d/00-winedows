@@ -20,7 +20,7 @@ random-order=true
 [org/cinnamon/desktop/interface]
 gtk-theme='Adwaita'
 cursor-theme='Adwaita'
-icon-theme='Papirus'
+icon-theme='Winedows'
 font-name='Liberation Sans 10'
 
 [org/cinnamon/desktop/session]

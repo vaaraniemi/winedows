@@ -33,6 +33,9 @@ grep -i '^PRETTY_NAME=' /etc/os-release | grep -qi debian && b="$b os-release"
 grep -qil debian /usr/share/winedows/wallpapers/*.svg /usr/share/winedows/start.html && b="$b wallpaper/start"
 ls /usr/share/winedows/wallpapers/*.svg >/dev/null 2>&1 || b="$b no-wallpapers"
 grep -qi '^Name=Edgy' /usr/share/applications/firefox-esr.desktop || b="$b edgy-name"
+for i in devices/computer places/user-trash places/folder-documents devices/network-wireless mimetypes/application-x-ms-dos-executable; do
+  [ -f "/usr/share/icons/Winedows/scalable/$i.svg" ] || b="$b icon:$i"
+done
 if [ -z "$b" ]; then say "SELFTEST branding=ok"; else say "SELFTEST branding=FAIL:$b"; fi
 # Desktop: launchers present, Command Prompt gone, .exe not executable (Nemo must hand it to Wine)
 d=/etc/skel/Desktop

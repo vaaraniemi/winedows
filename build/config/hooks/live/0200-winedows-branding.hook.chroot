@@ -20,6 +20,7 @@ done
 svg=/usr/share/icons/hicolor/scalable/apps/firefox-esr.svg
 if [ -f "$svg" ]; then cp /usr/share/winedows/edgy.svg "$svg"; fi
 gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
+gtk-update-icon-cache -f /usr/share/icons/Winedows 2>/dev/null || true
 # Blue browser chrome: autoconfig registers edgy-chrome.css as an agent sheet
 ffdir=/usr/lib/firefox-esr
 mkdir -p "$ffdir/defaults/pref"
