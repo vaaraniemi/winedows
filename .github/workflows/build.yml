@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main, 'claude/**']
+permissions:
+  contents: write
 jobs:
   iso:
     runs-on: ubuntu-24.04
@@ -16,3 +18,26 @@ jobs:
         with:
           name: winedows-iso
           path: out/*.iso
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          cd out
+          iso=$(ls winedows-*.iso | head -1)
+          sha256sum "$iso" > SHA256SUMS
+          assets="SHA256SUMS"
+          # GitHub release assets are limited to 2 GiB each
+          if [ "$(stat -c %s "$iso")" -gt 2000000000 ]; then
+            split -b 1900M -d "$iso" "$iso.part"
+            assets="$assets $iso.part*"
+            note="ISO is split: cat $iso.part* > $iso"
+          else
+            assets="$assets $iso"
+            note="Boot it in QEMU/VirtualBox. Login is automatic."
+          fi
+          tag="iso-${GITHUB_RUN_NUMBER}"
+          # shellcheck disable=SC2086
+          gh release create "$tag" $assets --target "$GITHUB_SHA" \
+            --title "Winedows ISO build $GITHUB_RUN_NUMBER" \
+            --notes "Debian 13 + Cinnamon + Firefox + Wine, no apt. $note"
