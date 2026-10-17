@@ -1,8 +1,8 @@
 # AGENT.md — Winedows
 
 April Fools project: a Debian 13 (trixie) live ISO with **only** Cinnamon, Firefox and Wine,
-themed like Windows. Double-clicking an `.exe` runs it through Wine. `apt` is removed.
-The punchline: it has *better* binary compatibility than Windows. Keep the joke deadpan.
+themed like W*ndows (parody). Double-clicking an `.exe` runs it through Wine. `apt` is removed.
+The punchline: "Linux, but it works" — Win32 via Wine is the stable ABI on Linux, so double-clicked .exe files beat native Linux binaries. The joke mocks Linux ABI instability, never Windows. Keep it deadpan.
 
 ## Golden rules
 1. **No apt.** `9990-remove-apt.hook.chroot` must remain the last hook and must fail the build if apt survives. `dpkg` stays on purpose (docs/wiki/apt-removal.md).

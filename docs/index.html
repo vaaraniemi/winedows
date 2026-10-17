@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Winedows — Windows, but it works</title>
-<meta name="description" content="Winedows: a Debian 13 desktop that runs your .exe files by double-clicking. Better binary compatibility than Windows. Happy April 1st.">
+<title>Winedows — Linux, but it works</title>
+<meta name="description" content="Winedows: a Debian 13 desktop dressed as W*ndows. Double-click any .exe and it runs, because Win32 is the stable ABI on Linux. Happy April 1st.">
 <style>
 :root{--bg:#0a1b4d;--bg2:#5b0f2e;--fg:#fff;--mut:#b9c6ff;--card:#ffffff14;--acc:#4a8cff;--ok:#2fbf71}
 *{box-sizing:border-box}
@@ -30,7 +30,7 @@ footer{color:var(--mut);font-size:13px;text-align:center}
 <main>
 <header>
   <h1>Winedows</h1>
-  <div class="tag">Windows, but it works.</div>
+  <div class="tag">Linux, but it works.</div>
   <a class="btn" id="dl" href="https://github.com/vaaraniemi/winedows/releases">Download Winedows</a>
   <div class="sub" id="meta">Looking for the latest build…</div>
   <div class="parts" id="parts"></div>
@@ -38,7 +38,7 @@ footer{color:var(--mut);font-size:13px;text-align:center}
 
 <section>
   <h2>What is it?</h2>
-  <p>A desktop that looks like the one you know. Double-click any <code>.exe</code> and it just runs.
+  <p>A Linux desktop dressed up as W*ndows. Double-click any <code>.exe</code> and it just runs.
   On Linux, the most stable ABI turned out to be Win32. We just stopped fighting it.</p>
   <ul>
     <li>Start-style menu, taskbar, "This PC" and "Recycle Bin"</li>
@@ -62,7 +62,7 @@ footer{color:var(--mut);font-size:13px;text-align:center}
   <ol>
     <li>Download the ISO above (verify with <code>SHA256SUMS</code>).</li>
     <li>Boot it in VirtualBox, QEMU, or from a USB stick (<code>dd</code> or Rufus in DD mode). Login is automatic.</li>
-    <li>Double-click <b>Totally Real Windows App.exe</b> on the desktop.</li>
+    <li>Double-click <b>Totally Native Linux App.exe</b> on the desktop.</li>
   </ol>
   <pre>qemu-system-x86_64 -enable-kvm -m 4096 -cdrom winedows.iso</pre>
   <p>If the download is split into parts, join them first: <code>cat winedows-*.iso.part* &gt; winedows.iso</code></p>

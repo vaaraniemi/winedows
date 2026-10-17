@@ -6,11 +6,11 @@ mkdir -p "$out" build/config/includes.chroot/usr/share/winedows/tests
 cat > /tmp/hello.c <<'C'
 #include <windows.h>
 int main(void){
-  MessageBoxA(NULL,"Hello from a real Windows .exe!\n\n(Psst: it is Linux.)","Winedows",MB_OK|MB_ICONINFORMATION);
+  MessageBoxA(NULL,"Hello from a Win32 .exe!\n\nRunning on Linux. Stable ABI, as promised.","Winedows",MB_OK|MB_ICONINFORMATION);
   return 0;
 }
 C
-x86_64-w64-mingw32-gcc -mwindows -o "$out/Totally Real Windows App.exe" /tmp/hello.c
+x86_64-w64-mingw32-gcc -mwindows -o "$out/Totally Native Linux App.exe" /tmp/hello.c
 cat > /tmp/cli.c <<'C'
 #include <stdio.h>
 int main(void){ puts("WINEDOWS_EXE_OK"); return 0; }
