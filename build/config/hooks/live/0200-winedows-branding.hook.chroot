@@ -4,6 +4,6 @@ sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Winedows 13 (Debian Edition)"/; s/^NAME=.
 printf 'Winedows 13 (Debian Edition) \\n \\l\n\n' > /etc/issue
 echo winedows > /etc/hostname
 # Firefox is secretly "Edgy" (it also pretends to be Edge via policies.json)
-for f in /usr/share/applications/firefox-esr.desktop; do
-  [ -f "$f" ] && sed -i 's/^Name=.*/Name=Edgy/; /^Name\[/d; /^GenericName/d' "$f"
-done
+f=/usr/share/applications/firefox-esr.desktop
+[ -f "$f" ] && sed -i 's/^Name=.*/Name=Edgy/; /^Name\[/d; /^GenericName/d' "$f"
+true
