@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Windows Program Loader
-Comment=Runs Windows programs
+Name=Win32 Program Loader
+Comment=Runs Win32 programs (the stable ABI)
 Exec=/usr/local/bin/winedows-run %f
 Icon=wine
 NoDisplay=true
