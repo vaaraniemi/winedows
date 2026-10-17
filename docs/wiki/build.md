@@ -1,7 +1,7 @@
 # Build
 | Command | What |
 |---|---|
-| `make iso` | build the builder image, cross-compile the demo exes, build `out/winedows-YYYYMMDD.iso` |
+| `make iso` | build the builder image, cross-compile the demo exes, build `out/winedows-YYYYMMDD-bN.iso` (N is the CI run number and matches the `iso-N` release; local builds say `local`). The same build id is in `/etc/os-release` `BUILD_ID` and the start page footer |
 | `make test` | boot the ISO headless in QEMU with `winedows.selftest`, assert results on serial |
 | `make guitest` | boot to the Cinnamon desktop with `winedows.guitest`, open the Desktop .exe, screenshots in `out/` |
 | `make vm` | boot the newest ISO in a QEMU window |

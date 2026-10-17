@@ -3,6 +3,12 @@ set -e
 # Debian stays in the technical details (ID=debian, VERSION_*); what people read says Winedows
 sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="GigaHard Winedows"/; s/^NAME=.*/NAME="Winedows"/' /etc/os-release
 printf 'GigaHard Winedows \\n \\l\n\n' > /etc/issue
+# build number (written by scripts/build-iso.sh): os-release BUILD_ID and the start page footer
+build=local
+if [ -f /etc/winedows-build ]; then . /etc/winedows-build; build="$WINEDOWS_BUILD $WINEDOWS_DATE"; fi
+sed -i '/^BUILD_ID=/d' /etc/os-release
+printf 'BUILD_ID="%s"\n' "$build" >> /etc/os-release
+sed -i "s/@BUILD@/$build/" /usr/share/winedows/start.html
 printf 'GigaHard Winedows\n' > /etc/issue.net
 echo winedows > /etc/hostname
 # Firefox is secretly "Edgy" (it also pretends to be Edge via policies.json)

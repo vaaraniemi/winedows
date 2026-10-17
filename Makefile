@@ -1,5 +1,5 @@
 IMAGE ?= winedows-builder
-DOCKER_RUN = docker run --rm --privileged -v $(CURDIR):/work -w /work $(IMAGE)
+DOCKER_RUN = docker run --rm --privileged -e WINEDOWS_BUILD -v $(CURDIR):/work -w /work $(IMAGE)
 
 .PHONY: builder exes iso shell lint test guitest vm clean
 builder:
